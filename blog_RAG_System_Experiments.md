@@ -1,8 +1,10 @@
 # Building a RAG System That Can Actually Experiment: What We Learned from 12 Configurations and 1,000 arXiv Papers
 
-Most RAG systems get built once. You pick a chunk size, grab an embedding model, wire up FAISS, and ship it. That's fine — until someone asks why the assistant missed a question it should have answered, and you realize you have no way to answer that question because you never built a way to measure it.
+Most RAG systems get built once. You pick a chunk size, grab an embedding model, wire up FAISS, and ship it. Then someone asks why the assistant missed a question it should have answered — and you realize you have no way to answer because you never built a way to measure.
 
-This post documents the design of a RAG pipeline built for *experimentation first*: a system where you can swap chunking strategies, embedding models, and retrieval methods via config file and get a comparable evaluation back in under 30 minutes. We ran it on the Open RAG Benchmark — 1,000 real arXiv papers with 3,045 human-authored questions — and the first 12-cell grid on a 5-paper corpus exposed something worth knowing about how POC results can mislead you.
+That's not a retrieval problem. It's a measurement problem. And it's where most teams are stuck: pipeline wired, no infrastructure to run alternatives, no way to know whether the configuration you shipped is the 3rd-best or the 11th-best.
+
+This post documents a RAG pipeline built for *experimentation first*: swap any stage via config file, get a comparable evaluation back in under 30 minutes. Run on the Open RAG Benchmark — 1,000 real arXiv papers, 3,045 human-authored questions. First finding: MRR = 1.0 on a 5-paper POC is not a signal about which configuration is best. Here's what a 5-paper run *can* tell you — and what takes 50 papers to find out.
 
 ---
 
@@ -16,9 +18,7 @@ The configuration choices — chunk strategy, embedding model, retrieval method 
 
 ---
 
-## What Is a Configurable RAG Pipeline?
-
-A standard RAG pipeline looks like this:
+## Stage Interactions Beat Individual Tuning
 
 ```
 PDF
@@ -28,7 +28,7 @@ PDF
              └─ LLM  (generates answer from retrieved chunks)
 ```
 
-Each stage is a hyperparameter. And the interactions between stages matter more than any individual choice:
+Each stage is a hyperparameter. The interactions between stages matter more than any individual choice:
 
 - A chunking strategy that destroys sentence boundaries makes BM25 worse (no complete phrases to match) and vector retrieval worse (semantic meaning is split mid-sentence).
 - A smaller embedding model might catch up to a larger one if the chunking strategy produces cleaner, more self-contained chunks.
@@ -255,42 +255,47 @@ The tricky part is picking the right 2 papers. If you pick the alphabetically-fi
 
 ---
 
-## What Moved Into the Shared Library
+## What Belongs in Your Shared RAG Library
 
-Building this system revealed which components belong to a specific pipeline and which belong to all RAG pipelines. The shared `rag_common` library grew by four components during P4 development:
+Every RAG project rediscovers the same components. Here's the test: *would this be useful in a second RAG pipeline without modification?* If yes, it belongs in a shared library — not copied.
 
-| Component | What it does | Why it's shared |
+| Component | What it does | Promotion signal |
 |---|---|---|
-| `RecursiveChunker` | Hierarchical separator splitting | Any pipeline that processes structured documents benefits from this |
-| `SlidingWindowChunker` | Sentence-window with configurable step | High-recall chunking strategy useful in any retrieval context |
-| `parse_pdf()` | PyMuPDF text extraction | Every pipeline extracts PDFs; they all had the same function |
-| `BaseChunker`, `BaseEmbedder`, `BaseRetriever`, `BaseReranker`, `BaseLLM` | Abstract base classes | The ABCs define the contract that makes components swappable across projects |
+| `RecursiveChunker` | Hierarchical separator splitting | Any structured document (PDFs, docs, reports) |
+| `SlidingWindowChunker` | Sentence-window with configurable step | Any retrieval context where boundary recall matters |
+| `parse_pdf()` | PyMuPDF text extraction | Every pipeline extracts PDFs — there's no reason to have N copies |
+| `BaseChunker`, `BaseEmbedder`, `BaseRetriever`, `BaseReranker`, `BaseLLM` | Abstract base classes | Any project where stages need to be swappable |
 
-The original implementations lived in P4's `src/` directory. Moving them to `rag_common` means P3 and P4 share a single implementation — a bug fix in `RecursiveChunker` propagates to both. P4's local files (`src/base.py`, `src/chunkers_ext.py`) became thin re-export shims:
+What stays project-specific: pipeline orchestration, FAISS multi-doc indexing logic, qrels conversion, experiment resume state. These are wired to a specific project's structure and data format.
+
+The payoff: a bug fix in `RecursiveChunker` propagates to every pipeline that uses it. Project-level files become thin re-export shims:
 
 ```python
-# src/chunkers_ext.py — kept for backwards compatibility
+# src/chunkers_ext.py
 from rag_common.chunkers import RecursiveChunker, SlidingWindowChunker
 __all__ = ["RecursiveChunker", "SlidingWindowChunker"]
 ```
 
-The criterion for promotion: *would this component be useful in a third RAG pipeline without modification?* The ABCs and chunkers passed immediately. The pipeline orchestration (FAISS multi-doc indexing, qrels conversion, experiment resuming) stayed in P4's `src/` — it's specific to this project's structure.
+The pattern scales. Every new RAG project starts by installing the shared library, not by copying chunkers.
 
 ---
 
-## What Comes Next
+## Three Predictions for the 50-Paper Grid
 
-The 5-paper POC answered: *is the pipeline wired correctly?* The answer is yes.
+The 5-paper POC answered one question: *is the pipeline wired correctly?* Yes.
 
-The 50-paper grid answers: *which configurations actually matter when retrieval gets hard?* This is where the blog gets more interesting. Predictions before running it:
+The 50-paper grid answers the real question: *which configurations actually diverge when retrieval gets hard?* Before running it, three predictions — stated as falsifiable claims, not hopes.
 
-**Recursive chunking should outperform fixed-size on academic papers.** Research papers have clear paragraph structure. Recursive chunking respects those boundaries; fixed-size splits at character 512 regardless of where the paragraph ends. On P3's government statistical document, semantic chunking won for exactly this reason — fixed-size boundaries destroyed multi-sentence claims. Academic PDFs have the same problem with multi-sentence theorem statements and experimental results.
+**Prediction 1: Recursive chunking beats fixed-size on academic PDFs.**
+Research papers have clear paragraph structure. Recursive chunking respects those boundaries; fixed-size splits at character 512 regardless. On a government statistical document (P3), semantic chunking won for exactly this reason — fixed-size boundaries destroyed multi-sentence claims. Academic PDFs have the same problem with theorem statements and experimental results that span paragraphs. The P3 lesson should transfer.
 
-**Hybrid retrieval should start pulling ahead of pure dense.** At 50 papers, the index will contain multiple papers on overlapping topics. A query about "attention sink tokens" may semantically resemble chunks from several transformer papers. BM25's exact-match on "attention sink" will help discriminate the specific paper that introduced the term.
+**Prediction 2: Hybrid retrieval starts pulling ahead of pure dense at 50 papers.**
+At 5 papers, dense retrieval can't fail — there's only one paper about algebraic tori. At 50 papers, the index contains multiple transformer papers, multiple papers on KV-cache, overlapping topics. A query about "attention sink tokens" will semantically resemble several transformer papers. BM25's exact-match on "attention sink" becomes a useful discriminator. If this prediction is wrong, the query distribution may be more paraphrase-heavy than keyword-specific.
 
-**mpnet-base's 768-dimensional embeddings may start earning their latency cost.** At small scale, the extra dimensions provide no signal. At 50 papers with subtle semantic distinctions, the higher-dimensional space may capture differences that 384-dimensional MiniLM collapses.
+**Prediction 3: mpnet-base's 768 dimensions start earning their latency cost.**
+At small scale, 384 vs 768 dimensions produces identical quality. At 50 papers with subtle semantic distinctions between closely related subfields, the higher-dimensional space may capture distinctions that MiniLM collapses. The cost is 4× slower iteration. The question is whether the quality gain at full scale justifies paying that cost throughout the experiment loop.
 
-These are predictions. Run the grid and find out.
+These are the specific claims the 50-paper grid will confirm or refute. Not "we expect improvements" — these are the conditions under which specific configurations should win. If they don't, that's the finding.
 
 ---
 
