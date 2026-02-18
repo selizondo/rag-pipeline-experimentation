@@ -1,0 +1,20 @@
+{
+  "81cd8b74-7c72-4857-8c9f-c492cdabefde": {
+    "query": "What role does the Runge-Kutta Method play in solving ODEs for CFD applications?",
+    "relevant_doc_ids": [
+      "2411.16245v2"
+    ]
+  },
+  "70152665-0e30-4aa1-89ba-2894930885b2": {
+    "query": "What challenges do CFD simulations face regarding computation and memory usage?",
+    "relevant_doc_ids": [
+      "2411.16245v2"
+    ]
+  },
+  "030759dd-8872-49f0-869c-be7c5a9cebb9": {
+    "query": "What is Task Level Pipelining (TLP) used for in FPGA acceleration?",
+    "relevant_doc_ids": [
+      "2411.16245v2"
+    ]
+  }
+}

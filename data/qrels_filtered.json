@@ -1,0 +1,1688 @@
+{
+  "0d61eea2-0c23-457f-b6db-88794d9c5dbe": {
+    "query": "What is the purpose of data time travel in reinforcement learning for market making?",
+    "relevant_doc_ids": [
+      "2408.02322v2"
+    ]
+  },
+  "dcb59b54-b8ea-46df-a604-d2ed473cd0a9": {
+    "query": "What is the significance of pro-cdh descent in derived schemes?",
+    "relevant_doc_ids": [
+      "2407.04378v2"
+    ]
+  },
+  "cf5cd917-d7f2-458d-9814-df973c3a8c32": {
+    "query": "What happens to the AB-phase shift when considering rapidly oscillating sinusoidal magnetic flux?",
+    "relevant_doc_ids": [
+      "2406.18046v2"
+    ]
+  },
+  "dc506b5e-8c9d-4cf8-aa5b-8ce8ce0b7401": {
+    "query": "Is the derivative of anticipatory utility with respect to $\\tilde{\\alpha}$ positive if $f_1(s) - f_0(s) > 0$?",
+    "relevant_doc_ids": [
+      "2410.20982v2"
+    ]
+  },
+  "bfa6349d-dcb4-448c-9327-f30a686b8bae": {
+    "query": "Can macroscopic quantities like prices and entropy be measured even if microfoundations are unknown or complex?",
+    "relevant_doc_ids": [
+      "2412.00886v2"
+    ]
+  },
+  "9c0cfe82-9440-4e0e-a025-49645f5c1bd5": {
+    "query": "What type of functions does the target function space include?",
+    "relevant_doc_ids": [
+      "2407.11894v2"
+    ]
+  },
+  "769e2fab-e157-4e4a-a0a1-b7b2e621a3d3": {
+    "query": "How are complexified tetrahedrons used in knot theory?",
+    "relevant_doc_ids": [
+      "2501.00225v2"
+    ]
+  },
+  "81cd8b74-7c72-4857-8c9f-c492cdabefde": {
+    "query": "What role does the Runge-Kutta Method play in solving ODEs for CFD applications?",
+    "relevant_doc_ids": [
+      "2411.16245v2"
+    ]
+  },
+  "70152665-0e30-4aa1-89ba-2894930885b2": {
+    "query": "What challenges do CFD simulations face regarding computation and memory usage?",
+    "relevant_doc_ids": [
+      "2411.16245v2"
+    ]
+  },
+  "bf430a9b-f4b3-4fc6-b124-cbd30890c077": {
+    "query": "How does the GeoCenter algorithm improve the accuracy of locating tropical cyclone centers?",
+    "relevant_doc_ids": [
+      "2409.16507v2"
+    ]
+  },
+  "fbb22c88-8004-4036-a031-71fb80af0566": {
+    "query": "Does the complex volume of a manifold include both hyperbolic volume and Chern-Simons invariant?",
+    "relevant_doc_ids": [
+      "2501.00225v2"
+    ]
+  },
+  "f1b6ff5e-1209-4fb7-9562-bb7a7a7b5557": {
+    "query": "How does adding a maximum-power constraint affect cycling strategies for minimizing ascent time?",
+    "relevant_doc_ids": [
+      "2403.03363v6"
+    ]
+  },
+  "54cb64bd-0058-429e-8de8-d209d8d5ca3a": {
+    "query": "Is the Lorenz curve invariant to linear transformations of a distribution?",
+    "relevant_doc_ids": [
+      "2408.14872v2"
+    ]
+  },
+  "a66eb1fb-3254-442c-ad2e-b3ed71b37e09": {
+    "query": "What are potential applications of understanding branch length inconsistencies under the multispecies coalescent model?",
+    "relevant_doc_ids": [
+      "2407.02634v3"
+    ]
+  },
+  "a88c3054-94e3-4a30-a8b6-d38e90e427d0": {
+    "query": "Is the preference of voters dependent on the true state $\\omega$?",
+    "relevant_doc_ids": [
+      "2410.20982v2"
+    ]
+  },
+  "f1cc1181-0d07-4d90-9118-f4dc5519e9d7": {
+    "query": "What happens to expectations of trace-invariants over their connected components at sub-dominant orders?",
+    "relevant_doc_ids": [
+      "2410.00908v2"
+    ]
+  },
+  "cc631a16-d651-4d3c-992f-02f6b99c0144": {
+    "query": "How is the ADO invariant defined for colored knotted graphs?",
+    "relevant_doc_ids": [
+      "2501.00225v2"
+    ]
+  },
+  "030759dd-8872-49f0-869c-be7c5a9cebb9": {
+    "query": "What is Task Level Pipelining (TLP) used for in FPGA acceleration?",
+    "relevant_doc_ids": [
+      "2411.16245v2"
+    ]
+  },
+  "afe36247-d8dd-402f-8bfc-90fc0b6f3e8c": {
+    "query": "Which molecule has a higher reward score, aripiprazole or celecoxib?",
+    "relevant_doc_ids": [
+      "2405.01155v3"
+    ]
+  },
+  "a078059a-08f7-4bde-8488-329b3db39123": {
+    "query": "How does the structure multivector (SMV) improve spatial phase estimation?",
+    "relevant_doc_ids": [
+      "2412.08070v2"
+    ]
+  },
+  "e5e01958-6011-4690-a7c2-6ca516c51973": {
+    "query": "Why is Stokes' theorem important in analyzing time-dependent vector potentials?",
+    "relevant_doc_ids": [
+      "2406.18046v2"
+    ]
+  },
+  "720ed8ec-7011-441a-ad47-ad9d20fefd58": {
+    "query": "Is it true that for any element \\( e \\) in a rectangular band \\( S \\), \\( S = (Se)(eS) \\)?",
+    "relevant_doc_ids": [
+      "2410.23473v2"
+    ]
+  },
+  "21be98f7-0dcb-4236-922f-aca939177a11": {
+    "query": "Is there empirical evidence suggesting that banks use the HtM category opportunistically?",
+    "relevant_doc_ids": [
+      "2407.03285v2"
+    ]
+  },
+  "b642aff4-0d33-4ea3-a20f-139c038434e1": {
+    "query": "What is the role of a CPU in managing FPGA-based accelerators for simulations?",
+    "relevant_doc_ids": [
+      "2411.16245v2"
+    ]
+  },
+  "6d4655d6-b529-4d48-8383-4f56befe48ec": {
+    "query": "What role do qubit states play in understanding coordination capacities?",
+    "relevant_doc_ids": [
+      "2412.17119v3"
+    ]
+  },
+  "48c71b08-847e-412c-a516-c529c60b475f": {
+    "query": "Does the selection of different spectral diffusion regularization factors show significant differences in correlation or linear regression to truth?",
+    "relevant_doc_ids": [
+      "2408.06427v2"
+    ]
+  },
+  "f1c03004-90e6-43fb-938c-912ce7ce8fde": {
+    "query": "Can diffusion models be used to generate more samples from a distribution?",
+    "relevant_doc_ids": [
+      "2404.18869v2"
+    ]
+  },
+  "145ec909-c459-4eaa-9260-83c0b29fea8c": {
+    "query": "Why is it important to design specific resonators for studying FQH states?",
+    "relevant_doc_ids": [
+      "2405.12292v3"
+    ]
+  },
+  "e5ad17d5-b9ad-4b0d-a0d4-78c883cae63a": {
+    "query": "What is the finite $N$ multiplicative extension of classical cumulants?",
+    "relevant_doc_ids": [
+      "2410.00908v2"
+    ]
+  },
+  "c1bcf690-85d6-478c-9593-13fb1d57c277": {
+    "query": "How do different predictors influence the dependent variable in a 4D Ridge Regression model for TM polarization?",
+    "relevant_doc_ids": [
+      "2412.20245v4"
+    ]
+  },
+  "9717ccaa-dba0-42ae-a097-0785a9cddd67": {
+    "query": "How does GeoCenter improve upon existing methods for fixing the centers of tropical cyclones?",
+    "relevant_doc_ids": [
+      "2409.16507v2"
+    ]
+  },
+  "bdd220a4-3e2a-43e6-a6cc-b07bc951f38a": {
+    "query": "How can one interpret significant loops in a simplicial complex using persistence diagrams?",
+    "relevant_doc_ids": [
+      "2411.18627v2"
+    ]
+  },
+  "8a69949b-a9b1-4b8a-87a1-7dd9ffb310d7": {
+    "query": "Why is path independence important in quantum mechanics?",
+    "relevant_doc_ids": [
+      "2406.18046v2"
+    ]
+  },
+  "272510c1-686b-45e6-be4c-f02917636729": {
+    "query": "What role does FP8 precision play in optimizing model training for NVILA?",
+    "relevant_doc_ids": [
+      "2412.04468v2"
+    ]
+  },
+  "0a8ffa1c-e76a-4b0d-ae67-4d747a39a279": {
+    "query": "Are trace-invariants unitarily invariant polynomials?",
+    "relevant_doc_ids": [
+      "2410.00908v2"
+    ]
+  },
+  "a3ef06c8-38ea-4435-9127-3b633459c084": {
+    "query": "What are the benefits of using different learning rates for Vision Transformers (ViT) and language models (LLMs) in fine-tuning?",
+    "relevant_doc_ids": [
+      "2412.04468v2"
+    ]
+  },
+  "aecb284c-d35b-4b4a-85ed-cb6be3591f13": {
+    "query": "What is the concept of an isolated node network in quantum communication?",
+    "relevant_doc_ids": [
+      "2412.17119v3"
+    ]
+  },
+  "8604bf47-38a6-4ba0-b111-31ea57234049": {
+    "query": "How do different methods of imputing income affect the analysis of happiness?",
+    "relevant_doc_ids": [
+      "2408.14872v2"
+    ]
+  },
+  "4e467b60-58b1-4ad2-b1d5-b948a01bf239": {
+    "query": "How does the density of states vary in spintronic transistors?",
+    "relevant_doc_ids": [
+      "2411.07216v2"
+    ]
+  },
+  "f91e9e97-ee15-4cd7-9ed1-5868af59f6cf": {
+    "query": "Does gene tree heterogeneity affect expected cost per locus in absence?",
+    "relevant_doc_ids": [
+      "2407.02634v3"
+    ]
+  },
+  "69d26083-a2b5-43ab-9a9a-25346f0d16f3": {
+    "query": "Does a voter's optimal distortion of belief change if $s = 0$?",
+    "relevant_doc_ids": [
+      "2410.20982v2"
+    ]
+  },
+  "ecaded59-318f-40e2-94f8-4d4f3525e83c": {
+    "query": "Is there an effect on angular velocity due to an induced electric field in a time-varying magnetic flux case?",
+    "relevant_doc_ids": [
+      "2406.18046v2"
+    ]
+  },
+  "f6158d58-e4b7-40c8-b4aa-66c7f7827175": {
+    "query": "What does greater fibrosis indicate in terms of tissue parenchyma flow?",
+    "relevant_doc_ids": [
+      "2408.06427v2"
+    ]
+  },
+  "6486894f-be5b-46c9-886b-e0cf553d1a9b": {
+    "query": "How does parsimony apply to unrooted tree topologies?",
+    "relevant_doc_ids": [
+      "2407.02634v3"
+    ]
+  },
+  "b3838ee2-5f30-42c1-991d-c51499c39cb4": {
+    "query": "What does the teaspoon library relate to?",
+    "relevant_doc_ids": [
+      "2411.18627v2"
+    ]
+  },
+  "ea1e671d-a73b-419e-a344-c89c854e2b7e": {
+    "query": "Does overconfidence affect the reliability of a model?",
+    "relevant_doc_ids": [
+      "2406.06650v2"
+    ]
+  },
+  "3b25cdbb-73b5-45a3-b051-d7c667bf5c8e": {
+    "query": "What techniques are employed to minimize parasitic capacitance in precision measurement circuits?",
+    "relevant_doc_ids": [
+      "2412.18252v2"
+    ]
+  },
+  "f9ab3551-676b-4562-8616-de6b9cc172cd": {
+    "query": "What trends are observed in SVB\u2019s historical HtM holdings compared to theoretical optima?",
+    "relevant_doc_ids": [
+      "2407.03285v2"
+    ]
+  },
+  "dd469067-bb3a-4a30-8a32-d513f47d05cb": {
+    "query": "What does the sign of the mean indicate in a random utility application?",
+    "relevant_doc_ids": [
+      "2408.14872v2"
+    ]
+  },
+  "4dee6765-fe77-4876-9d6e-d6ec21fafbd3": {
+    "query": "How do commutative diagrams assist in proving properties of scheme modifications?",
+    "relevant_doc_ids": [
+      "2407.04378v2"
+    ]
+  },
+  "3ac427ca-163a-41b1-bbc5-63c7bbe0b6cb": {
+    "query": "What role do regular ideal octahedra play in understanding fundamental groups of knots?",
+    "relevant_doc_ids": [
+      "2501.00225v2"
+    ]
+  },
+  "3daa528c-b18e-405e-814f-1df32f43e983": {
+    "query": "How does channel length affect the performance of spintronic transistors?",
+    "relevant_doc_ids": [
+      "2411.07216v2"
+    ]
+  },
+  "6d320467-4857-42ea-9d69-5271da9f0598": {
+    "query": "What challenges do classroom environments pose for automatic speech recognition systems?",
+    "relevant_doc_ids": [
+      "2409.14494v3"
+    ]
+  },
+  "635aa250-e430-4689-acee-6efc096b2b16": {
+    "query": "Does the surface integral in the Stokes theorem involve a field-strength tensor?",
+    "relevant_doc_ids": [
+      "2406.18046v2"
+    ]
+  },
+  "d79e4409-b566-4bd8-9375-7f92661cda07": {
+    "query": "What is a warm start in the context of Gaussian mixtures?",
+    "relevant_doc_ids": [
+      "2404.18869v2"
+    ]
+  },
+  "5ccc974b-101c-47c4-bc41-446bfc410e49": {
+    "query": "What is the maximum left zero subsemigroup of a semigroup containing an idempotent element?",
+    "relevant_doc_ids": [
+      "2410.23473v2"
+    ]
+  },
+  "d1b6cdeb-0752-47d1-b1ed-bf6de55b5a23": {
+    "query": "Does the expression for magnetic field contribution involve integration over both $\\rho$ and $\\phi$?",
+    "relevant_doc_ids": [
+      "2406.18046v2"
+    ]
+  },
+  "4e653cfc-0e18-43f8-b0f5-4e614c87d63d": {
+    "query": "Does Type-II SGS require antiparallel magnetization for operation?",
+    "relevant_doc_ids": [
+      "2411.07216v2"
+    ]
+  },
+  "c36c5efc-4b1b-433c-b21e-5cd292079839": {
+    "query": "What are Random Fourier Neural Networks (rFNNs)?",
+    "relevant_doc_ids": [
+      "2407.11894v2"
+    ]
+  },
+  "46d00512-fa90-4b01-badc-4c4e3174c655": {
+    "query": "How consistent is the TADA algorithm's performance across different noise colors in terms of computation time variability?",
+    "relevant_doc_ids": [
+      "2411.18627v2"
+    ]
+  },
+  "f0105fa8-9dab-49a8-be58-8b80fcff1e82": {
+    "query": "Is there a formula for differentiating posterior expectations with respect to \\( y_i \\)?",
+    "relevant_doc_ids": [
+      "2404.18869v2"
+    ]
+  },
+  "74d2e4d8-17fc-4c27-bc72-3743bc8c325a": {
+    "query": "How can deep learning models be used to assess the risk of breast cancer recurrence?",
+    "relevant_doc_ids": [
+      "2406.06650v2"
+    ]
+  },
+  "f539de1c-09d3-48cd-92a0-0556adb713a2": {
+    "query": "What does finite differencing do to the degree of a polynomial?",
+    "relevant_doc_ids": [
+      "2404.18869v2"
+    ]
+  },
+  "b56698f8-1cba-4841-89c2-84e1f4ce9e95": {
+    "query": "How does the concept of entropy apply to economic systems?",
+    "relevant_doc_ids": [
+      "2412.00886v2"
+    ]
+  },
+  "95e992a3-cef6-4163-bea2-1cfd82759123": {
+    "query": "Does training and testing on sequential data result in higher gains than training on sequential data and testing on jump data?",
+    "relevant_doc_ids": [
+      "2408.02322v2"
+    ]
+  },
+  "4465768d-8f2f-4bfe-90d1-5eefcb987f58": {
+    "query": "What is the role of the Maxwell term in Chern-Simons theory?",
+    "relevant_doc_ids": [
+      "2410.11034v2"
+    ]
+  },
+  "59c1b8b4-fff4-4e29-a606-c45d4dbeff8d": {
+    "query": "How does money flow affect economic temperature measurement?",
+    "relevant_doc_ids": [
+      "2412.00886v2"
+    ]
+  },
+  "423846dc-70c3-4fe4-ac66-cf91eee27c97": {
+    "query": "Is full support detected if $H(x)$ is strictly increasing in $x$?",
+    "relevant_doc_ids": [
+      "2408.14872v2"
+    ]
+  },
+  "446a0d54-ad16-4cda-a2e5-12607507960d": {
+    "query": "What are the key concepts involved in modifications of derived schemes?",
+    "relevant_doc_ids": [
+      "2407.04378v2"
+    ]
+  },
+  "f3ed0525-d249-4eaf-b770-542293dcccad": {
+    "query": "How does the presence of reputation affect equilibrium outcomes in repeated regime change scenarios?",
+    "relevant_doc_ids": [
+      "2404.18884v2"
+    ]
+  },
+  "c9fb8e63-6f77-4ddf-8769-fb091c667446": {
+    "query": "How does Wav2vec2.0 improve speech recognition in noisy classroom settings?",
+    "relevant_doc_ids": [
+      "2409.14494v3"
+    ]
+  },
+  "8048fc49-21e7-48d2-ba26-8385f2ed3d45": {
+    "query": "How does incorporating video-based kinematic features aid in detecting hypokinetic dysarthria?",
+    "relevant_doc_ids": [
+      "2412.16874v3"
+    ]
+  },
+  "992bc0ec-c8e0-48bf-9a50-e47bc81dc4e2": {
+    "query": "Is there an improvement in medical application benchmarks with NVILA-M3?",
+    "relevant_doc_ids": [
+      "2412.04468v2"
+    ]
+  },
+  "718ab005-320e-4556-8e35-8f713e57bb21": {
+    "query": "What is the significance of coupling fractional quantum Hall states with quantum light in a cavity?",
+    "relevant_doc_ids": [
+      "2405.12292v3"
+    ]
+  },
+  "984781b8-90a6-4adc-8c1e-8022920518ad": {
+    "query": "How does the relationship between income and happiness change as income increases?",
+    "relevant_doc_ids": [
+      "2408.14872v2"
+    ]
+  },
+  "13ff7cb7-8de1-4ef5-820a-bfdafac793a8": {
+    "query": "What is the primary purpose of the Dvorak technique in tropical cyclone forecasting?",
+    "relevant_doc_ids": [
+      "2409.16507v2"
+    ]
+  },
+  "f5e228be-3b33-47d5-ad21-1975aa37b662": {
+    "query": "What are the limitations of conventional MOSFETs in modern electronics?",
+    "relevant_doc_ids": [
+      "2411.07216v2"
+    ]
+  },
+  "0dbd9502-54a7-49c1-8b2d-44d226aa2517": {
+    "query": "How does leverage ratio affect a bank's vulnerability to withdrawal risks?",
+    "relevant_doc_ids": [
+      "2407.03285v2"
+    ]
+  },
+  "91f34869-c7d8-4c32-bf6f-963de8dd93da": {
+    "query": "What is the averaged current bias in non-thermostatic conditions?",
+    "relevant_doc_ids": [
+      "2412.18252v2"
+    ]
+  },
+  "53decb27-2ba2-452a-ae41-58d0bb8ea6d4": {
+    "query": "Can changes in initial asset portfolio valuation impact banks' vulnerability?",
+    "relevant_doc_ids": [
+      "2407.03285v2"
+    ]
+  },
+  "99cb2029-5d90-4bd7-886c-52cc9e000cab": {
+    "query": "What are the key components and materials used in the design of a vertical heterojunction field-effect transistor (FET)?",
+    "relevant_doc_ids": [
+      "2411.07216v2"
+    ]
+  },
+  "10ae9fe2-6ced-4897-a781-bf097a8b4e62": {
+    "query": "Is every nonempty subset of a left zero semigroup also a subsemigroup?",
+    "relevant_doc_ids": [
+      "2410.23473v2"
+    ]
+  },
+  "0103999e-e3b1-4aaa-8513-016c04344183": {
+    "query": "What role do Parsimony Anomalous Gene Trees (PAGTs) play in evaluating phylogenetic trees?",
+    "relevant_doc_ids": [
+      "2407.02634v3"
+    ]
+  },
+  "7c70ff6e-64dc-4c2c-991b-691c77983af5": {
+    "query": "Is an eGFR less than 45 ml/min/1.73 m\u00b2 considered impaired kidney function?",
+    "relevant_doc_ids": [
+      "2408.06427v2"
+    ]
+  },
+  "2109c438-8756-4a2e-9bd1-dc2444f520a5": {
+    "query": "Is there a point where both velocities are equal on the ascent-time surface plot?",
+    "relevant_doc_ids": [
+      "2403.03363v6"
+    ]
+  },
+  "7a09675c-b21d-4369-a890-4d39c9b85cc6": {
+    "query": "Why is the concept of an ample line bundle important in scheme theory?",
+    "relevant_doc_ids": [
+      "2407.04378v2"
+    ]
+  },
+  "1f462cc5-47d9-43b2-bde8-5472414bfc31": {
+    "query": "Is every one-sided identity or zero an idempotent in a semigroup?",
+    "relevant_doc_ids": [
+      "2410.23473v2"
+    ]
+  },
+  "761a0e38-f4b2-4ec3-94ec-db5fb4c5bdf4": {
+    "query": "How do tori and general linear groups relate to invariant ideals?",
+    "relevant_doc_ids": [
+      "2402.12350v3"
+    ]
+  },
+  "95d0da61-e8c6-469d-8840-e996bcc19c6b": {
+    "query": "What role does the type of spin channel behavior play in determining the characteristics of some SGMs?",
+    "relevant_doc_ids": [
+      "2411.07216v2"
+    ]
+  },
+  "6df8e588-f3b3-429a-a826-65fa499e3546": {
+    "query": "Does the drivetrain-resistance coefficient affect the power calculation?",
+    "relevant_doc_ids": [
+      "2403.03363v6"
+    ]
+  },
+  "457cee84-32ea-4008-9ec5-3ef91950a835": {
+    "query": "How does Dynamic-S\u00b2 handle images with varying aspect ratios?",
+    "relevant_doc_ids": [
+      "2412.04468v2"
+    ]
+  },
+  "56e8a093-a23a-482d-8136-51845ef532f1": {
+    "query": "What role do synthesis constraints play in molecule design?",
+    "relevant_doc_ids": [
+      "2405.01155v3"
+    ]
+  },
+  "41251274-74e8-45ab-a2c9-a7fec9b74a46": {
+    "query": "What is the significance of high Variance Inflation Factor (VIF) values in regression analysis?",
+    "relevant_doc_ids": [
+      "2412.20245v4"
+    ]
+  },
+  "ab819e98-59bd-41ab-b948-30b22cf51f86": {
+    "query": "How does the analogy of a Carnot cycle apply to economics?",
+    "relevant_doc_ids": [
+      "2412.00886v2"
+    ]
+  },
+  "a7538679-e0e6-471f-8858-1d037235936f": {
+    "query": "Why might multiple predictors be beneficial in a regression model despite potential issues with multicollinearity?",
+    "relevant_doc_ids": [
+      "2412.20245v4"
+    ]
+  },
+  "1f98b475-c713-40a0-9ff0-e1c3fede9462": {
+    "query": "Why is it important for banking regulators to assess balance sheet characteristics?",
+    "relevant_doc_ids": [
+      "2407.03285v2"
+    ]
+  },
+  "e2efda6c-0068-4ad9-b079-2aa5b373a763": {
+    "query": "What are the key metrics used to evaluate the accuracy and reliability of models predicting tropical cyclone centers?",
+    "relevant_doc_ids": [
+      "2409.16507v2"
+    ]
+  },
+  "3a3deb47-6b92-40b7-b4a0-eee9c3295b44": {
+    "query": "What is the purpose of using atmospheric motion vectors (AMV) in center-fixing methods?",
+    "relevant_doc_ids": [
+      "2409.16507v2"
+    ]
+  },
+  "f56fe4c9-1c88-4da4-9ed9-64fe4e13d773": {
+    "query": "What is the concept of thermal macroeconomics in relation to economic systems?",
+    "relevant_doc_ids": [
+      "2412.00886v2"
+    ]
+  },
+  "dddb55ff-b628-4fd9-9249-aac1db44194a": {
+    "query": "What experimental advancements could enhance our understanding of graviton-polaritons?",
+    "relevant_doc_ids": [
+      "2405.12292v3"
+    ]
+  },
+  "98c0423f-da97-4560-9d7e-1f18e594b36e": {
+    "query": "Is Tae-Yeong Kwak associated with Deep Bio Inc.?",
+    "relevant_doc_ids": [
+      "2406.06650v2"
+    ]
+  },
+  "b0a0059f-6ea5-406b-95dc-5268a75f01aa": {
+    "query": "What analogy is used to justify the scalability assumption in economics?",
+    "relevant_doc_ids": [
+      "2412.00886v2"
+    ]
+  },
+  "a596fd52-73ac-4801-be78-0c22a9d15e1f": {
+    "query": "Why is an extensive collection of building blocks necessary for synthetic accessibility?",
+    "relevant_doc_ids": [
+      "2405.01155v3"
+    ]
+  },
+  "277ecb36-22d9-4ec7-a465-1f5d484bdc90": {
+    "query": "How does the new data assimilation algorithm differ from classical approaches?",
+    "relevant_doc_ids": [
+      "2411.18627v2"
+    ]
+  },
+  "adbf9d57-b528-4f67-9ebc-91bef58aeae4": {
+    "query": "In physics, what becomes constant for an atmosphere in a gravitational field when it is in equilibrium?",
+    "relevant_doc_ids": [
+      "2412.00886v2"
+    ]
+  },
+  "bf03690b-9685-4e57-8924-5892eba20dd7": {
+    "query": "What is the goal of the clearing problem in a depositor run?",
+    "relevant_doc_ids": [
+      "2407.03285v2"
+    ]
+  },
+  "514ab63f-7ead-461f-9541-daa24d2fce63": {
+    "query": "Is there a difference between the pure and mixed cases in terms of source terms in generating functions?",
+    "relevant_doc_ids": [
+      "2410.00908v2"
+    ]
+  },
+  "f21d1f36-54f0-4bc3-8b82-61518dd75110": {
+    "query": "How do different resistance values affect current noise spectral density (NSD) in SCMS?",
+    "relevant_doc_ids": [
+      "2412.18252v2"
+    ]
+  },
+  "ca902fff-1f9c-4633-93f7-291399d44e6c": {
+    "query": "How do the ADO invariants relate to the computation of colored Jones polynomials?",
+    "relevant_doc_ids": [
+      "2501.00225v2"
+    ]
+  },
+  "d9f19950-b63d-4b26-9e26-c12a8af30c92": {
+    "query": "How does the fine-scale fingerprint registration method perform under varying noise conditions?",
+    "relevant_doc_ids": [
+      "2412.08070v2"
+    ]
+  },
+  "7c3edc91-974e-42b9-a15e-6daf80759517": {
+    "query": "How do linear combinations of atomic orbitals (LCAO) contribute to electronic structure calculations?",
+    "relevant_doc_ids": [
+      "2410.04943v2"
+    ]
+  },
+  "e9998ac5-6e49-4b14-9a31-46fbbb618566": {
+    "query": "What are the key hyperparameters considered when training CNNs for uncertainty quantification in satellite imagery analysis?",
+    "relevant_doc_ids": [
+      "2409.16507v2"
+    ]
+  },
+  "a495cd08-270d-40b7-ad19-25a7a7a05d99": {
+    "query": "What techniques are commonly applied to LLMs but are still underexplored for VLMs?",
+    "relevant_doc_ids": [
+      "2412.04468v2"
+    ]
+  },
+  "168cf4e9-ea67-43b6-8680-af90b1ff0c95": {
+    "query": "What are the Borromean rings and how do they relate to hyperbolic geometry?",
+    "relevant_doc_ids": [
+      "2501.00225v2"
+    ]
+  },
+  "93b93c1b-860f-4da4-b755-917f9945a707": {
+    "query": "What is the significance of learning and decay rates in optimizing chaotic systems?",
+    "relevant_doc_ids": [
+      "2411.18627v2"
+    ]
+  },
+  "ff23db78-4589-46ea-838b-20e079810194": {
+    "query": "How do gauge transformations affect the Schr\u00f6dinger equation for an electron?",
+    "relevant_doc_ids": [
+      "2406.18046v2"
+    ]
+  },
+  "cf30b8e4-3302-44e4-be82-f74bac919358": {
+    "query": "Is there a need for new platforms and methods to test certain performance aspects?",
+    "relevant_doc_ids": [
+      "2412.18252v2"
+    ]
+  },
+  "05503af0-a4f2-4913-b78d-fbe630cc1396": {
+    "query": "Why is coherence important in estimating local structures within interference patterns?",
+    "relevant_doc_ids": [
+      "2412.08070v2"
+    ]
+  },
+  "3973387a-c318-4912-a5e3-f0ccc1ea4681": {
+    "query": "Does any synthesis pathway have a QED value greater than 0.4?",
+    "relevant_doc_ids": [
+      "2405.01155v3"
+    ]
+  },
+  "0a4d851f-ab64-4aa5-b17e-26d81dd6a12d": {
+    "query": "What is the significance of Villainization in lattice gauge theory?",
+    "relevant_doc_ids": [
+      "2410.11034v2"
+    ]
+  },
+  "186af622-3c72-46b6-b95a-5127ddeb0c80": {
+    "query": "Was Uzi Pereg supported by any program related to quantum science and technology?",
+    "relevant_doc_ids": [
+      "2412.17119v3"
+    ]
+  },
+  "b82cf8e0-9932-4741-8205-ea0827adf0fd": {
+    "query": "Is common randomness used in achieving both strong and empirical coordination?",
+    "relevant_doc_ids": [
+      "2412.17119v3"
+    ]
+  },
+  "93b8e50e-c81b-41c6-8a16-5f8d530af192": {
+    "query": "What type of spin gapless semiconductor has a zero-gap state at the Fermi energy?",
+    "relevant_doc_ids": [
+      "2411.07216v2"
+    ]
+  },
+  "015f84f5-d694-4fad-bfa5-d2f3687bcd52": {
+    "query": "Is the accuracy of NVILA compromised for efficiency gains?",
+    "relevant_doc_ids": [
+      "2412.04468v2"
+    ]
+  },
+  "fa5abf3c-299a-47c8-9f78-5a03c0b7f61a": {
+    "query": "What is the purpose of using spectral diffusion in diffusion MRI?",
+    "relevant_doc_ids": [
+      "2408.06427v2"
+    ]
+  },
+  "a28e8e28-85c4-43ee-9da6-23c704d72d37": {
+    "query": "Does a higher position on the grey curve indicate more or less power expenditure capacity for a rider?",
+    "relevant_doc_ids": [
+      "2403.03363v6"
+    ]
+  },
+  "c0d960c5-cc41-4b10-a62c-a3b607d9f066": {
+    "query": "What is the quantum dilogarithm function $\\varphi_{N}(x)$ used for?",
+    "relevant_doc_ids": [
+      "2501.00225v2"
+    ]
+  },
+  "21d3eb86-fbd6-44fc-9da0-8250a3f5f8aa": {
+    "query": "Do both diagrams of Borromean rings have identical structures?",
+    "relevant_doc_ids": [
+      "2501.00225v2"
+    ]
+  },
+  "ce91c3b1-4a14-4af2-b0b7-fdb6bf3c9be7": {
+    "query": "What is the standard deviation of the root mean squared error (RMSE) for the Ridge Regression model?",
+    "relevant_doc_ids": [
+      "2412.20245v4"
+    ]
+  },
+  "a046d44f-5cce-4380-babd-029e9831683d": {
+    "query": "Does introducing valence alter voters' choices at the ballot box for given beliefs?",
+    "relevant_doc_ids": [
+      "2410.20982v2"
+    ]
+  },
+  "5c9652b8-79d7-4768-aa11-8af98ee1023b": {
+    "query": "Can superposition be maintained in a network with classical communication links?",
+    "relevant_doc_ids": [
+      "2412.17119v3"
+    ]
+  },
+  "ca151c1f-0dbd-4f9a-8a42-9a3ea1f33922": {
+    "query": "What role do derived blowups play in generating lafp $U$-modifications?",
+    "relevant_doc_ids": [
+      "2407.04378v2"
+    ]
+  },
+  "58ee5bb5-32d5-46cb-86ab-d571a372d0ed": {
+    "query": "What is the formula for calculating water transport time (WTT)?",
+    "relevant_doc_ids": [
+      "2408.06427v2"
+    ]
+  },
+  "19bb974f-1464-47d2-92d6-905a8315b7b9": {
+    "query": "What role do two-dimensional nanomaterials play in developing new transistor technologies?",
+    "relevant_doc_ids": [
+      "2411.07216v2"
+    ]
+  },
+  "bd137383-949d-49c8-8402-3934dbd73c76": {
+    "query": "How does decoupling memory load and store interfaces benefit loop pipelining?",
+    "relevant_doc_ids": [
+      "2411.16245v2"
+    ]
+  },
+  "4c4f460c-e184-495b-95a5-a67e13f11133": {
+    "query": "How do convection and diffusion processes contribute to CFD simulation accuracy?",
+    "relevant_doc_ids": [
+      "2411.16245v2"
+    ]
+  },
+  "b34be1b6-ed24-4303-811b-d850a3702bf3": {
+    "query": "How do different gradient profiles affect resonance conditions in solid-state systems?",
+    "relevant_doc_ids": [
+      "2405.12292v3"
+    ]
+  },
+  "d6e5178e-bdaa-4507-a7de-a74a237453ee": {
+    "query": "How do variations of Borromean rings maintain consistent Chern-Simons invariants?",
+    "relevant_doc_ids": [
+      "2501.00225v2"
+    ]
+  },
+  "5a92934f-f77e-4600-a1ac-69e6d1e56ee7": {
+    "query": "What is the role of torsion in homology and cohomology?",
+    "relevant_doc_ids": [
+      "2410.11034v2"
+    ]
+  },
+  "716dd8f3-fddc-441f-9ba0-4df6523aed12": {
+    "query": "Is it true that only approximate solutions exist for general feedback games with nonconvex costs and constraints?",
+    "relevant_doc_ids": [
+      "2410.16441v2"
+    ]
+  },
+  "700551de-c288-4553-88e7-4db17c38527f": {
+    "query": "Does neglecting changes in kinetic energy become more justifiable for longer ascents?",
+    "relevant_doc_ids": [
+      "2403.03363v6"
+    ]
+  },
+  "8f1fafd5-422f-4218-b6fa-49c7727fc943": {
+    "query": "What happens to the price difference when goods flow from B to A with a tariff?",
+    "relevant_doc_ids": [
+      "2412.00886v2"
+    ]
+  },
+  "62dbc03c-7b38-467e-a81d-3b6376704017": {
+    "query": "Is loop unrolling performed on large loops with high trip counts?",
+    "relevant_doc_ids": [
+      "2411.16245v2"
+    ]
+  },
+  "db052c71-e057-4b2e-896b-0a36b9f03bf8": {
+    "query": "What is the volume conjecture in relation to double twist knots?",
+    "relevant_doc_ids": [
+      "2501.00225v2"
+    ]
+  },
+  "32be66a1-746c-4fbb-bc45-49369785d0dc": {
+    "query": "What are the homotopy groups of topological cyclic homology in characteristic 2 fields?",
+    "relevant_doc_ids": [
+      "2405.02054v2"
+    ]
+  },
+  "ce57a98b-665c-49a1-9bd7-c61914b9da43": {
+    "query": "How does the SCMS compare to other measurement systems in terms of temperature sensitivity?",
+    "relevant_doc_ids": [
+      "2412.18252v2"
+    ]
+  },
+  "5cf7fc05-cd3d-4a78-9577-e94e87e66bb0": {
+    "query": "Which capacitor configuration has the lowest nonlinearity error in ppm?",
+    "relevant_doc_ids": [
+      "2412.18252v2"
+    ]
+  },
+  "0ee612bf-042c-49d3-a100-6649f14956ff": {
+    "query": "Does the topological signature of the FQH state remain robust against non-local cavity vacuum fluctuations?",
+    "relevant_doc_ids": [
+      "2405.12292v3"
+    ]
+  },
+  "64ae7b5c-6d73-4fd3-a10c-1b0abdcbf530": {
+    "query": "What is the role of persistence diagrams in topological data analysis?",
+    "relevant_doc_ids": [
+      "2411.18627v2"
+    ]
+  },
+  "b1ddf350-233f-4c68-8dee-0906323120ad": {
+    "query": "What is the fractional quantum Hall effect and how does it relate to quantized resistivity?",
+    "relevant_doc_ids": [
+      "2405.12292v3"
+    ]
+  },
+  "73d28fb1-945f-4086-a1b9-080dbdb395a6": {
+    "query": "What is the base (or array period) of the nanorods in micrometers?",
+    "relevant_doc_ids": [
+      "2412.20245v4"
+    ]
+  },
+  "b9f96e77-09e0-4795-ab19-9353bbac0f7e": {
+    "query": "How do different infrared wavelengths perform in cyclone prediction models?",
+    "relevant_doc_ids": [
+      "2409.16507v2"
+    ]
+  },
+  "1e96b357-ecc6-4550-982f-b0ffc1cc0ebc": {
+    "query": "What is the expression for the AB-phase shift in a time-dependent magnetic flux scenario?",
+    "relevant_doc_ids": [
+      "2406.18046v2"
+    ]
+  },
+  "888bb3d1-ff12-4225-ae76-21cd4c8c8973": {
+    "query": "Does NVILA reduce training costs compared to other VLMs?",
+    "relevant_doc_ids": [
+      "2412.04468v2"
+    ]
+  },
+  "8ebfa796-40d9-4c5c-af39-6fcfffb2f87b": {
+    "query": "What are the optimal frequency distributions for minimizing probability densities?",
+    "relevant_doc_ids": [
+      "2407.11894v2"
+    ]
+  },
+  "e66b9b92-6fc5-403f-916d-1630e9c10145": {
+    "query": "Why is rescaling important for centering tensors?",
+    "relevant_doc_ids": [
+      "2410.00908v2"
+    ]
+  },
+  "e7bd5477-9967-4ff1-9d07-5251c8375a17": {
+    "query": "How do private signals among citizens impact their decision-making regarding revolutions?",
+    "relevant_doc_ids": [
+      "2404.18884v2"
+    ]
+  },
+  "35e715dc-ae75-4654-9195-cb0310b0af96": {
+    "query": "How does SynFlowNet improve molecule synthesizability compared to traditional methods?",
+    "relevant_doc_ids": [
+      "2405.01155v3"
+    ]
+  },
+  "623bfa9d-1842-4142-a8ff-5bc8862d4eff": {
+    "query": "What is the concept of entropy in economic trade?",
+    "relevant_doc_ids": [
+      "2412.00886v2"
+    ]
+  },
+  "894de753-009d-4130-ae1c-e41245817bb6": {
+    "query": "How did the collapse of Silicon Valley Bank highlight issues with HtM accounting?",
+    "relevant_doc_ids": [
+      "2407.03285v2"
+    ]
+  },
+  "e0af4078-4b72-4543-a0c3-1f950f33be9c": {
+    "query": "How does adding a Maxwell term help in defining lattice Chern-Simons-Maxwell theory?",
+    "relevant_doc_ids": [
+      "2410.11034v2"
+    ]
+  },
+  "a45aea91-2dda-4564-a058-587352d898fd": {
+    "query": "Does incorporating text features improve severity assessment accuracy in speaker-independent seen words (SID-1) settings compared to speech-only?",
+    "relevant_doc_ids": [
+      "2412.16874v3"
+    ]
+  },
+  "dcd4a918-5a1d-46aa-bddd-30d29d06a472": {
+    "query": "Why are standard measures like the Gini index questionable for ordered response data?",
+    "relevant_doc_ids": [
+      "2408.14872v2"
+    ]
+  },
+  "edc0f08c-9cce-496a-bf59-8a8e2f2e22eb": {
+    "query": "What role does continued pretraining (CPT) play in adapting Wav2vec2.0 for classroom use?",
+    "relevant_doc_ids": [
+      "2409.14494v3"
+    ]
+  },
+  "72591ffb-8f73-4e37-a302-b1c848ffc507": {
+    "query": "What is the relationship between collagen deposition and fibrosis?",
+    "relevant_doc_ids": [
+      "2408.06427v2"
+    ]
+  },
+  "3e51db10-5940-4f4f-8afb-29f7ceecf014": {
+    "query": "How many groups are there for categorizing severity based on speech intelligibility ratings?",
+    "relevant_doc_ids": [
+      "2412.16874v3"
+    ]
+  },
+  "e7836af3-5e81-4e63-8f07-0271472004a5": {
+    "query": "How does Enamine REAL Space contribute to experimental setups involving purchasable compounds?",
+    "relevant_doc_ids": [
+      "2405.01155v3"
+    ]
+  },
+  "f751a463-872a-45c2-9039-3ee962b4728c": {
+    "query": "Can WTT be used for quantification of flow?",
+    "relevant_doc_ids": [
+      "2408.06427v2"
+    ]
+  },
+  "0f8aa3c3-9be1-40f9-b207-9e7013928a32": {
+    "query": "What are tensorial probability spaces and how do they differ from non-commutative probability spaces?",
+    "relevant_doc_ids": [
+      "2410.00908v2"
+    ]
+  },
+  "d55186fb-44ed-4b8f-a5a0-c84c39bc00f5": {
+    "query": "How do computation times for data assimilation algorithms relate to real-time application feasibility?",
+    "relevant_doc_ids": [
+      "2411.18627v2"
+    ]
+  },
+  "a4190309-0126-4c0b-a010-119d1b10ee04": {
+    "query": "What are Rees valuations and how do they relate to rational powers of ideals?",
+    "relevant_doc_ids": [
+      "2402.12350v3"
+    ]
+  },
+  "c4158866-ec2b-4948-b5e0-d577f237cc2f": {
+    "query": "What is the lowest recorded Allan deviation (ADEV) under stable temperatures?",
+    "relevant_doc_ids": [
+      "2412.18252v2"
+    ]
+  },
+  "5113f2dd-8d4a-4bad-892c-d4d7961c16b4": {
+    "query": "How does strategic uncertainty affect a regime's reputation in deterring uprisings?",
+    "relevant_doc_ids": [
+      "2404.18884v2"
+    ]
+  },
+  "1c245090-64e7-4184-91b4-d1b21d5b035e": {
+    "query": "Are TE polarization resonances associated with electric dipole Mie modes?",
+    "relevant_doc_ids": [
+      "2412.20245v4"
+    ]
+  },
+  "2a8a8a27-b5e1-4fee-b5f5-9d5b99e21cc5": {
+    "query": "How does modeling a hill with straight-line segments help in cycling optimization?",
+    "relevant_doc_ids": [
+      "2403.03363v6"
+    ]
+  },
+  "9f1c98d3-0f7f-4a7a-ac23-d2610968ba1c": {
+    "query": "Which images illustrate different stages of wavelet transformation?",
+    "relevant_doc_ids": [
+      "2412.08070v2"
+    ]
+  },
+  "d95f9347-e603-4ca3-be18-b11be8150cc5": {
+    "query": "What variables are solved in the Navier-Stokes equations?",
+    "relevant_doc_ids": [
+      "2411.16245v2"
+    ]
+  },
+  "aeb37075-d26a-4c99-ae0b-dbb792a8e2ae": {
+    "query": "How do geostationary satellites contribute to weather forecasting?",
+    "relevant_doc_ids": [
+      "2409.16507v2"
+    ]
+  },
+  "17e1ef95-5525-47d8-a6f9-f7aa0edd3890": {
+    "query": "Does the measurement system support simultaneous reading of two frontend circuits?",
+    "relevant_doc_ids": [
+      "2412.18252v2"
+    ]
+  },
+  "9eaa1ed1-1e2c-495a-a8e8-97d32fce49ee": {
+    "query": "What is the optimal commitment posture at a given discount rate?",
+    "relevant_doc_ids": [
+      "2404.18884v2"
+    ]
+  },
+  "7dc98320-b491-40cc-875d-b9e8ea5ab3c5": {
+    "query": "How does scaling horizontal and vertical distances affect ascent time and \\( P_K\\)?",
+    "relevant_doc_ids": [
+      "2403.03363v6"
+    ]
+  },
+  "8ff2b83e-4263-45e5-9303-d18c5f290798": {
+    "query": "What is the time-dependent Aharonov-Bohm effect?",
+    "relevant_doc_ids": [
+      "2406.18046v2"
+    ]
+  },
+  "43c72135-8a27-43c3-a34f-0cf01b050498": {
+    "query": "How does fragment-based drug discovery work?",
+    "relevant_doc_ids": [
+      "2405.01155v3"
+    ]
+  },
+  "7fbf13b3-52c2-4d5f-b5fa-f59924165047": {
+    "query": "What is a mixed ensemble in the context of random tensors?",
+    "relevant_doc_ids": [
+      "2410.00908v2"
+    ]
+  },
+  "450db587-1777-423e-84c6-1194c73c6264": {
+    "query": "How does multidimensional data utilization improve biosensing accuracy?",
+    "relevant_doc_ids": [
+      "2412.20245v4"
+    ]
+  },
+  "b41fd980-eda6-4998-8bc6-24b0cab9ecb0": {
+    "query": "What challenges arise when using parsimony methods for phylogenetic inference?",
+    "relevant_doc_ids": [
+      "2407.02634v3"
+    ]
+  },
+  "822a9ac7-1d3a-41fa-b0b6-db5c71875b69": {
+    "query": "What is the role of each party in a cascade network for simulating quantum correlations?",
+    "relevant_doc_ids": [
+      "2412.17119v3"
+    ]
+  },
+  "f1d543c9-7749-4b1b-9547-ae3994e52f19": {
+    "query": "Can Kohn's theorem be bypassed to couple LLL to a constant electric field, and if so, how?",
+    "relevant_doc_ids": [
+      "2405.12292v3"
+    ]
+  },
+  "5277d02d-9513-4990-a0d7-ec72c3a41f84": {
+    "query": "Why is there no canonical splitting for truncation maps similar to usual Witt vectors?",
+    "relevant_doc_ids": [
+      "2405.02054v2"
+    ]
+  },
+  "29e1a43f-6c2d-47ae-bc88-f1b7e2b62081": {
+    "query": "How does gauge flux attachment work within a lattice framework?",
+    "relevant_doc_ids": [
+      "2410.11034v2"
+    ]
+  },
+  "d1e9cac9-cd15-4910-ad94-4eac7c3207a6": {
+    "query": "What are trace-invariants in the context of tensor components?",
+    "relevant_doc_ids": [
+      "2410.00908v2"
+    ]
+  },
+  "4cbf96ec-618b-4f63-9b5b-98acd1a0debf": {
+    "query": "What happens when severe climate change is catastrophic with $\\Delta>1$?",
+    "relevant_doc_ids": [
+      "2410.20982v2"
+    ]
+  },
+  "4836c5ec-fb1f-4b44-943b-2a65eec8aabc": {
+    "query": "What role does temperature play in thermal macroeconomics?",
+    "relevant_doc_ids": [
+      "2412.00886v2"
+    ]
+  },
+  "09a2213c-325e-4658-b91c-b646307732d0": {
+    "query": "Does this breast cancer recurrence risk assessment research comply with any international ethical guidelines?",
+    "relevant_doc_ids": [
+      "2406.06650v2"
+    ]
+  },
+  "8971b16f-a166-48df-86b3-1bd1306071c7": {
+    "query": "How does trust in government affect climate policy effectiveness?",
+    "relevant_doc_ids": [
+      "2410.20982v2"
+    ]
+  },
+  "63d06087-e3d9-4e49-8e8e-e9681f94dbb7": {
+    "query": "Why do autocratic regimes often resort to harsh punishments against dissent?",
+    "relevant_doc_ids": [
+      "2404.18884v2"
+    ]
+  },
+  "a5dcedc2-b0c2-4541-8ecc-5a7b3af8ef29": {
+    "query": "Does inserting an RL agent event before a historical action assume any impact on future sequences?",
+    "relevant_doc_ids": [
+      "2408.02322v2"
+    ]
+  },
+  "db2cd7de-a182-45f8-92d0-552a20fc3e99": {
+    "query": "What is the significance of the magnetoroton spectrum in fractional quantum Hall states?",
+    "relevant_doc_ids": [
+      "2405.12292v3"
+    ]
+  },
+  "09daf8be-22fa-4968-af27-fac050fb1372": {
+    "query": "Can the orientation $\\theta_e$ be used to construct angular filters for signal decomposition?",
+    "relevant_doc_ids": [
+      "2412.08070v2"
+    ]
+  },
+  "5e8983d4-c3f7-4fce-a882-6bc9b91b9e0c": {
+    "query": "What is the average payoff per update for agents trained and tested with jump time dynamics?",
+    "relevant_doc_ids": [
+      "2408.02322v2"
+    ]
+  },
+  "7a9bb945-b30b-4f6f-924a-9d17b00d8fd0": {
+    "query": "How do higher order free cumulants relate to higher order asymptotic moments?",
+    "relevant_doc_ids": [
+      "2410.00908v2"
+    ]
+  },
+  "75217a44-f5c9-4ae2-89cc-fd927340e5dc": {
+    "query": "How has the minimum leverage required for SVB changed over recent years?",
+    "relevant_doc_ids": [
+      "2407.03285v2"
+    ]
+  },
+  "0287973e-7a2b-403e-b9ab-8c0fae7e39f0": {
+    "query": "What is the inversion formula used for in phylogenetics?",
+    "relevant_doc_ids": [
+      "2407.02634v3"
+    ]
+  },
+  "0de1261b-8454-40b9-b81a-8505d89698a3": {
+    "query": "How does noise affect the accuracy of phase estimation in signals?",
+    "relevant_doc_ids": [
+      "2412.08070v2"
+    ]
+  },
+  "98efde74-666f-4f20-b929-99f8fd095ad7": {
+    "query": "What happens when a strictly sigmoid transformation is applied to a chronometric function?",
+    "relevant_doc_ids": [
+      "2408.14872v2"
+    ]
+  },
+  "b7396427-759f-4b2b-a587-e5c2ea5bdc38": {
+    "query": "What are spin gapless semiconductors and how do they differ from traditional semiconductors?",
+    "relevant_doc_ids": [
+      "2411.07216v2"
+    ]
+  },
+  "712ded28-d7cc-46b6-85c2-98ca3e886aef": {
+    "query": "What do the Navier-Stokes equations describe?",
+    "relevant_doc_ids": [
+      "2411.16245v2"
+    ]
+  },
+  "ac488bdc-e03b-4d61-8518-f6bcfbee33a4": {
+    "query": "How much does severity assessment improve for uncommon word groups with a multi-modal approach compared to common word groups?",
+    "relevant_doc_ids": [
+      "2412.16874v3"
+    ]
+  },
+  "71c2bd93-748f-4250-9cc6-6d703fd2d828": {
+    "query": "Why is histological grading important in evaluating early-stage breast cancer?",
+    "relevant_doc_ids": [
+      "2406.06650v2"
+    ]
+  },
+  "2ff0e825-8a08-40c7-b2fc-1307ba2ad7af": {
+    "query": "What method is used to solve the constrained optimization problem in minimizing cyclists' ascent times?",
+    "relevant_doc_ids": [
+      "2403.03363v6"
+    ]
+  },
+  "b65c37d6-1044-428c-8cc8-58c4e31d1cf0": {
+    "query": "Why is careful pruning important when incorporating new datasets into VLM training?",
+    "relevant_doc_ids": [
+      "2412.04468v2"
+    ]
+  },
+  "902f60b3-a0f5-4d78-a126-a2fbaaddaeaa": {
+    "query": "How does Ridge Regression help in managing multicollinearity in predictive models?",
+    "relevant_doc_ids": [
+      "2412.20245v4"
+    ]
+  },
+  "9eea4ceb-adfe-4371-8555-a9396351e3e4": {
+    "query": "What factors are considered in minimizing a cyclist's ascent time during an uphill time trial?",
+    "relevant_doc_ids": [
+      "2403.03363v6"
+    ]
+  },
+  "19b5f43c-3bd1-4720-96dd-35a51fca146a": {
+    "query": "Can ordinal responses test for unimodality of political attitudes?",
+    "relevant_doc_ids": [
+      "2408.14872v2"
+    ]
+  },
+  "b95d22b5-a150-4b6c-9523-463f6b91a794": {
+    "query": "How do encoding and decoding channels function in a three-party communication protocol?",
+    "relevant_doc_ids": [
+      "2412.17119v3"
+    ]
+  },
+  "4094b7b1-489d-4e62-a2fd-6b37cd1ef208": {
+    "query": "What is the significance of using multiple subscales (K) in wavelet decomposition?",
+    "relevant_doc_ids": [
+      "2412.08070v2"
+    ]
+  },
+  "b9d38f17-f803-4b5c-98d1-2d678c0e2835": {
+    "query": "Is learning the score function efficiently part of the algorithm's framework in diffusion models?",
+    "relevant_doc_ids": [
+      "2404.18869v2"
+    ]
+  },
+  "e2672d4f-ec9e-4bd8-bc87-6514e8c21797": {
+    "query": "What mathematical conditions ensure differentiability when mapping point clouds to real-valued features?",
+    "relevant_doc_ids": [
+      "2411.18627v2"
+    ]
+  },
+  "541f11f7-3b1f-4004-a82c-a575da061ae9": {
+    "query": "Why might a bank face challenges during funding withdrawals if heavily reliant on Held-to-Maturity portfolios?",
+    "relevant_doc_ids": [
+      "2407.03285v2"
+    ]
+  },
+  "2c874f4c-cac1-40f8-bb1d-ba72f07865df": {
+    "query": "What is the purpose of using phase demodulation in fingerprint registration?",
+    "relevant_doc_ids": [
+      "2412.08070v2"
+    ]
+  },
+  "59706200-ec3c-43e0-b641-b56dc1958e42": {
+    "query": "Is it difficult to test first-order stochastic dominance using only response data?",
+    "relevant_doc_ids": [
+      "2408.14872v2"
+    ]
+  },
+  "8c2f819a-12fd-47ba-bf63-ddd59e9c9d60": {
+    "query": "What is the main difference between GFlowNet and RL in synthesis-aware molecular generation?",
+    "relevant_doc_ids": [
+      "2405.01155v3"
+    ]
+  },
+  "973e9e69-635d-4ab3-9a50-ff9b80d9dffc": {
+    "query": "What is the principal's commitment problem for any $\\delta>0$?",
+    "relevant_doc_ids": [
+      "2404.18884v2"
+    ]
+  },
+  "3c819e80-2b92-43c1-88f8-ea352f7bea33": {
+    "query": "Do feedback Nash equilibria map game states to players' controls?",
+    "relevant_doc_ids": [
+      "2410.16441v2"
+    ]
+  },
+  "64bface6-f344-41b6-8818-b2d3d82ff7fe": {
+    "query": "What is empirical coordination in the context of quantum correlations?",
+    "relevant_doc_ids": [
+      "2412.17119v3"
+    ]
+  },
+  "1f5c19c9-39a0-4c9b-b027-eefe52b7e905": {
+    "query": "What leads to low anticipatory utility when news is bad?",
+    "relevant_doc_ids": [
+      "2410.20982v2"
+    ]
+  },
+  "52d07d66-f7fb-4e33-922e-588c08d08452": {
+    "query": "Does the multi-modality model outperform the speech-only model in accuracy for dysarthria detection?",
+    "relevant_doc_ids": [
+      "2412.16874v3"
+    ]
+  },
+  "68264023-9a8d-4daa-a1df-e6d4e8ff781e": {
+    "query": "What is the significance of one-sided identities and zeros in semigroups?",
+    "relevant_doc_ids": [
+      "2410.23473v2"
+    ]
+  },
+  "58ecc742-927e-4c30-b1e3-891482b80461": {
+    "query": "What is the optimal window size for using the TADA algorithm?",
+    "relevant_doc_ids": [
+      "2411.18627v2"
+    ]
+  },
+  "ab4778ec-f267-4e39-8911-fa49ddc566be": {
+    "query": "What is the significance of linking numbers in lattice gauge theories?",
+    "relevant_doc_ids": [
+      "2410.11034v2"
+    ]
+  },
+  "343b39d2-3e33-41ab-88cc-fef0e4251af1": {
+    "query": "Why is mean ascent velocity (VAM) important in cycling training metrics?",
+    "relevant_doc_ids": [
+      "2403.03363v6"
+    ]
+  },
+  "d8647c6b-309e-46e4-836b-c21091bcb08d": {
+    "query": "What does topological data analysis quantify in data?",
+    "relevant_doc_ids": [
+      "2411.18627v2"
+    ]
+  },
+  "0de97b35-39b2-4811-af3d-1b87bafcee9e": {
+    "query": "Is a 'No sales' clearing solution possible when \\( L_U > x \\) and \\( L > x + \\bar{l}(\\bar{A} + \\ell) \\)?",
+    "relevant_doc_ids": [
+      "2407.03285v2"
+    ]
+  },
+  "fba7de5d-f300-487b-8bca-5749b979d505": {
+    "query": "How does the performance of seq-to-jump compare to seq-to-seq in terms of average gain on different test and train days?",
+    "relevant_doc_ids": [
+      "2408.02322v2"
+    ]
+  },
+  "9534f383-8f93-4f82-9b61-2534c7630d17": {
+    "query": "How does the system manage power supply to ensure low noise in its operations?",
+    "relevant_doc_ids": [
+      "2412.18252v2"
+    ]
+  },
+  "f6d3ba15-6b01-45e4-8281-f70652e24ab5": {
+    "query": "Does the device exhibit a Schottky barrier at interfaces?",
+    "relevant_doc_ids": [
+      "2411.07216v2"
+    ]
+  },
+  "57c2bbd1-5823-4dca-b4b3-245a6e99f0cb": {
+    "query": "What is a dominant strategy for candidate 1 when combining a large valence advantage with policy motivation?",
+    "relevant_doc_ids": [
+      "2410.20982v2"
+    ]
+  },
+  "c45f4e48-c400-40d0-9966-87f47a376a1c": {
+    "query": "What does the Residuals vs. Predicted Values plot indicate about linearity and homoscedasticity?",
+    "relevant_doc_ids": [
+      "2412.20245v4"
+    ]
+  },
+  "41162f84-9584-4283-a646-13bbc45581ed": {
+    "query": "What is the significance of blowup squares in algebraic $K$-theory?",
+    "relevant_doc_ids": [
+      "2407.04378v2"
+    ]
+  },
+  "b3fa82da-bef1-4ec5-8e1c-121f45ccd450": {
+    "query": "How are events encoded in a given time interval?",
+    "relevant_doc_ids": [
+      "2408.02322v2"
+    ]
+  },
+  "072c8618-9fe8-4e6a-94df-3cdffe1ed788": {
+    "query": "What is the purpose of introducing costs in the analysis of voter behavior?",
+    "relevant_doc_ids": [
+      "2410.20982v2"
+    ]
+  },
+  "7defe1ca-4daa-4b2e-84e5-683ab5dc8472": {
+    "query": "What is the significance of incorporating a Maxwell term in lattice Chern-Simons theory?",
+    "relevant_doc_ids": [
+      "2410.11034v2"
+    ]
+  },
+  "ea76eb0e-a0f2-46a9-ade8-51434ea79f90": {
+    "query": "Why is the cotangent complex important in studying derived schemes?",
+    "relevant_doc_ids": [
+      "2407.04378v2"
+    ]
+  },
+  "b58781cc-eee2-4a74-873e-d30de69702c1": {
+    "query": "How does building block sampling contribute to the design of novel molecules?",
+    "relevant_doc_ids": [
+      "2405.01155v3"
+    ]
+  },
+  "0c23686e-a060-4b3d-90db-9f1280e9203f": {
+    "query": "What is the significance of using regularized policies in multi-robot formation games?",
+    "relevant_doc_ids": [
+      "2410.16441v2"
+    ]
+  },
+  "62c64e6d-414f-4ffe-91fd-e95ce3f99350": {
+    "query": "What happens to the concentration of total original molecules in the voxel over time?",
+    "relevant_doc_ids": [
+      "2408.06427v2"
+    ]
+  },
+  "b6c748d4-dd65-4e9c-ab8b-7582fac1af90": {
+    "query": "How can the energy norm of discretization errors in Schr\u00f6dinger operators be estimated using atomic contributions?",
+    "relevant_doc_ids": [
+      "2410.04943v2"
+    ]
+  },
+  "e63a096a-74c0-4b24-b472-a710edce96f2": {
+    "query": "Do any of these images depict permutations related to tensor indices?",
+    "relevant_doc_ids": [
+      "2410.00908v2"
+    ]
+  },
+  "fb3e881d-6674-43ac-af3c-a2122efbffc1": {
+    "query": "What potential advancements could result from using common patterns in breast cancer analysis?",
+    "relevant_doc_ids": [
+      "2406.06650v2"
+    ]
+  },
+  "a7f8236c-74df-413c-a7e3-e1eda58d837e": {
+    "query": "How does cross-validation reveal differences in strategy effectiveness for RL agents trained on different days?",
+    "relevant_doc_ids": [
+      "2408.02322v2"
+    ]
+  },
+  "79494af7-8975-4961-a52a-8143310438b4": {
+    "query": "What is the inconsistency of concatenated parsimony in unrooted trees?",
+    "relevant_doc_ids": [
+      "2407.02634v3"
+    ]
+  },
+  "675f55c1-ef59-432a-9d98-476286fe9682": {
+    "query": "How does a quadratic action manifest as a free theory on an infinite cubic lattice?",
+    "relevant_doc_ids": [
+      "2410.11034v2"
+    ]
+  },
+  "6ab86242-0e9b-43b5-b399-bc851a09d76b": {
+    "query": "What does the prohibition of monopole lead to in terms of global symmetry?",
+    "relevant_doc_ids": [
+      "2410.11034v2"
+    ]
+  },
+  "ff538548-bd95-4c2e-ba70-5dc9aa7d34ef": {
+    "query": "What do players in non-LQ games have that differ from LQ games?",
+    "relevant_doc_ids": [
+      "2410.16441v2"
+    ]
+  },
+  "85a1d866-6386-4e0e-8ffc-c87ddd403d67": {
+    "query": "What is the payoff map in the quantum version of the penny matching game?",
+    "relevant_doc_ids": [
+      "2412.17119v3"
+    ]
+  },
+  "e89dbb93-50c2-4a62-a762-db32499093e4": {
+    "query": "Is the coalescent term a polynomial function?",
+    "relevant_doc_ids": [
+      "2407.02634v3"
+    ]
+  },
+  "52694833-7001-4896-a030-e767eec3467b": {
+    "query": "What is the role of symmetric matrices in algebraic K-theory with involution?",
+    "relevant_doc_ids": [
+      "2405.02054v2"
+    ]
+  },
+  "7d7befe2-9e09-43e0-a5fd-002e9994732b": {
+    "query": "How do different amplifier structures compare in terms of precision and application suitability?",
+    "relevant_doc_ids": [
+      "2412.18252v2"
+    ]
+  },
+  "9f7128f7-94bd-4341-8c7e-487ce64df3ad": {
+    "query": "Why is it important to consider articulatory patterns in assessing dysarthria severity?",
+    "relevant_doc_ids": [
+      "2412.16874v3"
+    ]
+  },
+  "87f5374c-14c4-417f-bee8-7475eb066b6f": {
+    "query": "What role does adiabatic flux insertion play in studying the Hall resistivity?",
+    "relevant_doc_ids": [
+      "2405.12292v3"
+    ]
+  },
+  "3a7066c8-dbfa-4b92-ba8d-fe042f69a4d8": {
+    "query": "Why is reputation important for regimes facing potential uprisings?",
+    "relevant_doc_ids": [
+      "2404.18884v2"
+    ]
+  },
+  "69775cc6-e638-40a3-ab34-55831a74b10b": {
+    "query": "What is a sufficient condition for detecting that the mean of \\( G_1 \\) is larger than the mean of \\( G_2 \\)?",
+    "relevant_doc_ids": [
+      "2408.14872v2"
+    ]
+  },
+  "df466306-e7db-44d0-bfc2-dc9c796104dc": {
+    "query": "How does intravoxel incoherent motion (IVIM) enhance diffusion MRI analysis?",
+    "relevant_doc_ids": [
+      "2408.06427v2"
+    ]
+  },
+  "4a39754b-2610-483b-9d79-8accc3c958cd": {
+    "query": "Do sub-exponential random variables have fast decaying tails?",
+    "relevant_doc_ids": [
+      "2404.18869v2"
+    ]
+  },
+  "150db017-d328-4ceb-8be3-7d154d38c222": {
+    "query": "Is there a difference in performance between two-compartment and three-compartment simulations using different lambda values?",
+    "relevant_doc_ids": [
+      "2408.06427v2"
+    ]
+  },
+  "865a1e09-e4b4-4efb-8970-1383929799e8": {
+    "query": "In what way does consistent time travel improve an RL agent's performance compared to using naive sequential historical data?",
+    "relevant_doc_ids": [
+      "2408.02322v2"
+    ]
+  },
+  "6a2e4cdb-f574-4a4c-abd1-3101b1bce934": {
+    "query": "Does changing the bulk refractive index affect resonance wavelength shifts?",
+    "relevant_doc_ids": [
+      "2412.20245v4"
+    ]
+  },
+  "5c3df5b4-5bbc-4235-877c-79d53844e0b3": {
+    "query": "Does Task Level Pipelining involve inter-task buffers?",
+    "relevant_doc_ids": [
+      "2411.16245v2"
+    ]
+  },
+  "70bc948a-c787-4590-857c-4f49f969e352": {
+    "query": "What is the role of a market maker in an order-driven market?",
+    "relevant_doc_ids": [
+      "2408.02322v2"
+    ]
+  },
+  "2daa625b-b20a-4e66-a806-2def4bd40d34": {
+    "query": "Does the entanglement spectrum show photon number patterns in both dipole and Coulomb gauges?",
+    "relevant_doc_ids": [
+      "2405.12292v3"
+    ]
+  },
+  "979423e7-94fe-4341-8892-1d46f97e4210": {
+    "query": "Why is it important to consider SeH-related examples in molecular design?",
+    "relevant_doc_ids": [
+      "2405.01155v3"
+    ]
+  },
+  "7638cdd2-2d50-4f18-8f90-b5a187125a8c": {
+    "query": "Does the Riesz transform perform a quadrature shift for phase estimation of i1D signals?",
+    "relevant_doc_ids": [
+      "2412.08070v2"
+    ]
+  },
+  "5e40f401-398a-4565-8a1f-620ddb1a68f3": {
+    "query": "Why might concatenated parsimony fail in certain cases?",
+    "relevant_doc_ids": [
+      "2407.02634v3"
+    ]
+  },
+  "d35bc57e-6a37-4ae1-907e-62567715655b": {
+    "query": "How does twisting periodic identification affect momentum modes in lattice theory?",
+    "relevant_doc_ids": [
+      "2410.11034v2"
+    ]
+  },
+  "318aa253-6582-42f6-82ab-17897732b4eb": {
+    "query": "Is distorting beliefs attractive when good news is weak under a continuous and convex cost function?",
+    "relevant_doc_ids": [
+      "2410.20982v2"
+    ]
+  },
+  "40496897-59a3-4ec4-a3dd-67908efbaa15": {
+    "query": "What is the monogenic signal and how is it used in image processing?",
+    "relevant_doc_ids": [
+      "2412.08070v2"
+    ]
+  },
+  "83dda238-c421-4f22-aec5-7c6c83875eb3": {
+    "query": "What does it mean for an element to be in the lidentity of itself?",
+    "relevant_doc_ids": [
+      "2410.23473v2"
+    ]
+  },
+  "0430d651-4b95-4b8e-99df-c7bdfadad756": {
+    "query": "What are some key benefits of using NVIDIA's new GPU architectures like H100 for VLMs?",
+    "relevant_doc_ids": [
+      "2412.04468v2"
+    ]
+  },
+  "07bc63a6-a587-42e6-b672-a02edb4a4aa3": {
+    "query": "How does GeoCenter's performance vary with different intensities of tropical cyclones?",
+    "relevant_doc_ids": [
+      "2409.16507v2"
+    ]
+  },
+  "c8c8f25f-71c1-4124-a049-2e9ef5a4dc3a": {
+    "query": "What role do trace maps play in proving versions of the Milnor conjecture?",
+    "relevant_doc_ids": [
+      "2405.02054v2"
+    ]
+  },
+  "6d7c948c-4d17-4b27-bb83-eb2b88728035": {
+    "query": "What challenges do reinforcement learning agents face when trained offline in multi-agent systems?",
+    "relevant_doc_ids": [
+      "2408.02322v2"
+    ]
+  }
+}
