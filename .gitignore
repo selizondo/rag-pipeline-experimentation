@@ -1,0 +1,6 @@
+data/embed_cache/
+data/indices/
+__pycache__/
+*.pyc
+.env
+CLAUDE.md
