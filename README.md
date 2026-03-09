@@ -7,6 +7,26 @@ Spec: [rag_pipeline_experimentation.md](rag_pipeline_experimentation.md)
 
 ---
 
+## Objective
+
+**Problem:** Researchers deal with hundreds of dense academic PDFs. Keyword search misses semantic meaning; reading everything end-to-end is impractical when surveying a field.
+
+**Solution:** An intelligent QA system that ingests PDFs, retrieves the most relevant passages for any question, and generates cited answers — with every component swappable so configurations can be compared experimentally.
+
+**Core challenge:** RAG systems have many moving parts (chunking, embeddings, retrieval, reranking, generation). There is no one-size-fits-all configuration. The system is designed so you can swap components, run a grid search, and measure what actually works best for your corpus.
+
+**Three pipeline phases:**
+
+| Phase | Steps |
+|---|---|
+| **Ingest** | PDF → parse → chunk → embed → FAISS index → save |
+| **Query** | question → dense retrieval + BM25 → hybrid fusion → LLM answer + citations |
+| **Evaluate** | test queries → IR metrics (MRR, NDCG, Recall, Precision) + LLM-as-Judge scores |
+
+**Dataset:** [Open RAG Benchmark](https://huggingface.co/datasets/vectara/open_ragbench) (Vectara, CC-BY-NC-4.0) — 1,000 arXiv PDFs, 3,045 human-authored QA pairs with ground-truth relevance labels. Currently running on 100 papers (281 filtered queries).
+
+---
+
 ## Setup
 
 ```bash
