@@ -116,10 +116,11 @@ def evaluate(
         latencies.append(elapsed)
 
         # Map retrieved chunks → unique document IDs (preserve order).
+        # Skip chunks with no document_id — they can't match any qrel entry.
         seen: dict[str, None] = {}
         for r in results:
             doc_id = r.chunk.document_id or ""
-            if doc_id not in seen:
+            if doc_id and doc_id not in seen:
                 seen[doc_id] = None
         retrieved_doc_ids: list[str] = list(seen.keys())
 

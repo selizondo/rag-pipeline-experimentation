@@ -97,7 +97,9 @@ def run_experiment(
     if not force and result_path.exists():
         return load_result(result_path)
 
-    index_dir = index_base_dir / config.experiment_id
+    # Key by chunk+embed only — retrieval method doesn't affect embeddings,
+    # so dense/hybrid/bm25 cells for the same chunk+embed share one index.
+    index_dir = index_base_dir / f"{config.chunk.label()}__{config.embed.label()}"
     pipeline = build_pipeline(config)
     if (index_dir / "faiss_index" / "index.faiss").exists():
         pipeline.load(index_dir)
