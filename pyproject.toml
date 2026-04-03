@@ -7,9 +7,9 @@ name = "rag-pipeline-experimentation"
 version = "0.1.0"
 requires-python = ">=3.10"
 dependencies = [
-    "rag-common",
+    "rag-common @ git+https://github.com/selizondo/rag-common.git",
     "pymupdf>=1.23",
-    "llm-utils",
+    "llm-utils @ git+https://github.com/selizondo/llm-utils.git",
     "openai>=1.0",
     "instructor>=1.0",
     "rich>=13.0",
@@ -26,10 +26,6 @@ dependencies = [
 
 [project.optional-dependencies]
 dev = ["pytest>=7.0", "pytest-cov"]
-
-[tool.uv.sources]
-rag-common = { path = "../rag_common", editable = true }
-llm-utils  = { path = "../llm_utils",  editable = true }
 
 [tool.hatch.build.targets.wheel]
 packages = ["src"]
