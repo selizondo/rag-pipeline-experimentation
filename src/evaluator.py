@@ -33,7 +33,9 @@ from pathlib import Path
 from rag_common import metrics
 
 from src.config import ExperimentConfig
-from src.models import ExperimentResult, QueryResult
+from src.generator import generate_answer
+from src.judge import judge_answer
+from src.models import ExperimentResult, JudgeScore, QueryResult
 from src.pipeline import RAGPipeline
 
 _K_VALUES = [1, 3, 5, 10]
@@ -84,15 +86,28 @@ def evaluate(
     qrels: dict[str, dict],
     pipeline: RAGPipeline,
     config: ExperimentConfig,
+    judge_model: str | None = None,
+    judge_n: int = 5,
 ) -> ExperimentResult:
     """
     Run retrieval for each query in `qrels` (up to config.n_queries) and
     return an ExperimentResult with full IR metrics.
 
+    Optionally generates answers and scores them with an LLM judge. Judge
+    scoring is skipped when `judge_model` is None so the evaluation loop
+    runs without an LLM API key.
+
     Args:
-        qrels:    Loaded qrels dict (query_id → entry).
-        pipeline: Ingested RAGPipeline (must have been ingested before calling).
-        config:   ExperimentConfig for this grid cell.
+        qrels:       Loaded qrels dict (query_id → entry).
+        pipeline:    Ingested RAGPipeline (must have been ingested before calling).
+        config:      ExperimentConfig for this grid cell.
+        judge_model: Optional LLM model identifier for answer generation + judging.
+                     When provided, answers are generated for the first `judge_n`
+                     queries and scored on 4 dimensions (relevance, accuracy,
+                     completeness, citation_quality). Results go into
+                     ExperimentResult.generation_metrics.
+        judge_n:     Number of queries to score with the judge (default: 5).
+                     Kept small to limit API cost during grid search.
 
     Returns:
         ExperimentResult ready to write to disk.
@@ -143,10 +158,46 @@ def evaluate(
         "avg_retrieval_time_s": sum(latencies) / len(latencies),
     }
 
+    # Optional: generate answers + LLM-as-judge scoring.
+    # Gated on judge_model so IR-only evaluation runs without an LLM key.
+    generation_metrics: dict[str, float] = {}
+    llm_model_used = ""
+    if judge_model:
+        scored: list[JudgeScore] = []
+        n_to_judge = min(judge_n, len(query_results))
+        for qr in query_results[:n_to_judge]:
+            retrieval_results = pipeline.query(qr.query, top_k=config.retrieval.top_k)
+            try:
+                qa_response = generate_answer(
+                    query=qr.query,
+                    retrieval_results=retrieval_results,
+                    model=judge_model,
+                )
+                score = judge_answer(qa_response, model=judge_model)
+                # Attach judge score to the per-query record for full traceability.
+                qr.judge_score = score
+                scored.append(score)
+            except Exception as exc:
+                print(f"  [judge] skipped query {qr.query_id!r}: {exc}")
+
+        if scored:
+            dims = ("relevance", "accuracy", "completeness", "citation_quality")
+            generation_metrics = {
+                d: round(sum(getattr(s, d) for s in scored) / len(scored), 4)
+                for d in dims
+            }
+            generation_metrics["average"] = round(
+                sum(generation_metrics[d] for d in dims) / len(dims), 4
+            )
+            generation_metrics["n_judged"] = float(len(scored))
+        llm_model_used = judge_model
+
     return ExperimentResult(
         experiment_id=config.experiment_id,
         config=config.model_dump(mode="json"),
         metrics={k: round(v, 6) for k, v in agg.items()},
+        generation_metrics=generation_metrics,
+        llm_model=llm_model_used,
         query_results=query_results,
         avg_latency_s=round(sum(latencies) / len(latencies), 4),
         n_queries=len(query_results),

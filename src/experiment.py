@@ -74,6 +74,8 @@ def run_experiment(
     result_dir: Path,
     index_base_dir: Path = Path("data/indices"),
     force: bool = False,
+    judge_model: str | None = None,
+    judge_n: int = 5,
 ) -> ExperimentResult:
     """
     Run one experiment cell: ingest PDFs, evaluate against qrels, save result.
@@ -88,6 +90,9 @@ def run_experiment(
         result_dir:    Directory for result JSON files.
         index_base_dir: Root for per-experiment FAISS indices.
         force:         Re-run even if result already exists.
+        judge_model:   Optional LLM model for answer generation + judge scoring.
+                       When set, generation_metrics are populated in the result.
+        judge_n:       Number of queries to score with the judge.
 
     Returns:
         ExperimentResult (loaded from disk if skipped, freshly computed otherwise).
@@ -110,7 +115,7 @@ def run_experiment(
             chunk_label=config.chunk.label(),
         )
 
-    result = evaluate(qrels, pipeline, config)
+    result = evaluate(qrels, pipeline, config, judge_model=judge_model, judge_n=judge_n)
     save_result(result, result_path)
     return result
 
@@ -127,6 +132,8 @@ def run_grid(
     index_base_dir: Path = Path("data/indices"),
     force: bool = False,
     progress_cb=None,
+    judge_model: str | None = None,
+    judge_n: int = 5,
 ) -> list[ExperimentResult]:
     """
     Run all experiment cells, returning results in grid order.
@@ -139,6 +146,8 @@ def run_grid(
         index_base_dir: Root for FAISS indices.
         force:        Re-run completed cells.
         progress_cb:  Optional callable(i, total, experiment_id) for progress reporting.
+        judge_model:  Optional LLM model for generation + judge scoring across all cells.
+        judge_n:      Number of queries to score per cell with the judge.
 
     Returns:
         List of ExperimentResult in the same order as `configs`.
@@ -156,6 +165,8 @@ def run_grid(
             result_dir=result_dir,
             index_base_dir=index_base_dir,
             force=force,
+            judge_model=judge_model,
+            judge_n=judge_n,
         )
         results.append(result)
 
