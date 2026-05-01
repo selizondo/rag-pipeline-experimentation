@@ -257,6 +257,18 @@ rag_pipeline_experimentation/
 
 ---
 
+**Blog post:** [blog_RAG_System_Experiments.md](blog_RAG_System_Experiments.md) — companion write-up covering the YAML-configurable grid design, hybrid retrieval score fusion, and the generation_metrics evaluation loop.
+
+---
+
+## Metric notes
+
+**Precision@5 target in the spec is unreachable with 1-to-1 qrels.** The project spec states Precision@5 > 0.60. With qrels where each query has exactly one relevant document, the maximum achievable Precision@5 is 1/5 = 0.20. The actual results (P@5 ≈ 0.12–0.20) are correct — the spec target applies to a multi-relevant-document regime and does not reflect this dataset structure. Use MRR and Recall@5 as primary metrics.
+
+**Incomplete grid.** 6 of 12 baseline configs have results (fixed and recursive × minilm × dense + hybrid). The remaining 6 (recursive × mpnet, sliding_window × both models) require ~45 min CPU each. The completed cells are valid and comparable; the grid is not yet exhaustive.
+
+---
+
 ## Key design decisions
 
 **Document-level IR evaluation** — P4 uses pre-authored qrels (ground-truth at document level, not chunk level). Retrieved chunks are de-duplicated to unique document IDs before computing MRR/Recall. This means even a perfect retriever that returns 5 chunks from 2 documents produces only 2 doc IDs for scoring.
