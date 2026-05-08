@@ -79,3 +79,32 @@ Each config requires downloading arXiv PDFs (~200MB) and embedding ~5,000 chunks
 
 ### Status
 Open — pending local compute run. The `--force` flag in `run_grid()` will rerun completed cells; partial completion is safe. The 6 completed results remain valid.
+
+---
+
+## Failure 5: Missing FAISS Index at Query Time
+
+### What breaks
+`FAISSVectorStore.load()` calls `faiss.read_index()` on a path that does not exist. The original code propagated a cryptic `RuntimeError` from the FAISS C++ layer — no path, no actionable message.
+
+This surfaces in two cases:
+1. **Streamlit UI or `serve.py`** points at an index directory from a different label scheme (e.g., after a chunker config change that altered the label format).
+2. **`run_grid()` resumes** a partial run but a cell's index directory was deleted manually.
+
+### Detection mechanism
+Surfaced during staff review by tracing the `pipeline.load()` → `FAISSVectorStore.load()` → `faiss.read_index()` call chain. There was no existence check before the FAISS call.
+
+### Fix applied
+`pipeline.load()` now checks for the `faiss_index/` subdirectory before calling `FAISSVectorStore.load()` and raises a clear `FileNotFoundError` with the full path and a recovery instruction:
+
+```python
+faiss_path = index_dir / "faiss_index"
+if not faiss_path.exists():
+    raise FileNotFoundError(
+        f"No FAISS index found at {faiss_path}. "
+        "Run scripts/evaluate.py or scripts/ingest.py to build the index first."
+    )
+```
+
+### Why not a graceful fallback
+There is no sensible default index to fall back to — the caller explicitly specified the index path. Raising `FileNotFoundError` is correct; the error is at the call site, not a transient runtime failure. The fix improves debuggability without changing semantics.

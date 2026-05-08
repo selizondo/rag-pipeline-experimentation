@@ -137,8 +137,21 @@ class RAGPipeline:
         Load a previously saved index from disk.
 
         Call this instead of `ingest` when the index already exists.
+
+        Raises:
+            FileNotFoundError: if `index_dir` does not contain a saved index.
+                               This surfaces when the Streamlit UI or CLI serve.py
+                               is pointed at a directory that was never ingested, or
+                               was ingested with a different label scheme. Fix: run
+                               `scripts/evaluate.py` or `scripts/ingest.py` first.
         """
-        self._store.load(str(index_dir / "faiss_index"))
+        faiss_path = index_dir / "faiss_index"
+        if not faiss_path.exists():
+            raise FileNotFoundError(
+                f"No FAISS index found at {faiss_path}. "
+                "Run scripts/evaluate.py or scripts/ingest.py to build the index first."
+            )
+        self._store.load(str(faiss_path))
         self._all_chunks = list(self._store._chunks)
 
         meta_path = index_dir / "documents.json"
