@@ -3,4 +3,8 @@ data/indices/
 __pycache__/
 *.pyc
 .env
+
+.DS_Store
+data/indices_smoke5/
+experiments/results_smoke5/
 CLAUDE.md
