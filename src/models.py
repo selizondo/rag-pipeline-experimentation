@@ -74,3 +74,6 @@ class ExperimentResult(BaseModel):
     avg_latency_s: float = 0.0
     n_queries: int = 0
     timestamp: str = ""
+    # Cost signal for operational awareness; None when LLM generation is not run
+    # (retrieval-only experiments). Callers should populate from token-count × model price.
+    cost_usd: float | None = None

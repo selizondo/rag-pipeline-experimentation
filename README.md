@@ -125,7 +125,9 @@ Results land in `experiments/results/{experiment_id}.json`. Interrupted runs res
 | Config | Cells | Description |
 |---|---|---|
 | `config/experiments/smoke.yaml` | 1 | 1 chunker × 1 embedder × 1 retriever, 3 queries — wiring check |
-| `config/experiments/baseline.yaml` | 12 | 3 chunkers × 2 embedders × 2 retrievers, 50 queries |
+| `config/experiments/baseline.yaml` | 18 | 3 chunkers × 2 embedders × 3 retrievers, 50 queries |
+
+The baseline grid now includes a **BM25-only retrieval method** as the keyword-search floor. BM25 uses no embeddings; it is the explicit classical baseline that dense and hybrid configs must beat to claim retrieval improvement. Run BM25 configs first (fastest, no GPU) before the embedding-dependent methods.
 
 ---
 
@@ -265,7 +267,9 @@ rag_pipeline_experimentation/
 
 **Precision@5 target in the spec is unreachable with 1-to-1 qrels.** The project spec states Precision@5 > 0.60. With qrels where each query has exactly one relevant document, the maximum achievable Precision@5 is 1/5 = 0.20. The actual results (P@5 ≈ 0.12–0.20) are correct — the spec target applies to a multi-relevant-document regime and does not reflect this dataset structure. Use MRR and Recall@5 as primary metrics.
 
-**Incomplete grid.** 6 of 12 baseline configs have results (fixed and recursive × minilm × dense + hybrid). The remaining 6 (recursive × mpnet, sliding_window × both models) require ~45 min CPU each. The completed cells are valid and comparable; the grid is not yet exhaustive.
+**Incomplete grid.** 6 of 18 baseline configs have results (fixed and recursive × minilm × dense + hybrid). The remaining 12 (recursive × mpnet, sliding_window × both models, and all 6 BM25-only configs) require ~45 min CPU each. The completed cells are valid and comparable; the grid is not yet exhaustive.
+
+**BM25 baseline not yet run.** The `bm25` retrieval method was added to `baseline.yaml` (2026-05-20) but results are pending. BM25 is the keyword-search floor — dense and hybrid configs should beat it to claim retrieval improvement. Run `python -m src.main --config config/experiments/baseline.yaml` to populate results for all pending configs including BM25.
 
 ---
 

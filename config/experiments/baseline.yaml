@@ -1,5 +1,14 @@
-# Baseline experiment grid: 3 chunking × 2 embedding × 2 retrieval = 12 configs
+# Baseline experiment grid: 3 chunking × 2 embedding × 3 retrieval = 18 configs
 # Use 50 queries from qrels.json for evaluation.
+#
+# Retrieval methods:
+#   bm25   — keyword-search baseline; no embedding required; embedding_model is irrelevant
+#             but is required by the grid driver for uniform config structure
+#   dense  — vector retrieval (dot-product / cosine over FAISS)
+#   hybrid — alpha-weighted score fusion: alpha × dense + (1-alpha) × BM25
+#
+# Run order recommendation: run bm25 first (fastest, no GPU) to establish the
+# keyword-search floor, then dense, then hybrid.
 
 n_queries: 50
 
@@ -19,6 +28,8 @@ embedding_models:
   - model: all-mpnet-base-v2
 
 retrieval_methods:
+  - method: bm25                 # keyword-search baseline — beat this before claiming retrieval improvement
+    top_k: 5
   - method: dense
     top_k: 5
   - method: hybrid
