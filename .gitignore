@@ -1,3 +1,5 @@
+data/papers/
+data/smoke_papers/
 data/embed_cache/
 data/indices/
 __pycache__/
