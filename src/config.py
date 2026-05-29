@@ -81,7 +81,7 @@ class ChunkConfig(BaseModel):
 
 class EmbedConfig(BaseModel):
     model: EmbedModelName = EmbedModelName.MINILM
-    batch_size: int = 64
+    batch_size: int = 16
     cache_dir: Path = Path("data/embed_cache")
 
     def label(self) -> str:

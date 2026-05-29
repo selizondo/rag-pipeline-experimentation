@@ -15,6 +15,7 @@ Usage:
 from __future__ import annotations
 
 import argparse
+import gc
 import sys
 from pathlib import Path
 
@@ -56,6 +57,8 @@ def _parse_args(argv: list[str] | None = None) -> argparse.Namespace:
                    help="Max PDFs to ingest per index (default: all)")
     p.add_argument("--force", action="store_true",
                    help="Rebuild indices even if they already exist on disk")
+    p.add_argument("--batch-size", type=int, default=None,
+                   help="Embedding batch size (default: from config, typically 16)")
     return p.parse_args(argv)
 
 
@@ -103,6 +106,8 @@ def main(argv: list[str] | None = None) -> int:
 
         chunker = build_chunker(chunk_cfg)
         embedder = build_embedder(embed_cfg)
+        if args.batch_size is not None:
+            embedder._batch_size = args.batch_size
         pipeline = RAGPipeline(chunker=chunker, embedder=embedder)
 
         with Progress(
@@ -125,6 +130,10 @@ def main(argv: list[str] | None = None) -> int:
             f"  [green]✓[/] {len(chunks)} chunks from {len(pipeline.documents)} docs → [dim]{index_dir}[/]"
         )
         built += 1
+
+        # Release model, embeddings, and chunks before next iteration
+        del chunks, pipeline, embedder, chunker
+        gc.collect()
 
     console.print(
         f"\n[green]Done.[/] Built [bold]{built}[/] indices, skipped [dim]{skipped}[/]."

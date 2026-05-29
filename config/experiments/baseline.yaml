@@ -25,7 +25,9 @@ chunking_strategies:
 
 embedding_models:
   - model: all-MiniLM-L6-v2
+    batch_size: 16
   - model: all-mpnet-base-v2
+    batch_size: 16
 
 retrieval_methods:
   - method: bm25                 # keyword-search baseline — beat this before claiming retrieval improvement
