@@ -10,31 +10,27 @@ Usage:
         --index-dir data/indices \\
         --limit 5          # optional: ingest only first N PDFs
         --force            # optional: rebuild even if index already exists
+        --batch-size 16    # optional: override embedding batch size
 """
 
 from __future__ import annotations
 
 import argparse
-import gc
+import subprocess
 import sys
 from pathlib import Path
 
 from rich.console import Console
 from rich.panel import Panel
-from rich.progress import BarColumn, Progress, SpinnerColumn, TextColumn, TimeElapsedColumn
 
 sys.path.insert(0, str(Path(__file__).resolve().parents[1]))
 
 from src.config import build_grid_from_yaml, build_experiment_grid, ChunkConfig, EmbedConfig
-from src.experiment import build_chunker, build_embedder
-from src.pipeline import RAGPipeline
 
 console = Console()
 
 
-def _unique_chunk_embed_pairs(
-    configs,
-) -> list[tuple[ChunkConfig, EmbedConfig]]:
+def _unique_chunk_embed_pairs(configs) -> list[tuple[ChunkConfig, EmbedConfig]]:
     seen: dict[str, tuple[ChunkConfig, EmbedConfig]] = {}
     for cfg in configs:
         key = f"{cfg.chunk.label()}__{cfg.embed.label()}"
@@ -59,12 +55,59 @@ def _parse_args(argv: list[str] | None = None) -> argparse.Namespace:
                    help="Rebuild indices even if they already exist on disk")
     p.add_argument("--batch-size", type=int, default=None,
                    help="Embedding batch size (default: from config, typically 16)")
+    # Internal flag: build exactly one index then exit. Used by subprocess isolation.
+    p.add_argument("--single-index", type=str, default=None,
+                   help=argparse.SUPPRESS)
     return p.parse_args(argv)
+
+
+def _build_one(args: argparse.Namespace, index_key: str) -> int:
+    """Build a single index in-process. Called only when --single-index is set."""
+    import gc
+    from src.experiment import build_chunker, build_embedder
+    from src.pipeline import RAGPipeline
+
+    pdf_paths = sorted(args.papers_dir.glob("*.pdf"))
+    if args.limit:
+        pdf_paths = pdf_paths[: args.limit]
+
+    configs = build_grid_from_yaml(args.config) if args.config else build_experiment_grid()
+    pairs = {f"{c.chunk.label()}__{c.embed.label()}": (c.chunk, c.embed) for c in configs}
+
+    if index_key not in pairs:
+        print(f"ERROR: unknown index key '{index_key}'", file=sys.stderr)
+        return 1
+
+    chunk_cfg, embed_cfg = pairs[index_key]
+    index_dir = args.index_dir / index_key
+
+    chunker  = build_chunker(chunk_cfg)
+    embedder = build_embedder(embed_cfg)
+    if args.batch_size is not None:
+        embedder._batch_size = args.batch_size
+
+    pipeline = RAGPipeline(chunker=chunker, embedder=embedder)
+    index_dir.mkdir(parents=True, exist_ok=True)
+    chunks = pipeline.ingest(
+        pdf_paths=pdf_paths,
+        index_dir=index_dir,
+        chunk_label=chunk_cfg.label(),
+    )
+    print(f"  ✓ {len(chunks)} chunks from {len(pipeline.documents)} docs → {index_dir}")
+
+    del chunks, pipeline, embedder, chunker
+    gc.collect()
+    return 0
 
 
 def main(argv: list[str] | None = None) -> int:
     args = _parse_args(argv)
 
+    # --- Subprocess worker mode: build one index and exit ---
+    if args.single_index:
+        return _build_one(args, args.single_index)
+
+    # --- Orchestrator mode: spawn one subprocess per index ---
     if not args.papers_dir.exists():
         console.print(f"[red]Error:[/] papers directory not found: {args.papers_dir}")
         return 1
@@ -89,12 +132,13 @@ def main(argv: list[str] | None = None) -> int:
     ))
 
     args.index_dir.mkdir(parents=True, exist_ok=True)
-    built = 0
+    built   = 0
     skipped = 0
+    failed  = 0
 
     for chunk_cfg, embed_cfg in pairs:
-        index_key = f"{chunk_cfg.label()}__{embed_cfg.label()}"
-        index_dir = args.index_dir / index_key
+        index_key  = f"{chunk_cfg.label()}__{embed_cfg.label()}"
+        index_dir  = args.index_dir / index_key
         faiss_path = index_dir / "faiss_index" / "index.faiss"
 
         if not args.force and faiss_path.exists():
@@ -104,41 +148,37 @@ def main(argv: list[str] | None = None) -> int:
 
         console.print(f"[cyan]build[/] {index_key} ...")
 
-        chunker = build_chunker(chunk_cfg)
-        embedder = build_embedder(embed_cfg)
+        # Build subprocess command, forwarding all relevant args
+        cmd = [sys.executable, __file__, str(args.papers_dir),
+               "--index-dir", str(args.index_dir),
+               "--single-index", index_key]
+        if args.config:
+            cmd += ["--config", str(args.config)]
+        if args.limit:
+            cmd += ["--limit", str(args.limit)]
         if args.batch_size is not None:
-            embedder._batch_size = args.batch_size
-        pipeline = RAGPipeline(chunker=chunker, embedder=embedder)
+            cmd += ["--batch-size", str(args.batch_size)]
+        if args.force:
+            cmd += ["--force"]
 
-        with Progress(
-            SpinnerColumn(),
-            TextColumn("[progress.description]{task.description}"),
-            BarColumn(),
-            TextColumn("{task.completed}/{task.total}"),
-            TimeElapsedColumn(),
-            console=console,
-            transient=True,
-        ) as progress:
-            progress.add_task(f"Ingesting ({index_key})", total=len(pdf_paths))
-            chunks = pipeline.ingest(
-                pdf_paths=pdf_paths,
-                index_dir=index_dir,
-                chunk_label=chunk_cfg.label(),
+        # Each subprocess runs in isolation — OS reclaims all memory on exit
+        result = subprocess.run(cmd, capture_output=False)
+
+        if result.returncode == 0:
+            console.print(f"  [green]✓[/] {index_key} complete")
+            built += 1
+        else:
+            console.print(
+                f"  [red]✗[/] {index_key} failed (exit {result.returncode}) — "
+                f"{'OOM' if result.returncode in (137, 139) else 'error'}"
             )
+            failed += 1
 
-        console.print(
-            f"  [green]✓[/] {len(chunks)} chunks from {len(pipeline.documents)} docs → [dim]{index_dir}[/]"
-        )
-        built += 1
-
-        # Release model, embeddings, and chunks before next iteration
-        del chunks, pipeline, embedder, chunker
-        gc.collect()
-
-    console.print(
-        f"\n[green]Done.[/] Built [bold]{built}[/] indices, skipped [dim]{skipped}[/]."
-    )
-    return 0
+    status = f"[green]Done.[/] Built [bold]{built}[/], skipped [dim]{skipped}[/]"
+    if failed:
+        status += f", [red]failed {failed}[/]"
+    console.print(f"\n{status}")
+    return 0 if failed == 0 else 1
 
 
 if __name__ == "__main__":
