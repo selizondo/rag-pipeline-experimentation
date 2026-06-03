@@ -54,6 +54,28 @@ def build_embedder(config: EmbedConfig) -> SentenceTransformersEmbedder:
     )
 
 
+def patch_embed_fn(pipeline: RAGPipeline, query_cache: dict) -> None:
+    """
+    Replace the retriever's live embed_fn with a cache lookup.
+
+    Prevents sentence-transformers and faiss-cpu from being active in the same
+    process simultaneously, which causes a segfault on Intel Mac.
+    """
+    import numpy as np
+
+    def cached_embed(texts: list[str]) -> np.ndarray:
+        missing = [t for t in texts if t not in query_cache]
+        if missing:
+            raise KeyError(f"Query not in cache: {missing[0]!r}")
+        return np.array([query_cache[t] for t in texts], dtype=np.float32)
+
+    retriever = pipeline._retriever
+    if hasattr(retriever, "_embed_fn"):
+        retriever._embed_fn = cached_embed
+    if hasattr(retriever, "dense") and hasattr(retriever.dense, "_embed_fn"):
+        retriever.dense._embed_fn = cached_embed
+
+
 def build_pipeline(config: ExperimentConfig) -> RAGPipeline:
     return RAGPipeline(
         chunker=build_chunker(config.chunk),
@@ -76,6 +98,7 @@ def run_experiment(
     force: bool = False,
     judge_model: str | None = None,
     judge_n: int = 5,
+    query_cache: dict | None = None,
 ) -> ExperimentResult:
     """
     Run one experiment cell: ingest PDFs, evaluate against qrels, save result.
@@ -115,6 +138,11 @@ def run_experiment(
             chunk_label=config.chunk.label(),
         )
 
+    # Patch embed_fn with pre-computed cache to avoid sentence-transformers + FAISS conflict.
+    # BM25 retrieval ignores embed_fn so patching is safe for all retrieval methods.
+    if query_cache is not None:
+        patch_embed_fn(pipeline, query_cache)
+
     result = evaluate(qrels, pipeline, config, judge_model=judge_model, judge_n=judge_n)
     save_result(result, result_path)
     return result
@@ -134,6 +162,7 @@ def run_grid(
     progress_cb=None,
     judge_model: str | None = None,
     judge_n: int = 5,
+    query_caches: dict[str, dict] | None = None,
 ) -> list[ExperimentResult]:
     """
     Run all experiment cells, returning results in grid order.
@@ -158,6 +187,8 @@ def run_grid(
     for i, config in enumerate(configs):
         if progress_cb:
             progress_cb(i, len(configs), config.experiment_id)
+        embed_label = config.embed.label()
+        query_cache = query_caches.get(embed_label) if query_caches else None
         result = run_experiment(
             config=config,
             pdf_paths=pdf_paths,
@@ -167,6 +198,7 @@ def run_grid(
             force=force,
             judge_model=judge_model,
             judge_n=judge_n,
+            query_cache=query_cache,
         )
         results.append(result)
 

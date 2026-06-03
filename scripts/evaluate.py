@@ -15,6 +15,8 @@ from __future__ import annotations
 
 import argparse
 import json
+import pickle
+import subprocess
 import sys
 from pathlib import Path
 
@@ -52,6 +54,10 @@ def _parse_args(argv: list[str] | None = None) -> argparse.Namespace:
                    help="Re-run cells that already have a result file")
     p.add_argument("--top-k", type=int, default=3,
                    help="Number of top configs to show in summary (default: 3)")
+    p.add_argument("--query-cache-dir", type=Path, default=Path("data/query_cache"),
+                   help="Directory for pre-computed query embeddings (default: data/query_cache)")
+    p.add_argument("--batch-size", type=int, default=16,
+                   help="Batch size for query precompute (default: 16)")
     return p.parse_args(argv)
 
 
@@ -113,6 +119,47 @@ def main(argv: list[str] | None = None) -> int:
 
     configs = build_grid_from_yaml(args.config) if args.config else build_experiment_grid()
 
+    # --- Pre-compute query embeddings (parallel, one subprocess per embed model) ---
+    # sentence-transformers and faiss-cpu conflict in the same process on Intel Mac.
+    # We embed all queries once per model in an isolated subprocess, save to disk,
+    # then load caches here so the grid runs with FAISS only (no live embedding).
+    embed_models = list({c.embed.model.value for c in configs})
+    precompute_script = Path(__file__).resolve().parent / "precompute_queries.py"
+
+    console.print("\n[bold cyan]Pre-computing query embeddings[/] (parallel subprocesses)...")
+    procs = {}
+    for model_name in embed_models:
+        label = model_name.lower().replace("all-", "").split("-v")[0]
+        cache_path = args.query_cache_dir / f"{label}.pkl"
+        if cache_path.exists() and not args.force:
+            console.print(f"  [dim]cache exists:[/] {cache_path.name}")
+            continue
+        console.print(f"  [cyan]embedding:[/] {model_name} → {cache_path.name}")
+        proc = subprocess.Popen([
+            sys.executable, str(precompute_script), str(args.qrels),
+            "--model", model_name,
+            "--out-dir", str(args.query_cache_dir),
+            "--batch-size", str(args.batch_size),
+            *(["--force"] if args.force else []),
+        ])
+        procs[label] = proc
+
+    for label, proc in procs.items():
+        rc = proc.wait()
+        if rc != 0:
+            console.print(f"[red]ERROR:[/] precompute failed for {label} (exit {rc})")
+            return 1
+        console.print(f"  [green]✓[/] {label} cache ready")
+
+    # Load all query caches — keyed by embed label (e.g. "minilm-l6", "mpnet-base")
+    query_caches: dict[str, dict] = {}
+    for model_name in embed_models:
+        label = model_name.lower().replace("all-", "").split("-v")[0]
+        cache_path = args.query_cache_dir / f"{label}.pkl"
+        with open(cache_path, "rb") as f:
+            query_caches[label] = pickle.load(f)
+        console.print(f"  [dim]loaded {len(query_caches[label])} cached queries for {label}[/]")
+
     filtered_note = (
         f" [dim](filtered from {len(qrels_all)})[/]" if len(qrels) < len(qrels_all) else ""
     )
@@ -148,6 +195,7 @@ def main(argv: list[str] | None = None) -> int:
             index_base_dir=args.index_dir,
             force=args.force,
             progress_cb=_cb,
+            query_caches=query_caches,
         )
         progress.update(task, completed=len(configs))
 
