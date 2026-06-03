@@ -14,6 +14,7 @@ cell is skipped unless force=True.
 
 from __future__ import annotations
 
+import gc
 from pathlib import Path
 
 from rag_common.chunkers import FixedSizeChunker, SentenceBasedChunker
@@ -70,10 +71,12 @@ def patch_embed_fn(pipeline: RAGPipeline, query_cache: dict) -> None:
         return np.array([query_cache[t] for t in texts], dtype=np.float32)
 
     retriever = pipeline._retriever
+    # DenseRetriever: patch directly
     if hasattr(retriever, "_embed_fn"):
         retriever._embed_fn = cached_embed
-    if hasattr(retriever, "dense") and hasattr(retriever.dense, "_embed_fn"):
-        retriever.dense._embed_fn = cached_embed
+    # HybridRetriever: patch the inner DenseRetriever (_dense, not .dense)
+    if hasattr(retriever, "_dense") and hasattr(retriever._dense, "_embed_fn"):
+        retriever._dense._embed_fn = cached_embed
 
 
 def build_pipeline(config: ExperimentConfig) -> RAGPipeline:
@@ -145,6 +148,10 @@ def run_experiment(
 
     result = evaluate(qrels, pipeline, config, judge_model=judge_model, judge_n=judge_n)
     save_result(result, result_path)
+
+    del pipeline
+    gc.collect()
+
     return result
 
 
