@@ -18,7 +18,6 @@ import pickle
 from pathlib import Path
 
 import numpy as np
-from sentence_transformers import SentenceTransformer
 
 from rag_common.models import Chunk
 from src.base import BaseEmbedder
@@ -90,7 +89,7 @@ class SentenceTransformersEmbedder(BaseEmbedder):
             normalize_embeddings=True,
             show_progress_bar=True,
             convert_to_numpy=True,
-        ).astype(np.float32)
+        ).astype(np.float32, copy=True)
 
     # ------------------------------------------------------------------
     # Cached chunk embedding (used by ingestion pipeline)
@@ -121,6 +120,7 @@ class SentenceTransformersEmbedder(BaseEmbedder):
 
     def _load(self) -> None:
         if self._model is None:
+            from sentence_transformers import SentenceTransformer  # lazy: keeps ST out of eval process
             self._model = SentenceTransformer(self._model_name)
 
     def _cache_path(self, chunk_label: str) -> Path:
