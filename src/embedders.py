@@ -88,7 +88,7 @@ class SentenceTransformersEmbedder(BaseEmbedder):
             texts,
             batch_size=self._batch_size,
             normalize_embeddings=True,
-            show_progress_bar=False,
+            show_progress_bar=True,
             convert_to_numpy=True,
         ).astype(np.float32)
 
