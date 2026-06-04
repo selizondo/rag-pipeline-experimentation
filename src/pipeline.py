@@ -19,7 +19,6 @@ import time
 from pathlib import Path
 
 import numpy as np
-
 from rag_common.models import Chunk, RetrievalResult
 from rag_common.parsers import parse_pdf as _parse_pdf
 from rag_common.retrievers import BM25Retriever, DenseRetriever, HybridRetriever
@@ -60,7 +59,7 @@ class RAGPipeline:
 
         self._store = FAISSVectorStore()
         self._all_chunks: list[Chunk] = []
-        self._retriever = None   # built after ingestion
+        self._retriever = None  # built after ingestion
         self._documents: list[Document] = []
 
     # ------------------------------------------------------------------
@@ -126,9 +125,7 @@ class RAGPipeline:
 
         # Persist document metadata for later loading.
         meta_path = index_dir / "documents.json"
-        meta_path.write_text(
-            json.dumps([d.model_dump() for d in documents], indent=2)
-        )
+        meta_path.write_text(json.dumps([d.model_dump() for d in documents], indent=2))
 
         return all_chunks
 

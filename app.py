@@ -16,8 +16,8 @@ load_dotenv()
 sys.path.insert(0, str(Path(__file__).resolve().parent))
 
 import streamlit as st
-
 from rag_common.chunkers import FixedSizeChunker
+
 from src.config import EmbedModelName
 from src.embedders import SentenceTransformersEmbedder
 from src.generator import generate_answer
@@ -54,7 +54,10 @@ with st.sidebar:
     )
     alpha = st.slider(
         "Hybrid alpha (dense weight)",
-        min_value=0.0, max_value=1.0, value=0.6, step=0.05,
+        min_value=0.0,
+        max_value=1.0,
+        value=0.6,
+        step=0.05,
         disabled=(retrieval_method != "hybrid"),
         help="Fraction of the final score from dense retrieval (rest from BM25).",
     )
@@ -62,6 +65,7 @@ with st.sidebar:
 
     try:
         from llm_utils.config import get_settings
+
         default_model = get_settings().generation_model
     except Exception:
         default_model = "llama-3.3-70b-versatile"
@@ -70,6 +74,7 @@ with st.sidebar:
     load_btn = st.button("Load Index", type="primary")
 
 # ── Index loading ──────────────────────────────────────────────────────────────
+
 
 @st.cache_resource(show_spinner="Loading index…", hash_funcs={Path: str})
 def _load_pipeline(
@@ -118,7 +123,7 @@ elif st.session_state.pipeline is None:
         "first if no index exists."
     )
 else:
-    pipeline: RAGPipeline = st.session_state.pipeline
+    pipeline: RAGPipeline = st.session_state.pipeline  # type: ignore[no-redef]
     st.success(
         f"✅ Index loaded — **{len(pipeline.chunks):,}** chunks "
         f"from **{len(pipeline.documents)}** documents."

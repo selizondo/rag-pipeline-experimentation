@@ -2,13 +2,11 @@
 
 from __future__ import annotations
 
-import pickle
 from unittest.mock import MagicMock, patch
 
 import numpy as np
-import pytest
-
 from rag_common.models import Chunk
+
 from src.embedders import SentenceTransformersEmbedder
 
 DIM = 384
@@ -73,18 +71,18 @@ class TestSentenceTransformersEmbedder:
         chunks = _make_chunks(3)
         mock_model = _fake_model()
         with patch("src.embedders.SentenceTransformer", return_value=mock_model):
-            embedder.embed_chunks(chunks, "label1")   # populates cache
+            embedder.embed_chunks(chunks, "label1")  # populates cache
             call_count = mock_model.encode.call_count
-            embedder.embed_chunks(chunks, "label1")   # should hit cache
-        assert mock_model.encode.call_count == call_count   # no extra call
+            embedder.embed_chunks(chunks, "label1")  # should hit cache
+        assert mock_model.encode.call_count == call_count  # no extra call
 
     def test_embed_chunks_stale_cache_regenerates(self, tmp_path):
         embedder = SentenceTransformersEmbedder(cache_dir=tmp_path)
         old_chunks = _make_chunks(3)
-        new_chunks = _make_chunks(5)   # different UUIDs
+        new_chunks = _make_chunks(5)  # different UUIDs
         mock_model = _fake_model()
         with patch("src.embedders.SentenceTransformer", return_value=mock_model):
             embedder.embed_chunks(old_chunks, "label1")
             first_calls = mock_model.encode.call_count
-            embedder.embed_chunks(new_chunks, "label1")   # stale → regenerate
+            embedder.embed_chunks(new_chunks, "label1")  # stale → regenerate
         assert mock_model.encode.call_count > first_calls

@@ -20,39 +20,39 @@ from __future__ import annotations
 
 from enum import Enum
 from pathlib import Path
-from typing import Literal
 
 import yaml
-from pydantic import BaseModel, Field
-
+from pydantic import BaseModel
 
 # ---------------------------------------------------------------------------
 # Enums
 # ---------------------------------------------------------------------------
 
+
 class ChunkStrategy(str, Enum):
-    FIXED          = "fixed"
-    RECURSIVE      = "recursive"
+    FIXED = "fixed"
+    RECURSIVE = "recursive"
     SLIDING_WINDOW = "sliding_window"
-    SENTENCE       = "sentence"
-    SEMANTIC       = "semantic"
+    SENTENCE = "sentence"
+    SEMANTIC = "semantic"
 
 
 class EmbedModelName(str, Enum):
-    MINILM   = "all-MiniLM-L6-v2"       # 384d, fast
-    MPNET    = "all-mpnet-base-v2"       # 768d, higher quality
-    QA_MINI  = "multi-qa-MiniLM-L6-cos-v1"  # 384d, QA-optimised
+    MINILM = "all-MiniLM-L6-v2"  # 384d, fast
+    MPNET = "all-mpnet-base-v2"  # 768d, higher quality
+    QA_MINI = "multi-qa-MiniLM-L6-cos-v1"  # 384d, QA-optimised
 
 
 class RetrievalMethod(str, Enum):
-    DENSE  = "dense"
-    BM25   = "bm25"
+    DENSE = "dense"
+    BM25 = "bm25"
     HYBRID = "hybrid"
 
 
 # ---------------------------------------------------------------------------
 # Component configs
 # ---------------------------------------------------------------------------
+
 
 class ChunkConfig(BaseModel):
     strategy: ChunkStrategy = ChunkStrategy.RECURSIVE
@@ -92,7 +92,7 @@ class EmbedConfig(BaseModel):
 class RetrievalConfig(BaseModel):
     method: RetrievalMethod = RetrievalMethod.DENSE
     top_k: int = 5
-    alpha: float = 0.6   # hybrid: weight for dense scores
+    alpha: float = 0.6  # hybrid: weight for dense scores
 
     def label(self) -> str:
         if self.method == RetrievalMethod.HYBRID:
@@ -103,6 +103,7 @@ class RetrievalConfig(BaseModel):
 # ---------------------------------------------------------------------------
 # Full experiment config
 # ---------------------------------------------------------------------------
+
 
 class ExperimentConfig(BaseModel):
     chunk: ChunkConfig
@@ -118,6 +119,7 @@ class ExperimentConfig(BaseModel):
 # ---------------------------------------------------------------------------
 # YAML loader + grid builder
 # ---------------------------------------------------------------------------
+
 
 def load_yaml(path: Path) -> dict:
     with open(path) as f:
@@ -164,8 +166,8 @@ def build_grid_from_yaml(path: Path) -> list[ExperimentConfig]:
 
 def _default_chunk_configs() -> list[ChunkConfig]:
     return [
-        ChunkConfig(strategy=ChunkStrategy.FIXED,          chunk_size=512, overlap=64),
-        ChunkConfig(strategy=ChunkStrategy.RECURSIVE,      chunk_size=512, overlap=100),
+        ChunkConfig(strategy=ChunkStrategy.FIXED, chunk_size=512, overlap=64),
+        ChunkConfig(strategy=ChunkStrategy.RECURSIVE, chunk_size=512, overlap=100),
         ChunkConfig(strategy=ChunkStrategy.SLIDING_WINDOW, window_size=10, step=5),
     ]
 

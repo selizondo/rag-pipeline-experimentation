@@ -2,27 +2,24 @@
 
 from __future__ import annotations
 
-import json
-from pathlib import Path
-from unittest.mock import MagicMock, patch
+from unittest.mock import MagicMock
 
-import numpy as np
 import pytest
-
 from rag_common.models import Chunk, RetrievalResult
+
 from src.config import ChunkConfig, EmbedConfig, ExperimentConfig, RetrievalConfig
 from src.evaluator import best_config, evaluate, filter_qrels_by_docs, load_qrels, save_qrels
-
 
 # ---------------------------------------------------------------------------
 # Fixtures
 # ---------------------------------------------------------------------------
 
+
 def _make_qrels(n: int = 5) -> dict[str, dict]:
     return {
         f"q{i:03d}": {
             "query": f"Test query {i}",
-            "relevant_doc_ids": [f"doc_{i}", f"doc_{i+1}"],
+            "relevant_doc_ids": [f"doc_{i}", f"doc_{i + 1}"],
         }
         for i in range(n)
     }
@@ -52,6 +49,7 @@ def _mock_pipeline(doc_ids: list[str]) -> MagicMock:
 # load_qrels / save_qrels
 # ---------------------------------------------------------------------------
 
+
 class TestQrelsIO:
     def test_load_roundtrip(self, tmp_path):
         qrels = _make_qrels(3)
@@ -68,6 +66,7 @@ class TestQrelsIO:
 # ---------------------------------------------------------------------------
 # evaluate
 # ---------------------------------------------------------------------------
+
 
 class TestEvaluate:
     def test_returns_experiment_result(self):
@@ -154,6 +153,7 @@ class TestEvaluate:
 # filter_qrels_by_docs
 # ---------------------------------------------------------------------------
 
+
 class TestFilterQrelsByDocs:
     def test_keeps_matching_queries(self):
         qrels = {
@@ -186,9 +186,11 @@ class TestFilterQrelsByDocs:
 # best_config
 # ---------------------------------------------------------------------------
 
+
 class TestBestConfig:
     def _make_result(self, exp_id: str, mrr: float):
         from src.models import ExperimentResult
+
         return ExperimentResult(
             experiment_id=exp_id,
             config={},

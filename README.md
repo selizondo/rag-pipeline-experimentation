@@ -2,6 +2,24 @@
 
 Modular Retrieval-Augmented Generation system for research papers. Swap chunking strategy, embedding model, and retrieval method via YAML config and measure what actually works best on your corpus.
 
+*Companion post: [Building a RAG System That Can Actually Experiment](docs/blog_post.md) — 18-cell grid, 100 arXiv papers, and the finding that hybrid retrieval wins on technical corpora.*
+
+---
+
+## Key Concepts
+
+**qrels** — TREC-format ground truth labels (`qrels.json`). Each query maps to one or more paper IDs with relevance scores. The same format used by MS MARCO and BEIR. IR metrics (MRR, NDCG, Recall@K) are computed against these labels.
+
+**experiment_id** — deterministic naming scheme: `{chunk_strategy}_{chunk_size}_ol{overlap}__{model_short}__{retrieval_method}[_a{alpha}]`. Example: `fixed_512_ol64__minilm-l6__hybrid_a0.6`. One FAISS index and one results JSON per ID.
+
+**Hybrid score fusion** — `score = α × dense_norm + (1 − α) × bm25_norm`. Both sides are min-max normalised to `[0, 1]` independently so BM25's unbounded scores don't dominate. Default α=0.6 (60% dense, 40% BM25).
+
+**LLM-as-Judge** — a separate judge call scores each generated answer on Relevance, Accuracy, Completeness, Citation Quality (1–5 each). Independent of the retrieval metrics. Uses the same `llm-utils` client as generation so one env var change targets a cheaper judge model.
+
+**Subprocess isolation** — embedding and FAISS search run in isolated subprocesses to prevent a `sentence-transformers` + `faiss-cpu` crash on Intel Mac. Query embeddings are pre-computed and cached before any FAISS index loads.
+
+*See [docs/tradeoffs.md](docs/tradeoffs.md) for design decisions and [docs/failures.md](docs/failures.md) for known failure modes.*
+
 ---
 
 ## The Problem

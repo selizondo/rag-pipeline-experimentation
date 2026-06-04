@@ -16,17 +16,18 @@ from __future__ import annotations
 
 import pickle
 from pathlib import Path
+from typing import Any
 
 import numpy as np
-
 from rag_common.models import Chunk
+
 from src.base import BaseEmbedder
 
 # Dimension map for known models — used to report dimension without loading the model.
 _KNOWN_DIMS: dict[str, int] = {
-    "all-MiniLM-L6-v2":           384,
-    "all-mpnet-base-v2":           768,
-    "multi-qa-MiniLM-L6-cos-v1":  384,
+    "all-MiniLM-L6-v2": 384,
+    "all-mpnet-base-v2": 768,
+    "multi-qa-MiniLM-L6-cos-v1": 384,
 }
 
 
@@ -54,7 +55,7 @@ class SentenceTransformersEmbedder(BaseEmbedder):
         self._model_name = model_name
         self._cache_dir = Path(cache_dir)
         self._batch_size = batch_size
-        self._model = None       # lazy-loaded
+        self._model: Any = None  # lazy-loaded
         self._dim: int | None = _KNOWN_DIMS.get(model_name)
 
     # ------------------------------------------------------------------
@@ -120,7 +121,10 @@ class SentenceTransformersEmbedder(BaseEmbedder):
 
     def _load(self) -> None:
         if self._model is None:
-            from sentence_transformers import SentenceTransformer  # lazy: keeps ST out of eval process
+            from sentence_transformers import (
+                SentenceTransformer,  # lazy: keeps ST out of eval process
+            )
+
             self._model = SentenceTransformer(self._model_name)
 
     def _cache_path(self, chunk_label: str) -> Path:
@@ -128,9 +132,7 @@ class SentenceTransformersEmbedder(BaseEmbedder):
         model_dir = self._model_name.replace("/", "_")
         return self._cache_dir / model_dir / f"{chunk_label}.pkl"
 
-    def _save_cache(
-        self, path: Path, chunk_ids: list[str], embeddings: np.ndarray
-    ) -> None:
+    def _save_cache(self, path: Path, chunk_ids: list[str], embeddings: np.ndarray) -> None:
         path.parent.mkdir(parents=True, exist_ok=True)
         with open(path, "wb") as f:
             pickle.dump({"chunk_ids": chunk_ids, "embeddings": embeddings}, f)

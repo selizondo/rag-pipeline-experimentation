@@ -2,27 +2,31 @@
 
 from __future__ import annotations
 
-from pathlib import Path
 from unittest.mock import MagicMock, patch
 
 import pytest
 
 from src.chunkers_ext import RecursiveChunker, SlidingWindowChunker
 from src.config import (
-    ChunkConfig, ChunkStrategy, EmbedConfig, EmbedModelName,
-    ExperimentConfig, RetrievalConfig,
+    ChunkConfig,
+    ChunkStrategy,
+    EmbedConfig,
+    EmbedModelName,
+    ExperimentConfig,
+    RetrievalConfig,
 )
-from src.experiment import build_chunker, build_embedder, build_pipeline, run_experiment
+from src.experiment import build_chunker, build_embedder, run_experiment
 from src.models import ExperimentResult
-
 
 # ---------------------------------------------------------------------------
 # build_chunker
 # ---------------------------------------------------------------------------
 
+
 class TestBuildChunker:
     def test_fixed(self):
         from rag_common.chunkers import FixedSizeChunker
+
         cfg = ChunkConfig(strategy=ChunkStrategy.FIXED, chunk_size=256, overlap=32)
         c = build_chunker(cfg)
         assert isinstance(c, FixedSizeChunker)
@@ -47,9 +51,11 @@ class TestBuildChunker:
 # build_embedder
 # ---------------------------------------------------------------------------
 
+
 class TestBuildEmbedder:
     def test_returns_embedder_with_correct_model(self):
         from src.embedders import SentenceTransformersEmbedder
+
         cfg = EmbedConfig(model=EmbedModelName.MINILM)
         emb = build_embedder(cfg)
         assert isinstance(emb, SentenceTransformersEmbedder)
@@ -84,13 +90,14 @@ def _make_qrels(n: int = 2) -> dict[str, dict]:
 
 def _fake_embedder(dim: int = 384) -> MagicMock:
     import numpy as np
+
     emb = MagicMock()
     emb.model_name = "all-MiniLM-L6-v2"
     emb.dimension = dim
     emb.embed.side_effect = lambda texts: np.random.randn(len(texts), dim).astype(np.float32)
-    emb.embed_chunks.side_effect = lambda chunks, label: np.random.randn(
-        len(chunks), dim
-    ).astype(np.float32)
+    emb.embed_chunks.side_effect = lambda chunks, label: np.random.randn(len(chunks), dim).astype(
+        np.float32
+    )
     return emb
 
 
@@ -103,8 +110,10 @@ class TestRunExperiment:
         result_dir = tmp_path / "results"
         index_dir = tmp_path / "indices"
 
-        with patch("src.pipeline._parse_pdf", return_value=(_DUMMY_TEXT, 2)), \
-             patch("src.experiment.build_embedder", return_value=_fake_embedder()):
+        with (
+            patch("src.pipeline._parse_pdf", return_value=(_DUMMY_TEXT, 2)),
+            patch("src.experiment.build_embedder", return_value=_fake_embedder()),
+        ):
             run_experiment(
                 config=config,
                 pdf_paths=[pdf],
@@ -161,8 +170,10 @@ class TestRunExperiment:
         result_path = result_dir / f"{config.experiment_id}.json"
         result_path.write_text(stale.model_dump_json())
 
-        with patch("src.pipeline._parse_pdf", return_value=(_DUMMY_TEXT, 1)), \
-             patch("src.experiment.build_embedder", return_value=_fake_embedder()):
+        with (
+            patch("src.pipeline._parse_pdf", return_value=(_DUMMY_TEXT, 1)),
+            patch("src.experiment.build_embedder", return_value=_fake_embedder()),
+        ):
             result = run_experiment(
                 config=config,
                 pdf_paths=[pdf],

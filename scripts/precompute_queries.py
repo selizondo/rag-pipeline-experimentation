@@ -38,16 +38,28 @@ def _parse_args(argv: list[str] | None = None) -> argparse.Namespace:
         description="Pre-embed all qrels queries for one embedding model.",
     )
     p.add_argument("qrels", type=Path, help="Path to qrels JSON file")
-    p.add_argument("--model", type=str, default=EmbedModelName.MINILM.value,
-                   help=f"Embedding model name (default: {EmbedModelName.MINILM.value})")
-    p.add_argument("--out-dir", type=Path, default=Path("data/query_cache"),
-                   help="Output directory for cached embeddings (default: data/query_cache)")
-    p.add_argument("--cache-dir", type=Path, default=Path("data/embed_cache"),
-                   help="Sentence-transformers model cache dir (default: data/embed_cache)")
-    p.add_argument("--batch-size", type=int, default=16,
-                   help="Embedding batch size (default: 16)")
-    p.add_argument("--force", action="store_true",
-                   help="Recompute even if cache file already exists")
+    p.add_argument(
+        "--model",
+        type=str,
+        default=EmbedModelName.MINILM.value,
+        help=f"Embedding model name (default: {EmbedModelName.MINILM.value})",
+    )
+    p.add_argument(
+        "--out-dir",
+        type=Path,
+        default=Path("data/query_cache"),
+        help="Output directory for cached embeddings (default: data/query_cache)",
+    )
+    p.add_argument(
+        "--cache-dir",
+        type=Path,
+        default=Path("data/embed_cache"),
+        help="Sentence-transformers model cache dir (default: data/embed_cache)",
+    )
+    p.add_argument("--batch-size", type=int, default=16, help="Embedding batch size (default: 16)")
+    p.add_argument(
+        "--force", action="store_true", help="Recompute even if cache file already exists"
+    )
     return p.parse_args(argv)
 
 
@@ -71,8 +83,8 @@ def main(argv: list[str] | None = None) -> int:
     print(f"Embedding {len(queries)} queries with {args.model} ...")
 
     # Import sentence-transformers here — FAISS must NOT be imported in this process
-    from sentence_transformers import SentenceTransformer
     import numpy as np
+    from sentence_transformers import SentenceTransformer
 
     model = SentenceTransformer(args.model, cache_folder=str(args.cache_dir))
     vecs = model.encode(

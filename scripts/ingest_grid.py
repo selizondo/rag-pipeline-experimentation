@@ -25,7 +25,7 @@ from rich.panel import Panel
 
 sys.path.insert(0, str(Path(__file__).resolve().parents[1]))
 
-from src.config import build_grid_from_yaml, build_experiment_grid, ChunkConfig, EmbedConfig
+from src.config import ChunkConfig, EmbedConfig, build_experiment_grid, build_grid_from_yaml
 
 console = Console()
 
@@ -45,25 +45,40 @@ def _parse_args(argv: list[str] | None = None) -> argparse.Namespace:
         description="Pre-build FAISS indices for all (chunk, embed) pairs in a grid config.",
     )
     p.add_argument("papers_dir", type=Path, help="Directory containing PDF files")
-    p.add_argument("--config", "-c", type=Path, default=None,
-                   help="YAML experiment config (default: built-in grid)")
-    p.add_argument("--index-dir", type=Path, default=Path("data/indices"),
-                   help="Root directory for FAISS indices (default: data/indices)")
-    p.add_argument("--limit", type=int, default=None,
-                   help="Max PDFs to ingest per index (default: all)")
-    p.add_argument("--force", action="store_true",
-                   help="Rebuild indices even if they already exist on disk")
-    p.add_argument("--batch-size", type=int, default=None,
-                   help="Embedding batch size (default: from config, typically 16)")
+    p.add_argument(
+        "--config",
+        "-c",
+        type=Path,
+        default=None,
+        help="YAML experiment config (default: built-in grid)",
+    )
+    p.add_argument(
+        "--index-dir",
+        type=Path,
+        default=Path("data/indices"),
+        help="Root directory for FAISS indices (default: data/indices)",
+    )
+    p.add_argument(
+        "--limit", type=int, default=None, help="Max PDFs to ingest per index (default: all)"
+    )
+    p.add_argument(
+        "--force", action="store_true", help="Rebuild indices even if they already exist on disk"
+    )
+    p.add_argument(
+        "--batch-size",
+        type=int,
+        default=None,
+        help="Embedding batch size (default: from config, typically 16)",
+    )
     # Internal flag: build exactly one index then exit. Used by subprocess isolation.
-    p.add_argument("--single-index", type=str, default=None,
-                   help=argparse.SUPPRESS)
+    p.add_argument("--single-index", type=str, default=None, help=argparse.SUPPRESS)
     return p.parse_args(argv)
 
 
 def _build_one(args: argparse.Namespace, index_key: str) -> int:
     """Build a single index in-process. Called only when --single-index is set."""
     import gc
+
     from src.experiment import build_chunker, build_embedder
     from src.pipeline import RAGPipeline
 
@@ -81,7 +96,7 @@ def _build_one(args: argparse.Namespace, index_key: str) -> int:
     chunk_cfg, embed_cfg = pairs[index_key]
     index_dir = args.index_dir / index_key
 
-    chunker  = build_chunker(chunk_cfg)
+    chunker = build_chunker(chunk_cfg)
     embedder = build_embedder(embed_cfg)
     if args.batch_size is not None:
         embedder._batch_size = args.batch_size
@@ -123,22 +138,25 @@ def main(argv: list[str] | None = None) -> int:
     configs = build_grid_from_yaml(args.config) if args.config else build_experiment_grid()
     pairs = _unique_chunk_embed_pairs(configs)
 
-    console.print(Panel(
-        f"[bold cyan]RAG Pipeline — Index Pre-build[/]\n\n"
-        f"  PDFs          : [green]{len(pdf_paths)}[/]\n"
-        f"  Index configs : [yellow]{len(pairs)}[/] unique (chunk, embed) pairs\n"
-        f"  Index dir     : [dim]{args.index_dir}[/]",
-        title="[bold]P4[/]", expand=False,
-    ))
+    console.print(
+        Panel(
+            f"[bold cyan]RAG Pipeline — Index Pre-build[/]\n\n"
+            f"  PDFs          : [green]{len(pdf_paths)}[/]\n"
+            f"  Index configs : [yellow]{len(pairs)}[/] unique (chunk, embed) pairs\n"
+            f"  Index dir     : [dim]{args.index_dir}[/]",
+            title="[bold]P4[/]",
+            expand=False,
+        )
+    )
 
     args.index_dir.mkdir(parents=True, exist_ok=True)
-    built   = 0
+    built = 0
     skipped = 0
-    failed  = 0
+    failed = 0
 
     for chunk_cfg, embed_cfg in pairs:
-        index_key  = f"{chunk_cfg.label()}__{embed_cfg.label()}"
-        index_dir  = args.index_dir / index_key
+        index_key = f"{chunk_cfg.label()}__{embed_cfg.label()}"
+        index_dir = args.index_dir / index_key
         faiss_path = index_dir / "faiss_index" / "index.faiss"
 
         if not args.force and faiss_path.exists():
@@ -149,9 +167,15 @@ def main(argv: list[str] | None = None) -> int:
         console.print(f"[cyan]build[/] {index_key} ...")
 
         # Build subprocess command, forwarding all relevant args
-        cmd = [sys.executable, __file__, str(args.papers_dir),
-               "--index-dir", str(args.index_dir),
-               "--single-index", index_key]
+        cmd = [
+            sys.executable,
+            __file__,
+            str(args.papers_dir),
+            "--index-dir",
+            str(args.index_dir),
+            "--single-index",
+            index_key,
+        ]
         if args.config:
             cmd += ["--config", str(args.config)]
         if args.limit:

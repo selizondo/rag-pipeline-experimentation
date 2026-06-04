@@ -14,6 +14,7 @@ from __future__ import annotations
 from pathlib import Path
 
 import matplotlib
+
 matplotlib.use("Agg")  # headless-safe; must be set before importing pyplot
 import matplotlib.pyplot as plt
 import numpy as np
@@ -34,6 +35,7 @@ def _save(fig: plt.Figure, out_dir: Path, filename: str) -> Path:
 
 
 # ── 1. Retrieval Metrics Heatmap ───────────────────────────────────────────────
+
 
 def plot_metrics_heatmap(
     results: list[ExperimentResult],
@@ -75,6 +77,7 @@ def plot_metrics_heatmap(
 
 # ── 2. Configuration Dimension Impact ─────────────────────────────────────────
 
+
 def plot_dimension_impact(
     results: list[ExperimentResult],
     primary_metric: str = "ndcg@5",
@@ -85,12 +88,14 @@ def plot_dimension_impact(
     rows = []
     for r in results:
         cfg = r.config
-        rows.append({
-            "chunking":  cfg.get("chunk", {}).get("strategy", "?"),
-            "embedding": cfg.get("embed", {}).get("model", "?"),
-            "retrieval": cfg.get("retrieval", {}).get("method", "?"),
-            "metric":    r.metrics.get(primary_metric, 0.0),
-        })
+        rows.append(
+            {
+                "chunking": cfg.get("chunk", {}).get("strategy", "?"),
+                "embedding": cfg.get("embed", {}).get("model", "?"),
+                "retrieval": cfg.get("retrieval", {}).get("method", "?"),
+                "metric": r.metrics.get(primary_metric, 0.0),
+            }
+        )
     df = pd.DataFrame(rows)
 
     dimensions = ["chunking", "embedding", "retrieval"]
@@ -99,7 +104,7 @@ def plot_dimension_impact(
     fig, axes = plt.subplots(1, 3, figsize=(14, 5), sharey=True)
     for ax, dim, color in zip(axes, dimensions, colors):
         grp = df.groupby(dim)["metric"].mean().sort_values(ascending=False)
-        bars = ax.bar(range(len(grp)), grp.values, color=color, alpha=0.85, width=0.55)
+        ax.bar(range(len(grp)), grp.values, color=color, alpha=0.85, width=0.55)
         ax.set_xticks(range(len(grp)))
         ax.set_xticklabels(grp.index, rotation=30, ha="right", fontsize=9)
         ax.set_title(f"{dim.capitalize()} Impact", fontsize=11, fontweight="bold")
@@ -111,13 +116,16 @@ def plot_dimension_impact(
 
     fig.suptitle(
         f"Configuration Dimension Impact on {primary_metric}",
-        fontsize=13, fontweight="bold", y=1.01,
+        fontsize=13,
+        fontweight="bold",
+        y=1.01,
     )
     plt.tight_layout()
     return _save(fig, out_dir, filename)
 
 
 # ── 3. Before / After Improvement ─────────────────────────────────────────────
+
 
 def plot_before_after(
     before: dict[str, float],
@@ -137,13 +145,21 @@ def plot_before_after(
     width = 0.35
     fig, ax = plt.subplots(figsize=(max(8, len(common) * 1.5), 5))
     ax.bar(x - width / 2, b_vals, width, label=label_before, color="#4C78A8", alpha=0.85)
-    ax.bar(x + width / 2, a_vals, width, label=label_after,  color="#54A24B", alpha=0.85)
+    ax.bar(x + width / 2, a_vals, width, label=label_after, color="#54A24B", alpha=0.85)
 
     for i, (bv, av, d) in enumerate(zip(b_vals, a_vals, deltas)):
         top = max(bv, av) + 0.03
         sign = "+" if d >= 0 else ""
-        ax.text(i, top, f"{sign}{d:.3f}", ha="center", va="bottom", fontsize=9,
-                color="#2ca02c" if d >= 0 else "#d62728", fontweight="bold")
+        ax.text(
+            i,
+            top,
+            f"{sign}{d:.3f}",
+            ha="center",
+            va="bottom",
+            fontsize=9,
+            color="#2ca02c" if d >= 0 else "#d62728",
+            fontweight="bold",
+        )
 
     ax.set_xticks(x)
     ax.set_xticklabels(common, rotation=25, ha="right")
@@ -158,6 +174,7 @@ def plot_before_after(
 
 # ── 4. Generation Quality Radar ───────────────────────────────────────────────
 
+
 def plot_radar(
     scores: list[JudgeScore],
     config_label: str = "Best Config",
@@ -168,15 +185,15 @@ def plot_radar(
     dims = ["Relevance", "Accuracy", "Completeness", "Citation Quality"]
     n = max(len(scores), 1)
     avgs = [
-        sum(s.relevance        for s in scores) / n,
-        sum(s.accuracy         for s in scores) / n,
-        sum(s.completeness     for s in scores) / n,
+        sum(s.relevance for s in scores) / n,
+        sum(s.accuracy for s in scores) / n,
+        sum(s.completeness for s in scores) / n,
         sum(s.citation_quality for s in scores) / n,
     ]
 
     # Close the polygon
     angles = [k / len(dims) * 2 * np.pi for k in range(len(dims))]
-    avgs_c  = avgs  + [avgs[0]]
+    avgs_c = avgs + [avgs[0]]
     angles_c = angles + [angles[0]]
 
     fig, ax = plt.subplots(figsize=(7, 7), subplot_kw=dict(polar=True))
@@ -189,7 +206,9 @@ def plot_radar(
     ax.set_xticklabels(dims, fontsize=11)
     ax.set_title(
         f"Generation Quality — {config_label}",
-        fontsize=13, fontweight="bold", pad=20,
+        fontsize=13,
+        fontweight="bold",
+        pad=20,
     )
     for angle, val in zip(angles, avgs):
         ax.text(angle, val + 0.3, f"{val:.2f}", ha="center", va="center", fontsize=10)
@@ -198,6 +217,7 @@ def plot_radar(
 
 
 # ── 5. Latency Distribution ───────────────────────────────────────────────────
+
 
 def plot_latency(
     results: list[ExperimentResult],
@@ -214,8 +234,15 @@ def plot_latency(
     fig, ax = plt.subplots(figsize=(10, 5))
 
     if not rows:
-        ax.text(0.5, 0.5, "No per-query latency data available",
-                transform=ax.transAxes, ha="center", va="center", fontsize=12)
+        ax.text(
+            0.5,
+            0.5,
+            "No per-query latency data available",
+            transform=ax.transAxes,
+            ha="center",
+            va="center",
+            fontsize=12,
+        )
         ax.set_title("Query Latency Distribution", fontsize=13, fontweight="bold")
         return _save(fig, out_dir, filename)
 
@@ -224,21 +251,21 @@ def plot_latency(
     data_groups = [df[df["method"] == m]["latency_ms"].values for m in methods]
 
     colors = ["#4C78A8", "#F58518", "#E45756", "#72B7B2"]
-    bp = ax.boxplot(data_groups, labels=methods, patch_artist=True, notch=False)
+    bp = ax.boxplot(data_groups, labels=methods, patch_artist=True, notch=False)  # type: ignore[call-arg]
     for patch, color in zip(bp["boxes"], colors):
         patch.set_facecolor(color)
         patch.set_alpha(0.7)
 
     ax.set_xlabel("Retrieval Method", fontsize=11)
     ax.set_ylabel("Query Latency (ms)", fontsize=11)
-    ax.set_title("Query Latency Distribution by Retrieval Method",
-                 fontsize=13, fontweight="bold")
+    ax.set_title("Query Latency Distribution by Retrieval Method", fontsize=13, fontweight="bold")
     ax.grid(axis="y", alpha=0.3)
     plt.tight_layout()
     return _save(fig, out_dir, filename)
 
 
 # ── 6. Hybrid Fusion Weight Sweep ─────────────────────────────────────────────
+
 
 def plot_fusion_sweep(
     alpha_scores: dict[float, float],
@@ -257,13 +284,15 @@ def plot_fusion_sweep(
     fig, ax = plt.subplots(figsize=(8, 5))
     ax.plot(alphas, score_vals, "o-", linewidth=2, markersize=7, color="#4C78A8")
     ax.axvline(
-        best_alpha, color="red", linestyle="--", alpha=0.7,
+        best_alpha,
+        color="red",
+        linestyle="--",
+        alpha=0.7,
         label=f"Best α={best_alpha:.2f}  ({metric_name}={best_score:.3f})",
     )
     ax.set_xlabel("Hybrid Fusion Weight α  (dense fraction)", fontsize=11)
     ax.set_ylabel(metric_name, fontsize=11)
-    ax.set_title(f"Hybrid Fusion Weight Sweep — {metric_name}",
-                 fontsize=13, fontweight="bold")
+    ax.set_title(f"Hybrid Fusion Weight Sweep — {metric_name}", fontsize=13, fontweight="bold")
     ax.legend()
     ax.grid(True, alpha=0.3)
     plt.tight_layout()

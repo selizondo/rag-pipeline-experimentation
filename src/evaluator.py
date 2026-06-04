@@ -45,6 +45,7 @@ _K_VALUES = [1, 3, 5, 10]
 # qrels I/O
 # ---------------------------------------------------------------------------
 
+
 def load_qrels(path: Path) -> dict[str, dict]:
     """
     Load qrels.json → {query_id: {"query": str, "relevant_doc_ids": list[str]}}.
@@ -73,7 +74,8 @@ def filter_qrels_by_docs(
     than were ingested.
     """
     return {
-        qid: entry for qid, entry in qrels.items()
+        qid: entry
+        for qid, entry in qrels.items()
         if any(doc_id in ingested_doc_ids for doc_id in entry.get("relevant_doc_ids", []))
     }
 
@@ -81,6 +83,7 @@ def filter_qrels_by_docs(
 # ---------------------------------------------------------------------------
 # Evaluation
 # ---------------------------------------------------------------------------
+
 
 def evaluate(
     qrels: dict[str, dict],
@@ -140,21 +143,23 @@ def evaluate(
         retrieved_doc_ids: list[str] = list(seen.keys())
 
         paired.append((retrieved_doc_ids, relevant_doc_ids))
-        query_results.append(QueryResult(
-            query_id=query_id,
-            query=query,
-            retrieved_ids=retrieved_doc_ids,
-            relevant_ids=list(relevant_doc_ids),
-            retrieval_time_s=round(elapsed, 4),
-        ))
+        query_results.append(
+            QueryResult(
+                query_id=query_id,
+                query=query,
+                retrieved_ids=retrieved_doc_ids,
+                relevant_ids=list(relevant_doc_ids),
+                retrieval_time_s=round(elapsed, 4),
+            )
+        )
 
     # Aggregate IR metrics across all queries.
     agg: dict[str, float] = {
-        "mrr":      metrics.mrr(paired),
-        "map":      metrics.map_score(paired),
-        **{f"recall@{k}":    metrics.mean_recall_at_k(paired, k)    for k in _K_VALUES},
+        "mrr": metrics.mrr(paired),
+        "map": metrics.map_score(paired),
+        **{f"recall@{k}": metrics.mean_recall_at_k(paired, k) for k in _K_VALUES},
         **{f"precision@{k}": metrics.mean_precision_at_k(paired, k) for k in _K_VALUES},
-        **{f"ndcg@{k}":      metrics.mean_ndcg_at_k(paired, k)      for k in _K_VALUES},
+        **{f"ndcg@{k}": metrics.mean_ndcg_at_k(paired, k) for k in _K_VALUES},
         "avg_retrieval_time_s": sum(latencies) / len(latencies),
     }
 
@@ -183,8 +188,7 @@ def evaluate(
         if scored:
             dims = ("relevance", "accuracy", "completeness", "citation_quality")
             generation_metrics = {
-                d: round(sum(getattr(s, d) for s in scored) / len(scored), 4)
-                for d in dims
+                d: round(sum(getattr(s, d) for s in scored) / len(scored), 4) for d in dims
             }
             generation_metrics["average"] = round(
                 sum(generation_metrics[d] for d in dims) / len(dims), 4
@@ -208,6 +212,7 @@ def evaluate(
 # ---------------------------------------------------------------------------
 # Result I/O
 # ---------------------------------------------------------------------------
+
 
 def save_result(result: ExperimentResult, path: Path) -> None:
     path.parent.mkdir(parents=True, exist_ok=True)

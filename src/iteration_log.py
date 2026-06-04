@@ -23,7 +23,6 @@ import json
 from datetime import datetime, timezone
 from pathlib import Path
 
-
 _DEFAULT_LOG = Path("experiments/iteration_log.jsonl")
 
 
@@ -85,13 +84,13 @@ def log_iteration(
 
     entry = {
         "iteration": iteration,
-        "date":      datetime.now(timezone.utc).isoformat(),
-        "change":    change,
-        "reason":    reason,
-        "config":    config or {},
-        "before":    before,
-        "after":     after_metrics,
-        "delta":     delta,
+        "date": datetime.now(timezone.utc).isoformat(),
+        "change": change,
+        "reason": reason,
+        "config": config or {},
+        "before": before,
+        "after": after_metrics,
+        "delta": delta,
     }
     with open(log_path, "a") as f:
         f.write(json.dumps(entry, default=str) + "\n")
@@ -111,8 +110,8 @@ def print_log(log_path: Path = _DEFAULT_LOG) -> None:
         print(f"  Change : {e.get('change', '?')}")
         print(f"  Reason : {e.get('reason', '?')}")
         before = e.get("before", {})
-        after  = e.get("after",  {})
-        delta  = e.get("delta",  {})
+        after = e.get("after", {})
+        delta = e.get("delta", {})
         for k in after:
             b = before.get(k, "n/a")
             a = after[k]

@@ -24,6 +24,7 @@ import json
 import sys
 import time
 from pathlib import Path
+from typing import Any
 
 import requests
 from rich.console import Console
@@ -38,24 +39,22 @@ console = Console()
 # HuggingFace dataset file locations
 # ---------------------------------------------------------------------------
 
-_HF_BASE = (
-    "https://huggingface.co/datasets/vectara/open_ragbench"
-    "/resolve/main/pdf/arxiv"
-)
+_HF_BASE = "https://huggingface.co/datasets/vectara/open_ragbench/resolve/main/pdf/arxiv"
 _DATASET_FILES = {
     "pdf_urls.json": f"{_HF_BASE}/pdf_urls.json",
-    "queries.json":  f"{_HF_BASE}/queries.json",
-    "qrels.json":    f"{_HF_BASE}/qrels.json",
-    "answers.json":  f"{_HF_BASE}/answers.json",
+    "queries.json": f"{_HF_BASE}/queries.json",
+    "qrels.json": f"{_HF_BASE}/qrels.json",
+    "answers.json": f"{_HF_BASE}/answers.json",
 }
 
-_DATA_DIR   = Path("data")
+_DATA_DIR = Path("data")
 _PAPERS_DIR = _DATA_DIR / "papers"
 
 
 # ---------------------------------------------------------------------------
 # Helpers
 # ---------------------------------------------------------------------------
+
 
 def _download_file(url: str, dest: Path, force: bool = False) -> bool:
     """Download `url` to `dest`. Returns True if downloaded, False if skipped."""
@@ -68,7 +67,7 @@ def _download_file(url: str, dest: Path, force: bool = False) -> bool:
     return True
 
 
-def _load_json(path: Path) -> dict | list:
+def _load_json(path: Path) -> Any:
     with open(path) as f:
         return json.load(f)
 
@@ -120,39 +119,49 @@ def _beir_to_evaluator_qrels(
 # Main
 # ---------------------------------------------------------------------------
 
+
 def _parse_args(argv: list[str] | None = None) -> argparse.Namespace:
     p = argparse.ArgumentParser(
         prog="download_dataset",
         description="Download Open RAG Benchmark metadata and arXiv PDFs.",
     )
-    p.add_argument("--limit", type=int, default=50,
-                   help="Number of PDFs to download (default: 50)")
-    p.add_argument("--no-pdfs", action="store_true",
-                   help="Download metadata only; skip PDF download")
-    p.add_argument("--delay", type=float, default=1.0,
-                   help="Seconds between PDF downloads — be polite to arXiv (default: 1.0)")
-    p.add_argument("--force", action="store_true",
-                   help="Re-download files even if they already exist")
-    p.add_argument("--data-dir", type=Path, default=_DATA_DIR,
-                   help="Root data directory (default: data/)")
+    p.add_argument("--limit", type=int, default=50, help="Number of PDFs to download (default: 50)")
+    p.add_argument(
+        "--no-pdfs", action="store_true", help="Download metadata only; skip PDF download"
+    )
+    p.add_argument(
+        "--delay",
+        type=float,
+        default=1.0,
+        help="Seconds between PDF downloads — be polite to arXiv (default: 1.0)",
+    )
+    p.add_argument(
+        "--force", action="store_true", help="Re-download files even if they already exist"
+    )
+    p.add_argument(
+        "--data-dir", type=Path, default=_DATA_DIR, help="Root data directory (default: data/)"
+    )
     return p.parse_args(argv)
 
 
 def main(argv: list[str] | None = None) -> int:
     args = _parse_args(argv)
 
-    data_dir   = args.data_dir
+    data_dir = args.data_dir
     papers_dir = data_dir / "papers"
     papers_dir.mkdir(parents=True, exist_ok=True)
 
-    console.print(Panel(
-        f"[bold cyan]Open RAG Benchmark — Download[/]\n\n"
-        f"  Metadata dest : [dim]{data_dir}[/]\n"
-        f"  PDFs dest     : [dim]{papers_dir}[/]\n"
-        f"  PDF limit     : [yellow]{args.limit}[/]\n"
-        f"  Delay         : [dim]{args.delay}s[/]",
-        title="[bold]P4 Dataset[/]", expand=False,
-    ))
+    console.print(
+        Panel(
+            f"[bold cyan]Open RAG Benchmark — Download[/]\n\n"
+            f"  Metadata dest : [dim]{data_dir}[/]\n"
+            f"  PDFs dest     : [dim]{papers_dir}[/]\n"
+            f"  PDF limit     : [yellow]{args.limit}[/]\n"
+            f"  Delay         : [dim]{args.delay}s[/]",
+            title="[bold]P4 Dataset[/]",
+            expand=False,
+        )
+    )
 
     # ------------------------------------------------------------------
     # Step 1: metadata files
@@ -222,14 +231,14 @@ def main(argv: list[str] | None = None) -> int:
     console.print("\n[bold]Step 3/3[/] — Building filtered qrels")
 
     queries_path = data_dir / "queries.json"
-    qrels_path   = data_dir / "qrels.json"
+    qrels_path = data_dir / "qrels.json"
 
     if not queries_path.exists() or not qrels_path.exists():
         console.print("[yellow]WARN:[/] queries.json or qrels.json missing — skipping qrels build")
         return 0
 
     paper_ids = {p.stem for p in downloaded_pdfs}
-    queries   = _load_json(queries_path)
+    queries = _load_json(queries_path)
     qrels_raw = _load_json(qrels_path)
 
     filtered = _beir_to_evaluator_qrels(queries, qrels_raw, paper_ids)
@@ -238,8 +247,7 @@ def main(argv: list[str] | None = None) -> int:
     out_path.write_text(json.dumps(filtered, indent=2))
 
     console.print(
-        f"  [green]✓[/] {len(filtered)} queries map to {len(paper_ids)} papers "
-        f"→ [dim]{out_path}[/]"
+        f"  [green]✓[/] {len(filtered)} queries map to {len(paper_ids)} papers → [dim]{out_path}[/]"
     )
 
     if not filtered:
@@ -249,12 +257,12 @@ def main(argv: list[str] | None = None) -> int:
         )
 
     console.print(
-        f"\n[bold green]Done.[/] Run the POC with:\n"
-        f"  python scripts/evaluate.py data/papers/ data/qrels_filtered.json "
-        f"--config config/experiments/baseline.yaml --limit 5\n"
-        f"\n  Full 50-paper run:\n"
-        f"  python scripts/evaluate.py data/papers/ data/qrels_filtered.json "
-        f"--config config/experiments/baseline.yaml"
+        "\n[bold green]Done.[/] Run the POC with:\n"
+        "  python scripts/evaluate.py data/papers/ data/qrels_filtered.json "
+        "--config config/experiments/baseline.yaml --limit 5\n"
+        "\n  Full 50-paper run:\n"
+        "  python scripts/evaluate.py data/papers/ data/qrels_filtered.json "
+        "--config config/experiments/baseline.yaml"
     )
     return 0
 

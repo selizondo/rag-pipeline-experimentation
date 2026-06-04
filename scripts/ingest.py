@@ -20,19 +20,20 @@ from rich.progress import BarColumn, Progress, SpinnerColumn, TextColumn, TimeEl
 # Allow running as `python scripts/ingest.py` from the project root.
 sys.path.insert(0, str(Path(__file__).resolve().parents[1]))
 
-from src.config import ChunkConfig, ChunkStrategy, EmbedConfig, EmbedModelName, RetrievalConfig
+from rag_common.chunkers import FixedSizeChunker, SentenceBasedChunker
+
 from src.chunkers_ext import RecursiveChunker, SlidingWindowChunker
+from src.config import ChunkConfig, ChunkStrategy, EmbedModelName
 from src.embedders import SentenceTransformersEmbedder
 from src.pipeline import RAGPipeline
-from rag_common.chunkers import FixedSizeChunker, SentenceBasedChunker
 
 console = Console()
 
 _CHUNKER_MAP = {
-    "fixed":          lambda cfg: FixedSizeChunker(cfg.chunk_size, cfg.overlap),
-    "recursive":      lambda cfg: RecursiveChunker(cfg.chunk_size, cfg.overlap),
+    "fixed": lambda cfg: FixedSizeChunker(cfg.chunk_size, cfg.overlap),
+    "recursive": lambda cfg: RecursiveChunker(cfg.chunk_size, cfg.overlap),
     "sliding_window": lambda cfg: SlidingWindowChunker(cfg.window_size, cfg.step),
-    "sentence":       lambda cfg: SentenceBasedChunker(cfg.sentences_per_chunk, cfg.overlap_sentences),
+    "sentence": lambda cfg: SentenceBasedChunker(cfg.sentences_per_chunk, cfg.overlap_sentences),
 }
 
 
@@ -42,19 +43,30 @@ def _parse_args(argv: list[str] | None = None) -> argparse.Namespace:
         description="Parse PDFs and build a FAISS retrieval index.",
     )
     p.add_argument("papers_dir", type=Path, help="Directory containing PDF files")
-    p.add_argument("-o", "--out-dir", type=Path, default=Path("data/indices/default"),
-                   help="Output directory for FAISS index (default: data/indices/default)")
-    p.add_argument("--chunk-strategy", default="recursive",
-                   choices=list(_CHUNKER_MAP), help="Chunking strategy")
-    p.add_argument("--chunk-size",  type=int, default=512)
-    p.add_argument("--overlap",     type=int, default=100)
+    p.add_argument(
+        "-o",
+        "--out-dir",
+        type=Path,
+        default=Path("data/indices/default"),
+        help="Output directory for FAISS index (default: data/indices/default)",
+    )
+    p.add_argument(
+        "--chunk-strategy",
+        default="recursive",
+        choices=list(_CHUNKER_MAP),
+        help="Chunking strategy",
+    )
+    p.add_argument("--chunk-size", type=int, default=512)
+    p.add_argument("--overlap", type=int, default=100)
     p.add_argument("--window-size", type=int, default=10)
-    p.add_argument("--step",        type=int, default=5)
-    p.add_argument("--embed-model", default="all-MiniLM-L6-v2",
-                   choices=[m.value for m in EmbedModelName])
-    p.add_argument("--batch-size",  type=int, default=64)
-    p.add_argument("--limit", type=int, default=None,
-                   help="Max number of PDFs to ingest (default: all)")
+    p.add_argument("--step", type=int, default=5)
+    p.add_argument(
+        "--embed-model", default="all-MiniLM-L6-v2", choices=[m.value for m in EmbedModelName]
+    )
+    p.add_argument("--batch-size", type=int, default=64)
+    p.add_argument(
+        "--limit", type=int, default=None, help="Max number of PDFs to ingest (default: all)"
+    )
     return p.parse_args(argv)
 
 
@@ -73,15 +85,18 @@ def main(argv: list[str] | None = None) -> int:
         console.print(f"[red]Error:[/] no PDF files found in {args.papers_dir}")
         return 1
 
-    console.print(Panel(
-        f"[bold cyan]RAG Pipeline — Ingestion[/]\n\n"
-        f"  PDFs           : [green]{len(pdf_paths)}[/]\n"
-        f"  Chunk strategy : [yellow]{args.chunk_strategy}[/] "
-        f"(size={args.chunk_size}, overlap={args.overlap})\n"
-        f"  Embed model    : [yellow]{args.embed_model}[/]\n"
-        f"  Output         : [dim]{args.out_dir}[/]",
-        title="[bold]P4[/]", expand=False,
-    ))
+    console.print(
+        Panel(
+            f"[bold cyan]RAG Pipeline — Ingestion[/]\n\n"
+            f"  PDFs           : [green]{len(pdf_paths)}[/]\n"
+            f"  Chunk strategy : [yellow]{args.chunk_strategy}[/] "
+            f"(size={args.chunk_size}, overlap={args.overlap})\n"
+            f"  Embed model    : [yellow]{args.embed_model}[/]\n"
+            f"  Output         : [dim]{args.out_dir}[/]",
+            title="[bold]P4[/]",
+            expand=False,
+        )
+    )
 
     chunk_cfg = ChunkConfig(
         strategy=ChunkStrategy(args.chunk_strategy),

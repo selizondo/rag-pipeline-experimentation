@@ -7,8 +7,8 @@ from unittest.mock import MagicMock, patch
 
 import numpy as np
 import pytest
-
 from rag_common.models import Chunk
+
 from src.pipeline import RAGPipeline
 
 DIM = 384
@@ -20,9 +20,9 @@ def _fake_embedder(dim: int = DIM) -> MagicMock:
     emb.model_name = "all-MiniLM-L6-v2"
     emb.dimension = dim
     emb.embed.side_effect = lambda texts: np.random.randn(len(texts), dim).astype(np.float32)
-    emb.embed_chunks.side_effect = lambda chunks, label: np.random.randn(
-        len(chunks), dim
-    ).astype(np.float32)
+    emb.embed_chunks.side_effect = lambda chunks, label: np.random.randn(len(chunks), dim).astype(
+        np.float32
+    )
     return emb
 
 
@@ -44,7 +44,7 @@ def _fake_chunker() -> MagicMock:
 class TestRAGPipelineIngest:
     def test_ingest_returns_chunks(self, tmp_path):
         pdf = tmp_path / "paper.pdf"
-        pdf.write_bytes(b"%PDF-1.4")   # minimal placeholder
+        pdf.write_bytes(b"%PDF-1.4")  # minimal placeholder
 
         with patch("src.pipeline._parse_pdf", return_value=(_DUMMY_TEXT, 3)):
             pipeline = RAGPipeline(

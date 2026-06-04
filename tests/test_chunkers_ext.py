@@ -7,7 +7,7 @@ import pytest
 from src.chunkers_ext import RecursiveChunker, SlidingWindowChunker
 
 _SHORT = "Hello world. This is a test."
-_LONG  = ("Alpha beta gamma delta epsilon. " * 30).strip()   # ~960 chars
+_LONG = ("Alpha beta gamma delta epsilon. " * 30).strip()  # ~960 chars
 
 
 class TestRecursiveChunker:

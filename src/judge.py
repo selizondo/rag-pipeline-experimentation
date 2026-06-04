@@ -3,6 +3,7 @@
 from __future__ import annotations
 
 from llm_utils.client import instructor_complete
+
 from src.models import JudgeScore, QAResponse
 
 
@@ -20,8 +21,7 @@ def judge_answer(
         JudgeScore with per-dimension scores and brief reasoning.
     """
     chunk_summary = "\n".join(
-        f"[{i+1}] {c.get('content', '')[:200]}"
-        for i, c in enumerate(qa.chunks_used[:5])
+        f"[{i + 1}] {c.get('content', '')[:200]}" for i, c in enumerate(qa.chunks_used[:5])
     )
 
     prompt = (

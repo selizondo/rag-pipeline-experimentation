@@ -9,7 +9,6 @@ Usage:
 from __future__ import annotations
 
 import argparse
-import json
 import pickle
 import subprocess
 import sys
@@ -18,27 +17,27 @@ from pathlib import Path
 sys.path.insert(0, str(Path(__file__).resolve().parents[1]))
 
 from dotenv import load_dotenv
+
 load_dotenv()
 
+from rag_common.chunkers import FixedSizeChunker
 from rich.console import Console
-from rich.panel import Panel
 from rich.table import Table
 
-from rag_common.chunkers import FixedSizeChunker
 from src.embedders import SentenceTransformersEmbedder
-from src.evaluator import load_result, load_qrels, filter_qrels_by_docs
+from src.evaluator import filter_qrels_by_docs, load_qrels, load_result
 from src.generator import generate_answer
-from src.judge import judge_batch
 from src.iteration_log import log_iteration
+from src.judge import judge_batch
 from src.models import ExperimentResult, JudgeScore
 from src.pipeline import RAGPipeline
 from src.visualizer import (
-    plot_metrics_heatmap,
-    plot_dimension_impact,
     plot_before_after,
-    plot_radar,
-    plot_latency,
+    plot_dimension_impact,
     plot_fusion_sweep,
+    plot_latency,
+    plot_metrics_heatmap,
+    plot_radar,
 )
 
 console = Console()
@@ -47,20 +46,34 @@ console = Console()
 def _parse_args(argv=None) -> argparse.Namespace:
     p = argparse.ArgumentParser(description="Run the full P4 pipeline end-to-end")
     p.add_argument("--result-dir", type=Path, default=Path("experiments/results"))
-    p.add_argument("--index-dir",  type=Path, default=Path("data/indices"))
-    p.add_argument("--qrels",      type=Path, default=Path("data/qrels_filtered.json"))
-    p.add_argument("--n-queries",  type=int,  default=10,
-                   help="Number of queries to run through generator+judge (default: 10)")
-    p.add_argument("--viz-dir",    type=Path, default=Path("visualizations"))
-    p.add_argument("--log",        type=Path, default=Path("experiments/iteration_log.jsonl"))
-    p.add_argument("--model",      type=str,  default="",
-                   help="Override LLM model (default: from LLM_MODEL env)")
-    p.add_argument("--top-k",      type=int,  default=3,
-                   help="Chunks per query for generation (default: 3)")
-    p.add_argument("--max-tokens", type=int,  default=600,
-                   help="Max tokens for each generated answer (default: 600)")
-    p.add_argument("--delay",      type=float, default=15.0,
-                   help="Seconds to sleep between generation calls (default: 15)")
+    p.add_argument("--index-dir", type=Path, default=Path("data/indices"))
+    p.add_argument("--qrels", type=Path, default=Path("data/qrels_filtered.json"))
+    p.add_argument(
+        "--n-queries",
+        type=int,
+        default=10,
+        help="Number of queries to run through generator+judge (default: 10)",
+    )
+    p.add_argument("--viz-dir", type=Path, default=Path("visualizations"))
+    p.add_argument("--log", type=Path, default=Path("experiments/iteration_log.jsonl"))
+    p.add_argument(
+        "--model", type=str, default="", help="Override LLM model (default: from LLM_MODEL env)"
+    )
+    p.add_argument(
+        "--top-k", type=int, default=3, help="Chunks per query for generation (default: 3)"
+    )
+    p.add_argument(
+        "--max-tokens",
+        type=int,
+        default=600,
+        help="Max tokens for each generated answer (default: 600)",
+    )
+    p.add_argument(
+        "--delay",
+        type=float,
+        default=15.0,
+        help="Seconds to sleep between generation calls (default: 15)",
+    )
     return p.parse_args(argv)
 
 
@@ -81,8 +94,8 @@ def _best_result(results: list[ExperimentResult]) -> ExperimentResult:
 def _load_pipeline(result: ExperimentResult, index_base_dir: Path) -> RAGPipeline:
     cfg = result.config
     embed_model = cfg.get("embed", {}).get("model", "all-MiniLM-L6-v2")
-    retrieval    = cfg.get("retrieval", {}).get("method", "dense")
-    alpha        = cfg.get("retrieval", {}).get("alpha", 0.6)
+    retrieval = cfg.get("retrieval", {}).get("method", "dense")
+    alpha = cfg.get("retrieval", {}).get("alpha", 0.6)
 
     embedder = SentenceTransformersEmbedder(
         model_name=embed_model,
@@ -104,7 +117,7 @@ def _fusion_sweep_data(results: list[ExperimentResult]) -> dict[float, float]:
     sweep: dict[float, float] = {}
     for r in results:
         method = r.config.get("retrieval", {}).get("method", "")
-        score  = r.metrics.get("ndcg@5", 0.0)
+        score = r.metrics.get("ndcg@5", 0.0)
         if method == "dense":
             sweep[1.0] = max(sweep.get(1.0, 0.0), score)
         elif method == "hybrid":
@@ -136,22 +149,30 @@ def main(argv=None) -> int:
     console.print("\n[bold cyan]Step 2 / 5 — Loading index for best config[/]")
     pipeline = _load_pipeline(best, args.index_dir)
     n_chunks = len(pipeline.chunks)
-    n_docs   = len(pipeline.documents)
+    n_docs = len(pipeline.documents)
     console.print(f"  Loaded {n_chunks:,} chunks from {n_docs} documents.")
 
     # Patch embed_fn with pre-computed cache to avoid sentence-transformers + FAISS conflict.
-    embed_label = best.config.get("embed", {}).get("model", "").lower().replace("all-", "").split("-v")[0]
-    cache_dir   = Path("data/query_cache")
-    cache_path  = cache_dir / f"{embed_label}.pkl"
+    embed_label = (
+        best.config.get("embed", {}).get("model", "").lower().replace("all-", "").split("-v")[0]
+    )
+    cache_dir = Path("data/query_cache")
+    cache_path = cache_dir / f"{embed_label}.pkl"
     precompute_script = Path(__file__).resolve().parent / "precompute_queries.py"
 
     if not cache_path.exists():
         console.print(f"  Pre-computing query embeddings for {embed_label}...")
-        rc = subprocess.run([
-            sys.executable, str(precompute_script), str(args.qrels),
-            "--model", best.config.get("embed", {}).get("model", "all-MiniLM-L6-v2"),
-            "--out-dir", str(cache_dir),
-        ]).returncode
+        rc = subprocess.run(
+            [
+                sys.executable,
+                str(precompute_script),
+                str(args.qrels),
+                "--model",
+                best.config.get("embed", {}).get("model", "all-MiniLM-L6-v2"),
+                "--out-dir",
+                str(cache_dir),
+            ]
+        ).returncode
         if rc != 0:
             console.print(f"[red]Precompute failed (exit {rc})[/]")
             return 1
@@ -160,6 +181,7 @@ def main(argv=None) -> int:
         query_cache = pickle.load(f)
 
     from src.experiment import patch_embed_fn
+
     patch_embed_fn(pipeline, query_cache)
     console.print(f"  Query embeddings loaded from cache ({len(query_cache)} queries).")
 
@@ -171,13 +193,16 @@ def main(argv=None) -> int:
     qrels_all = load_qrels(args.qrels)
     indexed_doc_ids = {doc.id for doc in pipeline.documents}
     qrels = filter_qrels_by_docs(qrels_all, indexed_doc_ids)
-    console.print(f"  Filtered qrels: {len(qrels)} queries with relevant docs in index "
-                  f"(from {len(qrels_all)} total)")
+    console.print(
+        f"  Filtered qrels: {len(qrels)} queries with relevant docs in index "
+        f"(from {len(qrels_all)} total)"
+    )
 
     queries = list(qrels.items())[: args.n_queries]
     console.print(f"  Running {len(queries)} queries through generator + judge…")
 
     from llm_utils.config import get_settings
+
     llm_model = args.model or get_settings().generation_model
 
     import time as _time
@@ -189,8 +214,9 @@ def main(argv=None) -> int:
         with console.status("  retrieving…"):
             retrieval_results = pipeline.query(query, top_k=args.top_k)
         with console.status("  generating…"):
-            qa = generate_answer(query, retrieval_results, model=llm_model,
-                                 max_tokens=args.max_tokens)
+            qa = generate_answer(
+                query, retrieval_results, model=llm_model, max_tokens=args.max_tokens
+            )
         qa_pairs.append(qa)
         if i < len(queries):
             _time.sleep(args.delay)
@@ -199,10 +225,10 @@ def main(argv=None) -> int:
     scores: list[JudgeScore] = judge_batch(qa_pairs, model=llm_model)
 
     avg_scores = {
-        "relevance":       round(sum(s.relevance        for s in scores) / len(scores), 4),
-        "accuracy":        round(sum(s.accuracy         for s in scores) / len(scores), 4),
-        "completeness":    round(sum(s.completeness     for s in scores) / len(scores), 4),
-        "citation_quality":round(sum(s.citation_quality for s in scores) / len(scores), 4),
+        "relevance": round(sum(s.relevance for s in scores) / len(scores), 4),
+        "accuracy": round(sum(s.accuracy for s in scores) / len(scores), 4),
+        "completeness": round(sum(s.completeness for s in scores) / len(scores), 4),
+        "citation_quality": round(sum(s.citation_quality for s in scores) / len(scores), 4),
     }
     avg_overall = round(sum(avg_scores.values()) / 4, 4)
     console.print(f"  Avg judge score: [green]{avg_overall:.2f}[/] / 5.0  {avg_scores}")
@@ -212,21 +238,31 @@ def main(argv=None) -> int:
     viz_dir = args.viz_dir
 
     worst = min(results, key=lambda r: r.metrics.get("mrr", 0.0))
-    before_metrics = {k: v for k, v in worst.metrics.items() if k in ("mrr", "ndcg@5", "recall@5", "precision@5")}
-    after_metrics  = {k: v for k, v in best.metrics.items()  if k in ("mrr", "ndcg@5", "recall@5", "precision@5")}
+    _keys = ("mrr", "ndcg@5", "recall@5", "precision@5")
+    before_metrics = {k: v for k, v in worst.metrics.items() if k in _keys}
+    after_metrics = {k: v for k, v in best.metrics.items() if k in _keys}
 
     fusion_data = _fusion_sweep_data(results)
 
     charts = [
-        ("metrics_heatmap.png",       lambda: plot_metrics_heatmap(results, out_dir=viz_dir)),
-        ("dimension_impact.png",      lambda: plot_dimension_impact(results, out_dir=viz_dir)),
-        ("before_after.png",          lambda: plot_before_after(before_metrics, after_metrics,
-                                                                label_before=worst.experiment_id[:20],
-                                                                label_after=best.experiment_id[:20],
-                                                                out_dir=viz_dir)),
-        ("radar_generation.png",      lambda: plot_radar(scores, config_label=best.experiment_id[:30], out_dir=viz_dir)),
-        ("latency_distribution.png",  lambda: plot_latency(results, out_dir=viz_dir)),
-        ("fusion_sweep.png",          lambda: plot_fusion_sweep(fusion_data, out_dir=viz_dir)),
+        ("metrics_heatmap.png", lambda: plot_metrics_heatmap(results, out_dir=viz_dir)),
+        ("dimension_impact.png", lambda: plot_dimension_impact(results, out_dir=viz_dir)),
+        (
+            "before_after.png",
+            lambda: plot_before_after(
+                before_metrics,
+                after_metrics,
+                label_before=worst.experiment_id[:20],
+                label_after=best.experiment_id[:20],
+                out_dir=viz_dir,
+            ),
+        ),
+        (
+            "radar_generation.png",
+            lambda: plot_radar(scores, config_label=best.experiment_id[:30], out_dir=viz_dir),
+        ),
+        ("latency_distribution.png", lambda: plot_latency(results, out_dir=viz_dir)),
+        ("fusion_sweep.png", lambda: plot_fusion_sweep(fusion_data, out_dir=viz_dir)),
     ]
 
     for name, fn in charts:
@@ -252,13 +288,13 @@ def main(argv=None) -> int:
     table = Table(title="Pipeline Run Summary", show_lines=False)
     table.add_column("Step", style="cyan")
     table.add_column("Result")
-    table.add_row("Experiments loaded",  str(len(results)))
-    table.add_row("Best config",          best.experiment_id)
-    table.add_row("Best MRR",            f"{best.metrics.get('mrr', 0):.4f}")
-    table.add_row("Queries generated",   str(len(qa_pairs)))
-    table.add_row("Avg judge score",     f"{avg_overall:.2f} / 5.0")
-    table.add_row("Charts saved",        str(len(charts)))
-    table.add_row("Iteration log",       str(args.log))
+    table.add_row("Experiments loaded", str(len(results)))
+    table.add_row("Best config", best.experiment_id)
+    table.add_row("Best MRR", f"{best.metrics.get('mrr', 0):.4f}")
+    table.add_row("Queries generated", str(len(qa_pairs)))
+    table.add_row("Avg judge score", f"{avg_overall:.2f} / 5.0")
+    table.add_row("Charts saved", str(len(charts)))
+    table.add_row("Iteration log", str(args.log))
     console.print()
     console.print(table)
 

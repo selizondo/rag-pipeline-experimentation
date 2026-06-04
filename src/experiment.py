@@ -16,24 +16,27 @@ from __future__ import annotations
 
 import gc
 from pathlib import Path
+from typing import Any
 
 from rag_common.chunkers import FixedSizeChunker, SentenceBasedChunker
 
 from src.base import BaseChunker
 from src.chunkers_ext import RecursiveChunker, SlidingWindowChunker
 from src.config import (
-    ChunkConfig, ChunkStrategy, EmbedConfig, ExperimentConfig,
-    RetrievalMethod,
+    ChunkConfig,
+    ChunkStrategy,
+    EmbedConfig,
+    ExperimentConfig,
 )
 from src.embedders import SentenceTransformersEmbedder
 from src.evaluator import evaluate, load_result, save_result
 from src.models import ExperimentResult
 from src.pipeline import RAGPipeline
 
-
 # ---------------------------------------------------------------------------
 # Component factories
 # ---------------------------------------------------------------------------
+
 
 def build_chunker(config: ChunkConfig) -> BaseChunker:
     if config.strategy == ChunkStrategy.FIXED:
@@ -70,7 +73,7 @@ def patch_embed_fn(pipeline: RAGPipeline, query_cache: dict) -> None:
             raise KeyError(f"Query not in cache: {missing[0]!r}")
         return np.array([query_cache[t] for t in texts], dtype=np.float32)
 
-    retriever = pipeline._retriever
+    retriever: Any = pipeline._retriever
     # DenseRetriever: patch directly
     if hasattr(retriever, "_embed_fn"):
         retriever._embed_fn = cached_embed
@@ -91,6 +94,7 @@ def build_pipeline(config: ExperimentConfig) -> RAGPipeline:
 # ---------------------------------------------------------------------------
 # Single-cell runner
 # ---------------------------------------------------------------------------
+
 
 def run_experiment(
     config: ExperimentConfig,
@@ -158,6 +162,7 @@ def run_experiment(
 # ---------------------------------------------------------------------------
 # Full grid runner
 # ---------------------------------------------------------------------------
+
 
 def run_grid(
     configs: list[ExperimentConfig],

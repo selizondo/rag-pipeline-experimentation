@@ -2,8 +2,11 @@
 
 from __future__ import annotations
 
-from src.base import BaseReranker
+from typing import Any
+
 from rag_common.models import RetrievalResult
+
+from src.base import BaseReranker
 
 
 class CrossEncoderReranker(BaseReranker):
@@ -25,11 +28,12 @@ class CrossEncoderReranker(BaseReranker):
         model_name: str = "cross-encoder/ms-marco-MiniLM-L-6-v2",
     ) -> None:
         self._model_name = model_name
-        self._model = None  # lazy-loaded on first rerank call
+        self._model: Any = None  # lazy-loaded on first rerank call
 
     def _load(self) -> None:
         if self._model is None:
             from sentence_transformers import CrossEncoder
+
             self._model = CrossEncoder(self._model_name)
 
     def rerank(

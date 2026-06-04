@@ -14,9 +14,10 @@ from pydantic import BaseModel, Field
 
 class Document(BaseModel):
     """Source PDF metadata; created during ingestion, stored alongside the index."""
-    id: str                              # paper_id from dataset (arXiv ID)
+
+    id: str  # paper_id from dataset (arXiv ID)
     title: str = ""
-    source: str                          # filename (e.g. "2310.12345.pdf")
+    source: str  # filename (e.g. "2310.12345.pdf")
     page_count: int = 0
     char_count: int = 0
     metadata: dict = Field(default_factory=dict)
@@ -24,9 +25,9 @@ class Document(BaseModel):
 
 class Citation(BaseModel):
     chunk_id: str
-    source: str                          # filename
+    source: str  # filename
     page_number: int | None = None
-    text_snippet: str                    # first 200 chars of the chunk
+    text_snippet: str  # first 200 chars of the chunk
     relevance_score: float | None = None
 
 
@@ -42,11 +43,12 @@ class QAResponse(BaseModel):
 
 class JudgeScore(BaseModel):
     """LLM-as-Judge scores on a 1–5 scale for one generated answer."""
-    relevance: float        # Does the answer address the question?
-    accuracy: float         # Is the information factually correct?
-    completeness: float     # Is the answer sufficiently thorough?
-    citation_quality: float # Are sources properly attributed?
-    reasoning: str = ""     # Judge's brief rationale
+
+    relevance: float  # Does the answer address the question?
+    accuracy: float  # Is the information factually correct?
+    completeness: float  # Is the answer sufficiently thorough?
+    citation_quality: float  # Are sources properly attributed?
+    reasoning: str = ""  # Judge's brief rationale
 
     @property
     def average(self) -> float:
@@ -55,6 +57,7 @@ class JudgeScore(BaseModel):
 
 class QueryResult(BaseModel):
     """Per-query detail stored inside ExperimentResult."""
+
     query_id: str
     query: str
     retrieved_ids: list[str]
@@ -65,11 +68,12 @@ class QueryResult(BaseModel):
 
 class ExperimentResult(BaseModel):
     """One completed experiment cell — written to experiments/results/{id}.json."""
+
     experiment_id: str
-    config: dict                          # serialised ExperimentConfig
-    metrics: dict[str, float]             # recall@5, precision@5, mrr, ndcg@5
+    config: dict  # serialised ExperimentConfig
+    metrics: dict[str, float]  # recall@5, precision@5, mrr, ndcg@5
     generation_metrics: dict[str, float] = Field(default_factory=dict)  # avg judge dims
-    llm_model: str = ""                   # model used for answer generation + judging
+    llm_model: str = ""  # model used for answer generation + judging
     query_results: list[QueryResult] = Field(default_factory=list)
     avg_latency_s: float = 0.0
     n_queries: int = 0

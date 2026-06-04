@@ -14,7 +14,6 @@ Prints a ranked summary table when complete.
 from __future__ import annotations
 
 import argparse
-import json
 import pickle
 import subprocess
 import sys
@@ -28,7 +27,7 @@ from rich.table import Table
 sys.path.insert(0, str(Path(__file__).resolve().parents[1]))
 
 from src.config import build_experiment_grid, build_grid_from_yaml
-from src.evaluator import best_config, filter_qrels_by_docs, load_qrels
+from src.evaluator import filter_qrels_by_docs, load_qrels
 from src.experiment import run_grid
 from src.models import ExperimentResult
 
@@ -41,23 +40,43 @@ def _parse_args(argv: list[str] | None = None) -> argparse.Namespace:
         description="Run evaluation grid over a PDF corpus with qrels ground truth.",
     )
     p.add_argument("papers_dir", type=Path, help="Directory containing PDF files")
-    p.add_argument("qrels",      type=Path, help="qrels.json file")
-    p.add_argument("--config", "-c", type=Path, default=None,
-                   help="YAML experiment config (default: built-in grid)")
-    p.add_argument("-o", "--out-dir", type=Path, default=Path("experiments/results"),
-                   help="Output directory for result JSONs (default: experiments/results)")
-    p.add_argument("--index-dir", type=Path, default=Path("data/indices"),
-                   help="Root directory for FAISS indices (default: data/indices)")
-    p.add_argument("--limit", type=int, default=None,
-                   help="Max PDFs to ingest (default: all)")
-    p.add_argument("--force", action="store_true",
-                   help="Re-run cells that already have a result file")
-    p.add_argument("--top-k", type=int, default=3,
-                   help="Number of top configs to show in summary (default: 3)")
-    p.add_argument("--query-cache-dir", type=Path, default=Path("data/query_cache"),
-                   help="Directory for pre-computed query embeddings (default: data/query_cache)")
-    p.add_argument("--batch-size", type=int, default=16,
-                   help="Batch size for query precompute (default: 16)")
+    p.add_argument("qrels", type=Path, help="qrels.json file")
+    p.add_argument(
+        "--config",
+        "-c",
+        type=Path,
+        default=None,
+        help="YAML experiment config (default: built-in grid)",
+    )
+    p.add_argument(
+        "-o",
+        "--out-dir",
+        type=Path,
+        default=Path("experiments/results"),
+        help="Output directory for result JSONs (default: experiments/results)",
+    )
+    p.add_argument(
+        "--index-dir",
+        type=Path,
+        default=Path("data/indices"),
+        help="Root directory for FAISS indices (default: data/indices)",
+    )
+    p.add_argument("--limit", type=int, default=None, help="Max PDFs to ingest (default: all)")
+    p.add_argument(
+        "--force", action="store_true", help="Re-run cells that already have a result file"
+    )
+    p.add_argument(
+        "--top-k", type=int, default=3, help="Number of top configs to show in summary (default: 3)"
+    )
+    p.add_argument(
+        "--query-cache-dir",
+        type=Path,
+        default=Path("data/query_cache"),
+        help="Directory for pre-computed query embeddings (default: data/query_cache)",
+    )
+    p.add_argument(
+        "--batch-size", type=int, default=16, help="Batch size for query precompute (default: 16)"
+    )
     return p.parse_args(argv)
 
 
@@ -66,11 +85,11 @@ def _print_summary(results: list[ExperimentResult], top_k: int = 3) -> None:
     table = Table(title="Evaluation Results (ranked by MRR)", show_lines=False)
     table.add_column("Rank", style="dim", width=5)
     table.add_column("Experiment ID", style="cyan")
-    table.add_column("MRR",      justify="right")
-    table.add_column("MAP",      justify="right")
-    table.add_column("R@5",      justify="right")
-    table.add_column("NDCG@5",   justify="right")
-    table.add_column("Latency",  justify="right", style="dim")
+    table.add_column("MRR", justify="right")
+    table.add_column("MAP", justify="right")
+    table.add_column("R@5", justify="right")
+    table.add_column("NDCG@5", justify="right")
+    table.add_column("Latency", justify="right", style="dim")
 
     ranked = sorted(results, key=lambda r: r.metrics.get("mrr", 0.0), reverse=True)
     for i, r in enumerate(ranked[:top_k]):
@@ -82,7 +101,7 @@ def _print_summary(results: list[ExperimentResult], top_k: int = 3) -> None:
             f"{m.get('map', 0):.4f}",
             f"{m.get('recall@5', 0):.4f}",
             f"{m.get('ndcg@5', 0):.4f}",
-            f"{r.avg_latency_s*1000:.1f}ms",
+            f"{r.avg_latency_s * 1000:.1f}ms",
         )
 
     console.print(table)
@@ -135,13 +154,20 @@ def main(argv: list[str] | None = None) -> int:
             console.print(f"  [dim]cache exists:[/] {cache_path.name}")
             continue
         console.print(f"  [cyan]embedding:[/] {model_name} → {cache_path.name}")
-        proc = subprocess.Popen([
-            sys.executable, str(precompute_script), str(args.qrels),
-            "--model", model_name,
-            "--out-dir", str(args.query_cache_dir),
-            "--batch-size", str(args.batch_size),
-            *(["--force"] if args.force else []),
-        ])
+        proc = subprocess.Popen(
+            [
+                sys.executable,
+                str(precompute_script),
+                str(args.qrels),
+                "--model",
+                model_name,
+                "--out-dir",
+                str(args.query_cache_dir),
+                "--batch-size",
+                str(args.batch_size),
+                *(["--force"] if args.force else []),
+            ]
+        )
         procs[label] = proc
 
     for label, proc in procs.items():
@@ -163,14 +189,17 @@ def main(argv: list[str] | None = None) -> int:
     filtered_note = (
         f" [dim](filtered from {len(qrels_all)})[/]" if len(qrels) < len(qrels_all) else ""
     )
-    console.print(Panel(
-        f"[bold cyan]RAG Pipeline — Evaluation Grid[/]\n\n"
-        f"  PDFs        : [green]{len(pdf_paths)}[/]\n"
-        f"  Queries     : [green]{len(qrels)}[/] in qrels{filtered_note}\n"
-        f"  Grid cells  : [yellow]{len(configs)}[/]\n"
-        f"  Results dir : [dim]{args.out_dir}[/]",
-        title="[bold]P4[/]", expand=False,
-    ))
+    console.print(
+        Panel(
+            f"[bold cyan]RAG Pipeline — Evaluation Grid[/]\n\n"
+            f"  PDFs        : [green]{len(pdf_paths)}[/]\n"
+            f"  Queries     : [green]{len(qrels)}[/] in qrels{filtered_note}\n"
+            f"  Grid cells  : [yellow]{len(configs)}[/]\n"
+            f"  Results dir : [dim]{args.out_dir}[/]",
+            title="[bold]P4[/]",
+            expand=False,
+        )
+    )
 
     completed: list[ExperimentResult] = []
 
@@ -200,9 +229,7 @@ def main(argv: list[str] | None = None) -> int:
         progress.update(task, completed=len(configs))
 
     _print_summary(completed, top_k=args.top_k)
-    console.print(
-        f"\n[green]✓[/] {len(completed)} results written to [dim]{args.out_dir}[/]"
-    )
+    console.print(f"\n[green]✓[/] {len(completed)} results written to [dim]{args.out_dir}[/]")
     return 0
 
 

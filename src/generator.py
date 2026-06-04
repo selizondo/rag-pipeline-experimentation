@@ -6,8 +6,8 @@ import re
 import time
 
 from dotenv import load_dotenv
-
 from rag_common.models import Chunk, RetrievalResult
+
 from src.models import Citation, QAResponse
 
 load_dotenv()
@@ -37,12 +37,14 @@ def _extract_citations(answer: str, chunks: list[Chunk]) -> list[Citation]:
         if 0 <= idx < len(chunks) and idx not in seen:
             seen.add(idx)
             chunk = chunks[idx]
-            citations.append(Citation(
-                chunk_id=chunk.id_str(),
-                source=chunk.source or chunk.document_id or "unknown",
-                page_number=chunk.page_number,
-                text_snippet=chunk.content[:200],
-            ))
+            citations.append(
+                Citation(
+                    chunk_id=chunk.id_str(),
+                    source=chunk.source or chunk.document_id or "unknown",
+                    page_number=chunk.page_number,
+                    text_snippet=chunk.content[:200],
+                )
+            )
     return citations
 
 
