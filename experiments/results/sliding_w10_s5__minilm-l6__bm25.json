@@ -1,8 +1,8 @@
 {
-  "experiment_id": "recursive_512_ol100__minilm-l6__hybrid_a0.6",
+  "experiment_id": "sliding_w10_s5__minilm-l6__bm25",
   "config": {
     "chunk": {
-      "strategy": "recursive",
+      "strategy": "sliding_window",
       "chunk_size": 512,
       "overlap": 100,
       "sentences_per_chunk": 5,
@@ -18,28 +18,28 @@
       "cache_dir": "data/embed_cache"
     },
     "retrieval": {
-      "method": "hybrid",
+      "method": "bm25",
       "top_k": 5,
       "alpha": 0.6
     },
     "n_queries": 50
   },
   "metrics": {
-    "mrr": 0.93,
-    "map": 0.93,
-    "recall@1": 0.92,
+    "mrr": 0.920667,
+    "map": 0.920667,
+    "recall@1": 0.88,
     "recall@3": 0.94,
-    "recall@5": 0.94,
-    "recall@10": 0.94,
-    "precision@1": 0.92,
+    "recall@5": 1.0,
+    "recall@10": 1.0,
+    "precision@1": 0.88,
     "precision@3": 0.313333,
-    "precision@5": 0.188,
-    "precision@10": 0.094,
-    "ndcg@1": 0.92,
-    "ndcg@3": 0.932619,
-    "ndcg@5": 0.932619,
-    "ndcg@10": 0.932619,
-    "avg_retrieval_time_s": 0.088797
+    "precision@5": 0.2,
+    "precision@10": 0.1,
+    "ndcg@1": 0.88,
+    "ndcg@3": 0.915237,
+    "ndcg@5": 0.940201,
+    "ndcg@10": 0.940201,
+    "avg_retrieval_time_s": 0.072412
   },
   "generation_metrics": {},
   "llm_model": "",
@@ -53,7 +53,7 @@
       "relevant_ids": [
         "2408.02322v2"
       ],
-      "retrieval_time_s": 0.1083,
+      "retrieval_time_s": 0.0854,
       "judge_score": null
     },
     {
@@ -65,7 +65,7 @@
       "relevant_ids": [
         "2407.04378v2"
       ],
-      "retrieval_time_s": 0.0781,
+      "retrieval_time_s": 0.0632,
       "judge_score": null
     },
     {
@@ -77,7 +77,7 @@
       "relevant_ids": [
         "2406.18046v2"
       ],
-      "retrieval_time_s": 0.0916,
+      "retrieval_time_s": 0.0725,
       "judge_score": null
     },
     {
@@ -85,25 +85,30 @@
       "query": "Is the derivative of anticipatory utility with respect to $\\tilde{\\alpha}$ positive if $f_1(s) - f_0(s) > 0$?",
       "retrieved_ids": [
         "2410.20982v2",
+        "2411.18627v2",
+        "2404.18884v2",
         "2412.00886v2",
-        "2411.00713v1"
+        "2408.09648v4",
+        "2411.02558v1"
       ],
       "relevant_ids": [
         "2410.20982v2"
       ],
-      "retrieval_time_s": 0.1217,
+      "retrieval_time_s": 0.0973,
       "judge_score": null
     },
     {
       "query_id": "bfa6349d-dcb4-448c-9327-f30a686b8bae",
       "query": "Can macroscopic quantities like prices and entropy be measured even if microfoundations are unknown or complex?",
       "retrieved_ids": [
-        "2412.00886v2"
+        "2412.00886v2",
+        "2412.20245v4",
+        "2412.16067v1"
       ],
       "relevant_ids": [
         "2412.00886v2"
       ],
-      "retrieval_time_s": 0.1853,
+      "retrieval_time_s": 0.0892,
       "judge_score": null
     },
     {
@@ -111,15 +116,14 @@
       "query": "What type of functions does the target function space include?",
       "retrieved_ids": [
         "2407.11894v2",
-        "2405.06851v2",
-        "2410.00908v2",
-        "2408.14872v2",
-        "2407.01528v3"
+        "2411.01864v1",
+        "2412.17780v3",
+        "2405.05881v2"
       ],
       "relevant_ids": [
         "2407.11894v2"
       ],
-      "retrieval_time_s": 0.0749,
+      "retrieval_time_s": 0.0601,
       "judge_score": null
     },
     {
@@ -131,7 +135,7 @@
       "relevant_ids": [
         "2501.00225v2"
       ],
-      "retrieval_time_s": 0.0572,
+      "retrieval_time_s": 0.0457,
       "judge_score": null
     },
     {
@@ -139,12 +143,12 @@
       "query": "What role does the Runge-Kutta Method play in solving ODEs for CFD applications?",
       "retrieved_ids": [
         "2411.16245v2",
-        "2410.08709v3"
+        "2412.05430v1"
       ],
       "relevant_ids": [
         "2411.16245v2"
       ],
-      "retrieval_time_s": 0.093,
+      "retrieval_time_s": 0.0766,
       "judge_score": null
     },
     {
@@ -156,7 +160,7 @@
       "relevant_ids": [
         "2411.16245v2"
       ],
-      "retrieval_time_s": 0.0867,
+      "retrieval_time_s": 0.0613,
       "judge_score": null
     },
     {
@@ -168,33 +172,32 @@
       "relevant_ids": [
         "2409.16507v2"
       ],
-      "retrieval_time_s": 0.118,
+      "retrieval_time_s": 0.0823,
       "judge_score": null
     },
     {
       "query_id": "fbb22c88-8004-4036-a031-71fb80af0566",
       "query": "Does the complex volume of a manifold include both hyperbolic volume and Chern-Simons invariant?",
       "retrieved_ids": [
-        "2501.00225v2",
-        "2412.11037v2",
-        "2410.11034v2"
+        "2501.00225v2"
       ],
       "relevant_ids": [
         "2501.00225v2"
       ],
-      "retrieval_time_s": 0.0946,
+      "retrieval_time_s": 0.1069,
       "judge_score": null
     },
     {
       "query_id": "f1b6ff5e-1209-4fb7-9562-bb7a7a7b5557",
       "query": "How does adding a maximum-power constraint affect cycling strategies for minimizing ascent time?",
       "retrieved_ids": [
-        "2403.03363v6"
+        "2403.03363v6",
+        "2409.19777v2"
       ],
       "relevant_ids": [
         "2403.03363v6"
       ],
-      "retrieval_time_s": 0.0851,
+      "retrieval_time_s": 0.0697,
       "judge_score": null
     },
     {
@@ -207,7 +210,7 @@
       "relevant_ids": [
         "2408.14872v2"
       ],
-      "retrieval_time_s": 0.0807,
+      "retrieval_time_s": 0.0657,
       "judge_score": null
     },
     {
@@ -219,7 +222,7 @@
       "relevant_ids": [
         "2407.02634v3"
       ],
-      "retrieval_time_s": 0.098,
+      "retrieval_time_s": 0.0877,
       "judge_score": null
     },
     {
@@ -231,19 +234,20 @@
       "relevant_ids": [
         "2410.20982v2"
       ],
-      "retrieval_time_s": 0.0832,
+      "retrieval_time_s": 0.0645,
       "judge_score": null
     },
     {
       "query_id": "f1cc1181-0d07-4d90-9118-f4dc5519e9d7",
       "query": "What happens to expectations of trace-invariants over their connected components at sub-dominant orders?",
       "retrieved_ids": [
-        "2410.00908v2"
+        "2410.00908v2",
+        "2412.00886v2"
       ],
       "relevant_ids": [
         "2410.00908v2"
       ],
-      "retrieval_time_s": 0.088,
+      "retrieval_time_s": 0.0724,
       "judge_score": null
     },
     {
@@ -255,19 +259,21 @@
       "relevant_ids": [
         "2501.00225v2"
       ],
-      "retrieval_time_s": 0.0753,
+      "retrieval_time_s": 0.06,
       "judge_score": null
     },
     {
       "query_id": "030759dd-8872-49f0-869c-be7c5a9cebb9",
       "query": "What is Task Level Pipelining (TLP) used for in FPGA acceleration?",
       "retrieved_ids": [
-        "2411.16245v2"
+        "2411.16245v2",
+        "2406.01756v2",
+        "2402.16901v2"
       ],
       "relevant_ids": [
         "2411.16245v2"
       ],
-      "retrieval_time_s": 0.0801,
+      "retrieval_time_s": 0.0635,
       "judge_score": null
     },
     {
@@ -275,12 +281,14 @@
       "query": "Which molecule has a higher reward score, aripiprazole or celecoxib?",
       "retrieved_ids": [
         "2405.01155v3",
-        "2406.10612v1"
+        "2412.17780v3",
+        "2406.18345v3",
+        "2410.19011v2"
       ],
       "relevant_ids": [
         "2405.01155v3"
       ],
-      "retrieval_time_s": 0.073,
+      "retrieval_time_s": 0.0566,
       "judge_score": null
     },
     {
@@ -292,19 +300,20 @@
       "relevant_ids": [
         "2412.08070v2"
       ],
-      "retrieval_time_s": 0.0682,
+      "retrieval_time_s": 0.053,
       "judge_score": null
     },
     {
       "query_id": "e5e01958-6011-4690-a7c2-6ca516c51973",
       "query": "Why is Stokes' theorem important in analyzing time-dependent vector potentials?",
       "retrieved_ids": [
-        "2406.18046v2"
+        "2406.18046v2",
+        "2402.16901v2"
       ],
       "relevant_ids": [
         "2406.18046v2"
       ],
-      "retrieval_time_s": 0.0832,
+      "retrieval_time_s": 0.0576,
       "judge_score": null
     },
     {
@@ -316,7 +325,7 @@
       "relevant_ids": [
         "2410.23473v2"
       ],
-      "retrieval_time_s": 0.1738,
+      "retrieval_time_s": 0.1216,
       "judge_score": null
     },
     {
@@ -328,32 +337,37 @@
       "relevant_ids": [
         "2407.03285v2"
       ],
-      "retrieval_time_s": 0.0797,
+      "retrieval_time_s": 0.0657,
       "judge_score": null
     },
     {
       "query_id": "b642aff4-0d33-4ea3-a20f-139c038434e1",
       "query": "What is the role of a CPU in managing FPGA-based accelerators for simulations?",
       "retrieved_ids": [
-        "2411.16245v2"
+        "2411.16245v2",
+        "2412.16067v1",
+        "2406.09018v2",
+        "2411.02807v4",
+        "2412.14784v3"
       ],
       "relevant_ids": [
         "2411.16245v2"
       ],
-      "retrieval_time_s": 0.0948,
+      "retrieval_time_s": 0.0809,
       "judge_score": null
     },
     {
       "query_id": "6d4655d6-b529-4d48-8383-4f56befe48ec",
       "query": "What role do qubit states play in understanding coordination capacities?",
       "retrieved_ids": [
+        "2412.05430v1",
         "2412.17119v3",
-        "2412.04997v2"
+        "2403.15076v1"
       ],
       "relevant_ids": [
         "2412.17119v3"
       ],
-      "retrieval_time_s": 0.0684,
+      "retrieval_time_s": 0.0728,
       "judge_score": null
     },
     {
@@ -361,12 +375,13 @@
       "query": "Does the selection of different spectral diffusion regularization factors show significant differences in correlation or linear regression to truth?",
       "retrieved_ids": [
         "2408.06427v2",
-        "2410.08709v3"
+        "2410.08709v3",
+        "2407.11894v2"
       ],
       "relevant_ids": [
         "2408.06427v2"
       ],
-      "retrieval_time_s": 0.1344,
+      "retrieval_time_s": 0.1055,
       "judge_score": null
     },
     {
@@ -374,36 +389,42 @@
       "query": "Can diffusion models be used to generate more samples from a distribution?",
       "retrieved_ids": [
         "2402.05967v7",
-        "2410.08709v3"
+        "2410.08709v3",
+        "2412.17780v3",
+        "2408.06427v2",
+        "2404.18869v2"
       ],
       "relevant_ids": [
         "2404.18869v2"
       ],
-      "retrieval_time_s": 0.0815,
+      "retrieval_time_s": 0.0684,
       "judge_score": null
     },
     {
       "query_id": "145ec909-c459-4eaa-9260-83c0b29fea8c",
       "query": "Why is it important to design specific resonators for studying FQH states?",
       "retrieved_ids": [
-        "2405.12292v3"
+        "2405.12292v3",
+        "2405.05881v2",
+        "2412.00886v2"
       ],
       "relevant_ids": [
         "2405.12292v3"
       ],
-      "retrieval_time_s": 0.0831,
+      "retrieval_time_s": 0.0689,
       "judge_score": null
     },
     {
       "query_id": "e5ad17d5-b9ad-4b0d-a0d4-78c883cae63a",
       "query": "What is the finite $N$ multiplicative extension of classical cumulants?",
       "retrieved_ids": [
-        "2410.00908v2"
+        "2410.00908v2",
+        "2412.17119v3"
       ],
       "relevant_ids": [
         "2410.00908v2"
       ],
-      "retrieval_time_s": 0.0751,
+      "retrieval_time_s": 0.0545,
       "judge_score": null
     },
     {
@@ -415,7 +436,7 @@
       "relevant_ids": [
         "2412.20245v4"
       ],
-      "retrieval_time_s": 0.1216,
+      "retrieval_time_s": 0.0943,
       "judge_score": null
     },
     {
@@ -427,7 +448,7 @@
       "relevant_ids": [
         "2409.16507v2"
       ],
-      "retrieval_time_s": 0.0972,
+      "retrieval_time_s": 0.0776,
       "judge_score": null
     },
     {
@@ -439,33 +460,38 @@
       "relevant_ids": [
         "2411.18627v2"
       ],
-      "retrieval_time_s": 0.0916,
+      "retrieval_time_s": 0.0703,
       "judge_score": null
     },
     {
       "query_id": "8a69949b-a9b1-4b8a-87a1-7dd9ffb310d7",
       "query": "Why is path independence important in quantum mechanics?",
       "retrieved_ids": [
-        "2412.17119v3",
+        "2410.00908v2",
         "2410.11034v2",
-        "2408.08383v2"
+        "2406.18046v2",
+        "2403.18177v2",
+        "2412.04997v2"
       ],
       "relevant_ids": [
         "2406.18046v2"
       ],
-      "retrieval_time_s": 0.0611,
+      "retrieval_time_s": 0.0455,
       "judge_score": null
     },
     {
       "query_id": "272510c1-686b-45e6-be4c-f02917636729",
       "query": "What role does FP8 precision play in optimizing model training for NVILA?",
       "retrieved_ids": [
-        "2412.04468v2"
+        "2412.04468v2",
+        "2411.16245v2",
+        "2411.02558v1",
+        "2411.14471v1"
       ],
       "relevant_ids": [
         "2412.04468v2"
       ],
-      "retrieval_time_s": 0.0816,
+      "retrieval_time_s": 0.0691,
       "judge_score": null
     },
     {
@@ -477,21 +503,24 @@
       "relevant_ids": [
         "2410.00908v2"
       ],
-      "retrieval_time_s": 0.0371,
+      "retrieval_time_s": 0.0283,
       "judge_score": null
     },
     {
       "query_id": "a3ef06c8-38ea-4435-9127-3b633459c084",
       "query": "What are the benefits of using different learning rates for Vision Transformers (ViT) and language models (LLMs) in fine-tuning?",
       "retrieved_ids": [
+        "2411.02558v1",
+        "2411.18627v2",
+        "2412.05430v1",
         "2412.04468v2",
-        "2405.18213v3",
-        "2412.18222v1"
+        "2402.05967v7",
+        "2410.20081v3"
       ],
       "relevant_ids": [
         "2412.04468v2"
       ],
-      "retrieval_time_s": 0.132,
+      "retrieval_time_s": 0.1089,
       "judge_score": null
     },
     {
@@ -503,19 +532,22 @@
       "relevant_ids": [
         "2412.17119v3"
       ],
-      "retrieval_time_s": 0.091,
+      "retrieval_time_s": 0.0736,
       "judge_score": null
     },
     {
       "query_id": "8604bf47-38a6-4ba0-b111-31ea57234049",
       "query": "How do different methods of imputing income affect the analysis of happiness?",
       "retrieved_ids": [
-        "2408.14872v2"
+        "2408.14872v2",
+        "2411.02807v4",
+        "2403.18177v2",
+        "2408.07379v2"
       ],
       "relevant_ids": [
         "2408.14872v2"
       ],
-      "retrieval_time_s": 0.0867,
+      "retrieval_time_s": 0.072,
       "judge_score": null
     },
     {
@@ -523,12 +555,15 @@
       "query": "How does the density of states vary in spintronic transistors?",
       "retrieved_ids": [
         "2411.07216v2",
-        "2409.20319v2"
+        "2407.11336v2",
+        "2405.12292v3",
+        "2409.20319v2",
+        "2411.02558v1"
       ],
       "relevant_ids": [
         "2411.07216v2"
       ],
-      "retrieval_time_s": 0.0723,
+      "retrieval_time_s": 0.0599,
       "judge_score": null
     },
     {
@@ -540,7 +575,7 @@
       "relevant_ids": [
         "2407.02634v3"
       ],
-      "retrieval_time_s": 0.0742,
+      "retrieval_time_s": 0.0606,
       "judge_score": null
     },
     {
@@ -552,7 +587,7 @@
       "relevant_ids": [
         "2410.20982v2"
       ],
-      "retrieval_time_s": 0.0825,
+      "retrieval_time_s": 0.0781,
       "judge_score": null
     },
     {
@@ -564,7 +599,7 @@
       "relevant_ids": [
         "2406.18046v2"
       ],
-      "retrieval_time_s": 0.1252,
+      "retrieval_time_s": 0.1092,
       "judge_score": null
     },
     {
@@ -576,7 +611,7 @@
       "relevant_ids": [
         "2408.06427v2"
       ],
-      "retrieval_time_s": 0.0782,
+      "retrieval_time_s": 0.0661,
       "judge_score": null
     },
     {
@@ -588,25 +623,25 @@
       "relevant_ids": [
         "2407.02634v3"
       ],
-      "retrieval_time_s": 0.0545,
+      "retrieval_time_s": 0.0445,
       "judge_score": null
     },
     {
       "query_id": "b3838ee2-5f30-42c1-991d-c51499c39cb4",
       "query": "What does the teaspoon library relate to?",
       "retrieved_ids": [
-        "2405.01155v3",
+        "2412.04468v2",
+        "2411.18627v2",
+        "2405.05881v2",
+        "2406.18046v2",
         "2403.15076v1",
-        "2412.17780v3",
-        "2410.20081v3",
-        "2409.13467v3",
-        "2411.15638v2",
-        "2412.05430v1"
+        "2410.16441v2",
+        "2407.11336v2"
       ],
       "relevant_ids": [
         "2411.18627v2"
       ],
-      "retrieval_time_s": 0.0494,
+      "retrieval_time_s": 0.0391,
       "judge_score": null
     },
     {
@@ -614,30 +649,27 @@
       "query": "Does overconfidence affect the reliability of a model?",
       "retrieved_ids": [
         "2406.06650v2",
-        "2410.20982v2",
-        "2407.11336v2",
-        "2412.00566v2",
-        "2411.02558v1",
+        "2412.17119v3",
+        "2411.02807v4",
+        "2412.00886v2",
         "2405.12292v3"
       ],
       "relevant_ids": [
         "2406.06650v2"
       ],
-      "retrieval_time_s": 0.055,
+      "retrieval_time_s": 0.0456,
       "judge_score": null
     },
     {
       "query_id": "3b25cdbb-73b5-45a3-b051-d7c667bf5c8e",
       "query": "What techniques are employed to minimize parasitic capacitance in precision measurement circuits?",
       "retrieved_ids": [
-        "2412.18252v2",
-        "2412.14029v2",
-        "2411.12193v2"
+        "2412.18252v2"
       ],
       "relevant_ids": [
         "2412.18252v2"
       ],
-      "retrieval_time_s": 0.0803,
+      "retrieval_time_s": 0.0724,
       "judge_score": null
     },
     {
@@ -649,7 +681,7 @@
       "relevant_ids": [
         "2407.03285v2"
       ],
-      "retrieval_time_s": 0.0874,
+      "retrieval_time_s": 0.1411,
       "judge_score": null
     },
     {
@@ -658,32 +690,35 @@
       "retrieved_ids": [
         "2408.14872v2",
         "2409.12516v1",
-        "2407.01528v3",
-        "2403.18177v2"
+        "2412.04468v2",
+        "2411.00713v1",
+        "2412.00886v2",
+        "2409.19777v2"
       ],
       "relevant_ids": [
         "2408.14872v2"
       ],
-      "retrieval_time_s": 0.0887,
+      "retrieval_time_s": 0.076,
       "judge_score": null
     },
     {
       "query_id": "4dee6765-fe77-4876-9d6e-d6ec21fafbd3",
       "query": "How do commutative diagrams assist in proving properties of scheme modifications?",
       "retrieved_ids": [
+        "2410.00908v2",
         "2403.13637v6",
-        "2407.04378v2",
-        "2402.07135v2"
+        "2402.07135v2",
+        "2407.04378v2"
       ],
       "relevant_ids": [
         "2407.04378v2"
       ],
-      "retrieval_time_s": 0.0774,
+      "retrieval_time_s": 0.0592,
       "judge_score": null
     }
   ],
-  "avg_latency_s": 0.0888,
+  "avg_latency_s": 0.0724,
   "n_queries": 50,
-  "timestamp": "2026-06-03T22:02:06.491507+00:00",
+  "timestamp": "2026-06-03T22:02:25.859882+00:00",
   "cost_usd": null
 }

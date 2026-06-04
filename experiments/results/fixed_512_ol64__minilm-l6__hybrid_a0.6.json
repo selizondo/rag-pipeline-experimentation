@@ -14,7 +14,7 @@
     },
     "embed": {
       "model": "all-MiniLM-L6-v2",
-      "batch_size": 64,
+      "batch_size": 16,
       "cache_dir": "data/embed_cache"
     },
     "retrieval": {
@@ -39,7 +39,7 @@
     "ndcg@3": 0.96,
     "ndcg@5": 0.96,
     "ndcg@10": 0.96,
-    "avg_retrieval_time_s": 0.143421
+    "avg_retrieval_time_s": 0.083932
   },
   "generation_metrics": {},
   "llm_model": "",
@@ -53,7 +53,7 @@
       "relevant_ids": [
         "2408.02322v2"
       ],
-      "retrieval_time_s": 0.2208,
+      "retrieval_time_s": 0.1012,
       "judge_score": null
     },
     {
@@ -65,7 +65,7 @@
       "relevant_ids": [
         "2407.04378v2"
       ],
-      "retrieval_time_s": 0.1325,
+      "retrieval_time_s": 0.073,
       "judge_score": null
     },
     {
@@ -77,7 +77,7 @@
       "relevant_ids": [
         "2406.18046v2"
       ],
-      "retrieval_time_s": 0.1623,
+      "retrieval_time_s": 0.116,
       "judge_score": null
     },
     {
@@ -92,7 +92,7 @@
       "relevant_ids": [
         "2410.20982v2"
       ],
-      "retrieval_time_s": 0.2475,
+      "retrieval_time_s": 0.1198,
       "judge_score": null
     },
     {
@@ -105,7 +105,7 @@
       "relevant_ids": [
         "2412.00886v2"
       ],
-      "retrieval_time_s": 0.2289,
+      "retrieval_time_s": 0.1068,
       "judge_score": null
     },
     {
@@ -120,7 +120,7 @@
       "relevant_ids": [
         "2407.11894v2"
       ],
-      "retrieval_time_s": 0.1637,
+      "retrieval_time_s": 0.0701,
       "judge_score": null
     },
     {
@@ -132,7 +132,7 @@
       "relevant_ids": [
         "2501.00225v2"
       ],
-      "retrieval_time_s": 0.108,
+      "retrieval_time_s": 0.0551,
       "judge_score": null
     },
     {
@@ -145,7 +145,7 @@
       "relevant_ids": [
         "2411.16245v2"
       ],
-      "retrieval_time_s": 0.1838,
+      "retrieval_time_s": 0.0939,
       "judge_score": null
     },
     {
@@ -157,7 +157,7 @@
       "relevant_ids": [
         "2411.16245v2"
       ],
-      "retrieval_time_s": 0.1016,
+      "retrieval_time_s": 0.0779,
       "judge_score": null
     },
     {
@@ -169,7 +169,7 @@
       "relevant_ids": [
         "2409.16507v2"
       ],
-      "retrieval_time_s": 0.1555,
+      "retrieval_time_s": 0.0951,
       "judge_score": null
     },
     {
@@ -184,7 +184,7 @@
       "relevant_ids": [
         "2501.00225v2"
       ],
-      "retrieval_time_s": 0.18,
+      "retrieval_time_s": 0.0943,
       "judge_score": null
     },
     {
@@ -196,7 +196,7 @@
       "relevant_ids": [
         "2403.03363v6"
       ],
-      "retrieval_time_s": 0.1927,
+      "retrieval_time_s": 0.0839,
       "judge_score": null
     },
     {
@@ -211,7 +211,7 @@
       "relevant_ids": [
         "2408.14872v2"
       ],
-      "retrieval_time_s": 0.1404,
+      "retrieval_time_s": 0.0823,
       "judge_score": null
     },
     {
@@ -223,7 +223,7 @@
       "relevant_ids": [
         "2407.02634v3"
       ],
-      "retrieval_time_s": 0.1671,
+      "retrieval_time_s": 0.1287,
       "judge_score": null
     },
     {
@@ -235,7 +235,7 @@
       "relevant_ids": [
         "2410.20982v2"
       ],
-      "retrieval_time_s": 0.1538,
+      "retrieval_time_s": 0.1203,
       "judge_score": null
     },
     {
@@ -247,7 +247,7 @@
       "relevant_ids": [
         "2410.00908v2"
       ],
-      "retrieval_time_s": 0.1489,
+      "retrieval_time_s": 0.0866,
       "judge_score": null
     },
     {
@@ -259,7 +259,7 @@
       "relevant_ids": [
         "2501.00225v2"
       ],
-      "retrieval_time_s": 0.1261,
+      "retrieval_time_s": 0.0718,
       "judge_score": null
     },
     {
@@ -271,7 +271,7 @@
       "relevant_ids": [
         "2411.16245v2"
       ],
-      "retrieval_time_s": 0.1486,
+      "retrieval_time_s": 0.0756,
       "judge_score": null
     },
     {
@@ -284,7 +284,7 @@
       "relevant_ids": [
         "2405.01155v3"
       ],
-      "retrieval_time_s": 0.1328,
+      "retrieval_time_s": 0.0659,
       "judge_score": null
     },
     {
@@ -296,7 +296,7 @@
       "relevant_ids": [
         "2412.08070v2"
       ],
-      "retrieval_time_s": 0.1306,
+      "retrieval_time_s": 0.0657,
       "judge_score": null
     },
     {
@@ -308,7 +308,7 @@
       "relevant_ids": [
         "2406.18046v2"
       ],
-      "retrieval_time_s": 0.141,
+      "retrieval_time_s": 0.065,
       "judge_score": null
     },
     {
@@ -320,7 +320,7 @@
       "relevant_ids": [
         "2410.23473v2"
       ],
-      "retrieval_time_s": 0.1971,
+      "retrieval_time_s": 0.1409,
       "judge_score": null
     },
     {
@@ -332,7 +332,7 @@
       "relevant_ids": [
         "2407.03285v2"
       ],
-      "retrieval_time_s": 0.1355,
+      "retrieval_time_s": 0.0767,
       "judge_score": null
     },
     {
@@ -344,7 +344,7 @@
       "relevant_ids": [
         "2411.16245v2"
       ],
-      "retrieval_time_s": 0.1858,
+      "retrieval_time_s": 0.0904,
       "judge_score": null
     },
     {
@@ -356,7 +356,7 @@
       "relevant_ids": [
         "2412.17119v3"
       ],
-      "retrieval_time_s": 0.1255,
+      "retrieval_time_s": 0.0683,
       "judge_score": null
     },
     {
@@ -370,7 +370,7 @@
       "relevant_ids": [
         "2408.06427v2"
       ],
-      "retrieval_time_s": 0.2166,
+      "retrieval_time_s": 0.1527,
       "judge_score": null
     },
     {
@@ -383,7 +383,7 @@
       "relevant_ids": [
         "2404.18869v2"
       ],
-      "retrieval_time_s": 0.1669,
+      "retrieval_time_s": 0.0774,
       "judge_score": null
     },
     {
@@ -395,7 +395,7 @@
       "relevant_ids": [
         "2405.12292v3"
       ],
-      "retrieval_time_s": 0.1304,
+      "retrieval_time_s": 0.0769,
       "judge_score": null
     },
     {
@@ -407,7 +407,7 @@
       "relevant_ids": [
         "2410.00908v2"
       ],
-      "retrieval_time_s": 0.1315,
+      "retrieval_time_s": 0.0667,
       "judge_score": null
     },
     {
@@ -419,7 +419,7 @@
       "relevant_ids": [
         "2412.20245v4"
       ],
-      "retrieval_time_s": 0.2323,
+      "retrieval_time_s": 0.1052,
       "judge_score": null
     },
     {
@@ -431,7 +431,7 @@
       "relevant_ids": [
         "2409.16507v2"
       ],
-      "retrieval_time_s": 0.1382,
+      "retrieval_time_s": 0.0896,
       "judge_score": null
     },
     {
@@ -443,7 +443,7 @@
       "relevant_ids": [
         "2411.18627v2"
       ],
-      "retrieval_time_s": 0.1763,
+      "retrieval_time_s": 0.0837,
       "judge_score": null
     },
     {
@@ -458,7 +458,7 @@
       "relevant_ids": [
         "2406.18046v2"
       ],
-      "retrieval_time_s": 0.0745,
+      "retrieval_time_s": 0.0556,
       "judge_score": null
     },
     {
@@ -470,7 +470,7 @@
       "relevant_ids": [
         "2412.04468v2"
       ],
-      "retrieval_time_s": 0.114,
+      "retrieval_time_s": 0.0771,
       "judge_score": null
     },
     {
@@ -482,7 +482,7 @@
       "relevant_ids": [
         "2410.00908v2"
       ],
-      "retrieval_time_s": 0.0531,
+      "retrieval_time_s": 0.0378,
       "judge_score": null
     },
     {
@@ -496,7 +496,7 @@
       "relevant_ids": [
         "2412.04468v2"
       ],
-      "retrieval_time_s": 0.168,
+      "retrieval_time_s": 0.123,
       "judge_score": null
     },
     {
@@ -508,7 +508,7 @@
       "relevant_ids": [
         "2412.17119v3"
       ],
-      "retrieval_time_s": 0.1157,
+      "retrieval_time_s": 0.0844,
       "judge_score": null
     },
     {
@@ -520,7 +520,7 @@
       "relevant_ids": [
         "2408.14872v2"
       ],
-      "retrieval_time_s": 0.1268,
+      "retrieval_time_s": 0.0803,
       "judge_score": null
     },
     {
@@ -535,7 +535,7 @@
       "relevant_ids": [
         "2411.07216v2"
       ],
-      "retrieval_time_s": 0.1038,
+      "retrieval_time_s": 0.0672,
       "judge_score": null
     },
     {
@@ -547,7 +547,7 @@
       "relevant_ids": [
         "2407.02634v3"
       ],
-      "retrieval_time_s": 0.1268,
+      "retrieval_time_s": 0.0685,
       "judge_score": null
     },
     {
@@ -559,7 +559,7 @@
       "relevant_ids": [
         "2410.20982v2"
       ],
-      "retrieval_time_s": 0.1089,
+      "retrieval_time_s": 0.076,
       "judge_score": null
     },
     {
@@ -571,7 +571,7 @@
       "relevant_ids": [
         "2406.18046v2"
       ],
-      "retrieval_time_s": 0.1642,
+      "retrieval_time_s": 0.1157,
       "judge_score": null
     },
     {
@@ -583,7 +583,7 @@
       "relevant_ids": [
         "2408.06427v2"
       ],
-      "retrieval_time_s": 0.1214,
+      "retrieval_time_s": 0.0709,
       "judge_score": null
     },
     {
@@ -595,7 +595,7 @@
       "relevant_ids": [
         "2407.02634v3"
       ],
-      "retrieval_time_s": 0.0885,
+      "retrieval_time_s": 0.0531,
       "judge_score": null
     },
     {
@@ -612,7 +612,7 @@
       "relevant_ids": [
         "2411.18627v2"
       ],
-      "retrieval_time_s": 0.0911,
+      "retrieval_time_s": 0.0475,
       "judge_score": null
     },
     {
@@ -628,7 +628,7 @@
       "relevant_ids": [
         "2406.06650v2"
       ],
-      "retrieval_time_s": 0.072,
+      "retrieval_time_s": 0.0533,
       "judge_score": null
     },
     {
@@ -641,7 +641,7 @@
       "relevant_ids": [
         "2412.18252v2"
       ],
-      "retrieval_time_s": 0.1082,
+      "retrieval_time_s": 0.0762,
       "judge_score": null
     },
     {
@@ -653,7 +653,7 @@
       "relevant_ids": [
         "2407.03285v2"
       ],
-      "retrieval_time_s": 0.1125,
+      "retrieval_time_s": 0.0811,
       "judge_score": null
     },
     {
@@ -669,7 +669,7 @@
       "relevant_ids": [
         "2408.14872v2"
       ],
-      "retrieval_time_s": 0.1108,
+      "retrieval_time_s": 0.0831,
       "judge_score": null
     },
     {
@@ -681,11 +681,12 @@
       "relevant_ids": [
         "2407.04378v2"
       ],
-      "retrieval_time_s": 0.108,
+      "retrieval_time_s": 0.0686,
       "judge_score": null
     }
   ],
-  "avg_latency_s": 0.1434,
+  "avg_latency_s": 0.0839,
   "n_queries": 50,
-  "timestamp": "2026-05-11T05:29:06.463334+00:00"
+  "timestamp": "2026-06-03T22:01:43.799596+00:00",
+  "cost_usd": null
 }
