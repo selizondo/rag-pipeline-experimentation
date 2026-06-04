@@ -10,6 +10,8 @@ from __future__ import annotations
 
 import argparse
 import json
+import pickle
+import subprocess
 import sys
 from pathlib import Path
 
@@ -136,6 +138,30 @@ def main(argv=None) -> int:
     n_chunks = len(pipeline.chunks)
     n_docs   = len(pipeline.documents)
     console.print(f"  Loaded {n_chunks:,} chunks from {n_docs} documents.")
+
+    # Patch embed_fn with pre-computed cache to avoid sentence-transformers + FAISS conflict.
+    embed_label = best.config.get("embed", {}).get("model", "").lower().replace("all-", "").split("-v")[0]
+    cache_dir   = Path("data/query_cache")
+    cache_path  = cache_dir / f"{embed_label}.pkl"
+    precompute_script = Path(__file__).resolve().parent / "precompute_queries.py"
+
+    if not cache_path.exists():
+        console.print(f"  Pre-computing query embeddings for {embed_label}...")
+        rc = subprocess.run([
+            sys.executable, str(precompute_script), str(args.qrels),
+            "--model", best.config.get("embed", {}).get("model", "all-MiniLM-L6-v2"),
+            "--out-dir", str(cache_dir),
+        ]).returncode
+        if rc != 0:
+            console.print(f"[red]Precompute failed (exit {rc})[/]")
+            return 1
+
+    with open(cache_path, "rb") as f:
+        query_cache = pickle.load(f)
+
+    from src.experiment import patch_embed_fn
+    patch_embed_fn(pipeline, query_cache)
+    console.print(f"  Query embeddings loaded from cache ({len(query_cache)} queries).")
 
     console.print("\n[bold cyan]Step 3 / 5 — Generating answers + judging[/]")
     if not args.qrels.exists():
