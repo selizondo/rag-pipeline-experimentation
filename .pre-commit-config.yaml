@@ -4,11 +4,13 @@
 
 repos:
   # Custom sterilize check — credentials and private paths
+  # Global sterilize hook — single copy lives at /usr/local/bin/sterilize-check.sh
+  # Install once: sudo cp scripts/sterilize-check.sh /usr/local/bin/ && sudo chmod +x /usr/local/bin/sterilize-check.sh
   - repo: local
     hooks:
       - id: sterilize-check
         name: Sterilize check (credentials + private paths)
-        entry: bash scripts/sterilize-check.sh
+        entry: /usr/local/bin/sterilize-check.sh
         language: system
         pass_filenames: false
         always_run: true
