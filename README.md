@@ -137,7 +137,6 @@ Full leaderboard and per-query details in `experiments/results/`.
 ### 2. Install
 
 ```bash
-export UV_PROJECT_ENVIRONMENT="$HOME/.venvs/newline"
 uv sync
 ```
 

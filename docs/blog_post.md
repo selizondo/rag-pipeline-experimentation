@@ -318,11 +318,11 @@ These are the specific claims the 50-paper grid will confirm or refute. Not "we 
 ## Run It Yourself
 
 ```bash
-git clone git@github.com:selizondo/newline_stuff.git
-cd newline_stuff/projects
+git clone git@github.com:selizondo/rag-pipeline-experimentation.git
+cd rag-pipeline-experimentation
 
-pip install -e rag_common
-pip install -e rag_pipeline_experimentation
+pip install -e ../rag-common
+pip install -e .
 
 cd rag_pipeline_experimentation
 

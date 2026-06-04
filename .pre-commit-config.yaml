@@ -1,0 +1,33 @@
+# Pre-commit hook configuration.
+# Install: pip install pre-commit && pre-commit install
+# Run manually: pre-commit run --all-files
+
+repos:
+  # Custom sterilize check — credentials and private paths
+  - repo: local
+    hooks:
+      - id: sterilize-check
+        name: Sterilize check (credentials + private paths)
+        entry: bash scripts/sterilize-check.sh
+        language: system
+        pass_filenames: false
+        always_run: true
+
+  # Strip notebook outputs before committing
+  - repo: https://github.com/kynan/nbstripout
+    rev: 0.8.1
+    hooks:
+      - id: nbstripout
+
+  # Standard hygiene
+  - repo: https://github.com/pre-commit/pre-commit-hooks
+    rev: v5.0.0
+    hooks:
+      - id: check-added-large-files
+        args: ['--maxkb=5000']
+      - id: check-merge-conflict
+      - id: detect-private-key
+      - id: end-of-file-fixer
+        exclude: '\.json$'
+      - id: trailing-whitespace
+        exclude: '\.md$'
