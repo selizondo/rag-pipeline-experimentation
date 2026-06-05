@@ -2,7 +2,7 @@
 
 ## Local SentenceTransformers embeddings over OpenAI API
 
-P4 uses `all-MiniLM-L6-v2` (384-dim) and `all-mpnet-base-v2` (768-dim) from SentenceTransformers rather than OpenAI's embedding API. Reasons: (1) multi-paper ingestion with 12 grid configs × ~5,000 chunks per paper would incur significant API cost; (2) local embeddings enable offline experimentation; (3) comparing two SentenceTransformers models across retrieval strategies is the experimental variable, not embedding provider. The tradeoff: SentenceTransformers models top out below OpenAI large at MTEB benchmarks. P3 explores the OpenAI side; P4 explores local.
+This project uses `all-MiniLM-L6-v2` (384-dim) and `all-mpnet-base-v2` (768-dim) from SentenceTransformers rather than OpenAI's embedding API. Reasons: (1) multi-paper ingestion with 12 grid configs × ~5,000 chunks per paper would incur significant API cost; (2) local embeddings enable offline experimentation; (3) comparing two SentenceTransformers models across retrieval strategies is the experimental variable, not embedding provider. The tradeoff: SentenceTransformers models top out below OpenAI large at MTEB benchmarks. rag-pipeline-systematic-evals explores the OpenAI embedding side; this project explores local.
 
 ## YAML-driven grid over code-only config
 
@@ -18,11 +18,11 @@ Answer generation and judge scoring are gated behind `judge_model: str | None = 
 
 ## Multi-paper qrels over synthetic QA
 
-P4 uses a hand-authored `qrels.json` with real queries across multiple arXiv papers rather than LLM-generated QA pairs. This is a stronger ground truth — queries were written by humans who read the papers, and relevant chunks were identified by content, not by which chunk was used to generate a question. The tradeoff: the qrels set is small (~50 queries) because hand-authoring is expensive. At 50 queries, MRR variance is high; a 1-rank difference in one query moves MRR by 0.02.
+This project uses a hand-authored `qrels.json` with real queries across multiple arXiv papers rather than LLM-generated QA pairs. This is a stronger ground truth — queries were written by humans who read the papers, and relevant chunks were identified by content, not by which chunk was used to generate a question. The tradeoff: the qrels set is small (~50 queries) because hand-authoring is expensive. At 50 queries, MRR variance is high; a 1-rank difference in one query moves MRR by 0.02.
 
 ## Precision@5 target (>0.60) is mathematically impossible with 1-to-1 qrels
 
-The spec states a Precision@5 target of >0.60. With qrels where each query has exactly one relevant chunk, the maximum achievable Precision@5 is 1/5 = 0.20. The spec target applies to a recall-precision regime where multiple chunks are relevant per query (e.g., paragraph-level retrieval with 3-5 relevant chunks). This is a spec authoring error — the target was carried over from a different data regime. Actual P4 results report Precision@5 ≈ 0.12–0.20, which is correct.
+The spec states a Precision@5 target of >0.60. With qrels where each query has exactly one relevant chunk, the maximum achievable Precision@5 is 1/5 = 0.20. The spec target applies to a recall-precision regime where multiple chunks are relevant per query (e.g., paragraph-level retrieval with 3-5 relevant chunks). This is a spec authoring error — the target was carried over from a different data regime. Actual Precision@5 results are 0.12–0.20, which is correct.
 
 ## Incomplete grid (6 of 12 baseline configs)
 

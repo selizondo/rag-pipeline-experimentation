@@ -1,6 +1,6 @@
 # Failure Scenarios
 
-Documented failure modes encountered during P4 development.
+Documented failure modes encountered during development.
 
 ---
 
@@ -32,7 +32,7 @@ Running all 3 retrieval methods for the same `fixed_512_ol64__minilm` config pro
 `ExperimentResult` has a `generation_metrics` field that was designed to hold judge scores (relevance, accuracy, completeness, citation_quality). In the original `evaluate()` function, this field was never populated — the judge was never called. Every result file had `"generation_metrics": {}`.
 
 ### Why it matters
-Retrieval metrics (MRR, Recall@K) measure whether the right chunks were found. They don't measure whether the generated answer was correct or faithful to the retrieved context. `generation_metrics` is the only signal for answer quality — without it, P4 can't claim end-to-end RAG evaluation.
+Retrieval metrics (MRR, Recall@K) measure whether the right chunks were found. They don't measure whether the generated answer was correct or faithful to the retrieved context. `generation_metrics` is the only signal for answer quality — without it, this project can't claim end-to-end RAG evaluation.
 
 ### Detection mechanism
 Identified during staff review: `ExperimentResult.generation_metrics` field existed in the model but no code path populated it. grep confirmed `judge_answer` was never called from `evaluate()`.
@@ -51,10 +51,10 @@ The project spec states Precision@5 target >0.60. With qrels where each query ha
 If treated as a real target, the pipeline would appear to fail a spec requirement regardless of retrieval quality. Engineers reading the results would incorrectly diagnose a retrieval problem.
 
 ### Detection mechanism
-Caught during metrics analysis: actual P4 Precision@5 results are 0.12–0.20 (correct for 1-relevant-per-query qrels). The spec target of 0.60 would require 3 relevant chunks per query on average.
+Caught during metrics analysis: actual Precision@5 results are 0.12–0.20 (correct for 1-relevant-per-query qrels). The spec target of 0.60 would require 3 relevant chunks per query on average.
 
 ### Resolution
-Documented as a spec authoring error — the Precision@5 target was written for a multi-relevant-chunk regime (e.g., paragraph-level retrieval where a question may be answered by 3-5 chunks). MRR and Recall@5 are the primary targets for this dataset structure. The spec target is noted in this file but not used to evaluate P4 results.
+Documented as a spec authoring error — the Precision@5 target was written for a multi-relevant-chunk regime (e.g., paragraph-level retrieval where a question may be answered by 3-5 chunks). MRR and Recall@5 are the primary targets for this dataset structure. The spec target is noted in this file but not used to evaluate results.
 
 ---
 

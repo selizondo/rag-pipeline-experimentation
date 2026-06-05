@@ -131,9 +131,9 @@ The local models will lose to `text-embedding-3-large` on semantic benchmarks. F
 
 ### Document-Level Ground Truth
 
-The previous RAG pipeline (P3) used chunk-level ground truth: each question pointed to a specific chunk UUID. That works for synthetic evaluation but creates a tight coupling between the question and the chunking configuration.
+The previous RAG pipeline (rag-pipeline-systematic-evals) used chunk-level ground truth: each question pointed to a specific chunk UUID. That works for synthetic evaluation but creates a tight coupling between the question and the chunking configuration.
 
-P4 uses document-level ground truth: each question points to a paper ID (`2404.18884v2`), not a specific chunk. The evaluation asks: *did you surface a chunk from the right paper in the top-K results?*
+This project uses document-level ground truth: each question points to a paper ID (`2404.18884v2`), not a specific chunk. The evaluation asks: *did you surface a chunk from the right paper in the top-K results?*
 
 ```
 Query:     "How does the presence of reputation affect equilibrium outcomes
@@ -287,7 +287,7 @@ The 5-paper POC answered one question: *is the pipeline wired correctly?* Yes.
 The 50-paper grid answers the real question: *which configurations actually diverge when retrieval gets hard?* Before running it, three predictions — stated as falsifiable claims, not hopes.
 
 **Prediction 1: Recursive chunking beats fixed-size on academic PDFs.**
-Research papers have clear paragraph structure. Recursive chunking respects those boundaries; fixed-size splits at character 512 regardless. On a government statistical document (P3), semantic chunking won for exactly this reason — fixed-size boundaries destroyed multi-sentence claims. Academic PDFs have the same problem with theorem statements and experimental results that span paragraphs. The P3 lesson should transfer.
+Research papers have clear paragraph structure. Recursive chunking respects those boundaries; fixed-size splits at character 512 regardless. On a government statistical document (rag-pipeline-systematic-evals), semantic chunking won for exactly this reason — fixed-size boundaries destroyed multi-sentence claims. Academic PDFs have the same problem with theorem statements and experimental results that span paragraphs. That lesson should transfer.
 
 **Prediction 2: Hybrid retrieval starts pulling ahead of pure dense at 50 papers.**
 At 5 papers, dense retrieval can't fail — there's only one paper about algebraic tori. At 50 papers, the index contains multiple transformer papers, multiple papers on KV-cache, overlapping topics. A query about "attention sink tokens" will semantically resemble several transformer papers. BM25's exact-match on "attention sink" becomes a useful discriminator. If this prediction is wrong, the query distribution may be more paraphrase-heavy than keyword-specific.
