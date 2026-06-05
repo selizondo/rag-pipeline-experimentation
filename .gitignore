@@ -1,6 +1,7 @@
 data/papers/
 data/smoke_papers/
 data/embed_cache/
+data/query_cache/
 data/indices/
 __pycache__/
 *.pyc
