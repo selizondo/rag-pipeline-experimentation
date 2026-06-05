@@ -58,27 +58,22 @@ Documented as a spec authoring error — the Precision@5 target was written for 
 
 ---
 
-## Failure 4: Incomplete Experiment Grid (6 of 12 Configs)
+## Failure 4: Incomplete Experiment Grid (Resolved)
 
-### What breaks
-The baseline grid defines 12 configurations. Only 6 result files exist:
-- `fixed_512_ol64__minilm__dense`
-- `fixed_512_ol64__minilm__hybrid_a0.6`
-- `fixed_512_ol64__mpnet__dense`
-- `fixed_512_ol64__mpnet__hybrid_a0.6`
-- `recursive_512_ol100__minilm__dense`
-- `recursive_512_ol100__minilm__hybrid_a0.6`
+### What broke
+The baseline grid defines 18 configurations (3 chunkers × 2 embedding models × 3 retrieval methods). Initially only 6 result files existed — recursive × mpnet and all sliding_window configs were missing due to compute time (~45 min per config on CPU).
 
-Missing: recursive × mpnet (2 configs), sliding_window × minilm and mpnet (4 configs).
-
-### Why it matters
-Grid comparisons across retrieval strategies are only valid within the completed configs. The "best config" claim is provisional until all 12 are run.
-
-### Root cause
-Each config requires downloading arXiv PDFs (~200MB) and embedding ~5,000 chunks locally. The sliding_window configs have not been run due to compute time (~45 min per config on CPU).
+### Resolution
+All 18 configs are now complete. Result files in `experiments/results/`:
+- `fixed_512_ol64` × minilm-l6 × dense/bm25/hybrid
+- `fixed_512_ol64` × mpnet-base × dense/bm25/hybrid
+- `recursive_512_ol100` × minilm-l6 × dense/bm25/hybrid
+- `recursive_512_ol100` × mpnet-base × dense/bm25/hybrid
+- `sliding_w10_s5` × minilm-l6 × dense/bm25/hybrid
+- `sliding_w10_s5` × mpnet-base × dense/bm25/hybrid
 
 ### Status
-Open — pending local compute run. The `--force` flag in `run_grid()` will rerun completed cells; partial completion is safe. The 6 completed results remain valid.
+Resolved — all 18 of 18 configs run and committed.
 
 ---
 

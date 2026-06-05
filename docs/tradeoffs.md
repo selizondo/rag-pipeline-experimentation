@@ -24,6 +24,6 @@ This project uses a hand-authored `qrels.json` with real queries across multiple
 
 The spec states a Precision@5 target of >0.60. With qrels where each query has exactly one relevant chunk, the maximum achievable Precision@5 is 1/5 = 0.20. The spec target applies to a recall-precision regime where multiple chunks are relevant per query (e.g., paragraph-level retrieval with 3-5 relevant chunks). This is a spec authoring error — the target was carried over from a different data regime. Actual Precision@5 results are 0.12–0.20, which is correct.
 
-## Incomplete grid (6 of 12 baseline configs)
+## Full grid run (18 of 18 baseline configs)
 
-The baseline grid defines 12 configurations: 4 chunk strategies × 3 retrieval methods × partial embed models. As of this writing, 6 results exist (fixed and recursive × minilm × dense and hybrid). The 6 missing configs (recursive × mpnet, sliding_window × both models) require downloading arXiv PDFs and embedding ~25,000 chunks locally — approximately 2 hours of CPU time. They are planned but not yet run.
+The baseline grid defines 18 configurations: 3 chunkers (fixed, recursive, sliding_window) × 2 embedding models (minilm-l6, mpnet-base) × 3 retrieval methods (dense, BM25, hybrid). All 18 configs are complete. Each config required downloading arXiv PDFs (~200MB) and embedding ~5,000 chunks locally (~45 min per config on CPU). Results are in `experiments/results/`.
