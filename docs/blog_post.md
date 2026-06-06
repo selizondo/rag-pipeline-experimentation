@@ -1,20 +1,20 @@
 # Building a RAG System That Can Actually Experiment: What We Learned from 12 Configurations and 1,000 arXiv Papers
 
-Most RAG systems get built once. You pick a chunk size, grab an embedding model, wire up FAISS, and ship it. Then someone asks why the assistant missed a question it should have answered — and you realize you have no way to answer because you never built a way to measure.
+Most RAG systems get built once. You pick a chunk size, grab an embedding model, wire up FAISS, and ship it. Then someone asks why the assistant missed a question it should have answered: and you realize you have no way to answer because you never built a way to measure.
 
 That's not a retrieval problem. It's a measurement problem. And it's where most teams are stuck: pipeline wired, no infrastructure to run alternatives, no way to know whether the configuration you shipped is the 3rd-best or the 11th-best.
 
-This post documents a RAG pipeline built for *experimentation first*: swap any stage via config file, get a comparable evaluation back in under 30 minutes. Run on the Open RAG Benchmark — 1,000 real arXiv papers, 3,045 human-authored questions. First finding: MRR = 1.0 on a 5-paper POC is not a signal about which configuration is best. Here's what a 5-paper run *can* tell you — and what takes 50 papers to find out.
+This post documents a RAG pipeline built for *experimentation first*: swap any stage via config file, get a comparable evaluation back in under 30 minutes. Run on the Open RAG Benchmark: 1,000 real arXiv papers, 3,045 human-authored questions. First finding: MRR = 1.0 on a 5-paper POC is not a signal about which configuration is best. Here's what a 5-paper run *can* tell you: and what takes 50 papers to find out.
 
 ---
 
 ## The Problem: Researchers Drowning in Papers
 
-Picture a PhD student surveying a subfield before writing a literature review. They have 200 papers to cover. They know the answer to their question is in *one of them* — but reading 200 papers to find it isn't research, it's archaeology.
+Picture a PhD student surveying a subfield before writing a literature review. They have 200 papers to cover. They know the answer to their question is in *one of them*: but reading 200 papers to find it isn't research, it's archaeology.
 
-A RAG system built for this should answer: *"Which paper introduces the attention sink token technique for KV-cache compression?"* in under a second, with a citation. That's tractable. What isn't tractable — without measurement — is knowing whether the system will also answer the subtler version: *"What methods address the memory bottleneck in long-context inference?"*, which requires semantic understanding, not keyword matching.
+A RAG system built for this should answer: *"Which paper introduces the attention sink token technique for KV-cache compression?"* in under a second, with a citation. That's tractable. What isn't tractable: without measurement: is knowing whether the system will also answer the subtler version: *"What methods address the memory bottleneck in long-context inference?"*, which requires semantic understanding, not keyword matching.
 
-The configuration choices — chunk strategy, embedding model, retrieval method — determine whether the system handles the second question or only the first. Most teams pick one configuration and never find out.
+The configuration choices: chunk strategy, embedding model, retrieval method: determine whether the system handles the second question or only the first. Most teams pick one configuration and never find out.
 
 ---
 
@@ -40,7 +40,7 @@ You can reason about these interactions all day. Or you can run a grid and measu
 
 ## The Dataset: Open RAG Benchmark
 
-The [Open RAG Benchmark](https://huggingface.co/datasets/vectara/open_ragbench) is 1,000 arXiv research papers with 3,045 question-answer pairs and ground-truth relevance labels, assembled by Vectara. It's one of the few publicly available RAG evaluation datasets built from real documents with real questions — not synthetic QA pairs generated from the documents themselves.
+The [Open RAG Benchmark](https://huggingface.co/datasets/vectara/open_ragbench) is 1,000 arXiv research papers with 3,045 question-answer pairs and ground-truth relevance labels, assembled by Vectara. It's one of the few publicly available RAG evaluation datasets built from real documents with real questions: not synthetic QA pairs generated from the documents themselves.
 
 **Why this matters:** most RAG benchmarks generate synthetic questions *from* the chunks they're evaluating against. The question is worded to match the chunk. That inflates BM25 scores artificially and makes the evaluation measure "can you find the chunk this question was written from?" instead of "can you answer a question a real user would ask?"
 
@@ -60,13 +60,13 @@ Open RAG Benchmark format maps query IDs to a dict with named fields:
 { "query_id": { "doc_id": "2404.18884v2", "section_id": 3 } }
 ```
 
-This broke the standard BEIR loading code silently — the qrels appeared to load but no queries matched any documents, scoring everything MRR = 0.0 with no error. The fix required reading `rel.get("doc_id")` instead of iterating over the dict as document-score pairs. **Silent zero scores are the worst kind of bug** — the pipeline runs cleanly, you just never know the evaluation was broken.
+This broke the standard BEIR loading code silently: the qrels appeared to load but no queries matched any documents, scoring everything MRR = 0.0 with no error. The fix required reading `rel.get("doc_id")` instead of iterating over the dict as document-score pairs. **Silent zero scores are the worst kind of bug**: the pipeline runs cleanly, you just never know the evaluation was broken.
 
 ### Only 13% of Downloaded Papers Have qrels
 
-The benchmark covers 1,000 papers. Downloading 41 of them at random means most won't have any matching questions — the qrels exist for the full 1,000, not a random 41. On the initial download, only 13 of 41 papers (32%) had matching queries after filtering.
+The benchmark covers 1,000 papers. Downloading 41 of them at random means most won't have any matching questions: the qrels exist for the full 1,000, not a random 41. On the initial download, only 13 of 41 papers (32%) had matching queries after filtering.
 
-The solution: filter qrels at download time to only include queries whose relevant paper was actually downloaded. This produces `qrels_filtered.json` — a smaller but correct evaluation set — rather than a full qrels file full of queries you can never score.
+The solution: filter qrels at download time to only include queries whose relevant paper was actually downloaded. This produces `qrels_filtered.json`: a smaller but correct evaluation set: rather than a full qrels file full of queries you can never score.
 
 ---
 
@@ -99,14 +99,14 @@ class BaseRetriever(ABC):
 The `RAGPipeline` takes these interfaces, not concrete classes. Switching from dense to hybrid retrieval in the experiment loop is one line:
 
 ```python
-# dense + MiniLM — fast baseline
+# dense + MiniLM: fast baseline
 pipeline = RAGPipeline(
     chunker=FixedSizeChunker(chunk_size=512, overlap=64),
     embedder=SentenceTransformersEmbedder("all-MiniLM-L6-v2"),
     retrieval_method="dense",
 )
 
-# hybrid + mpnet — same API, different config
+# hybrid + mpnet: same API, different config
 pipeline = RAGPipeline(
     chunker=SlidingWindowChunker(window_size=10, step=5),
     embedder=SentenceTransformersEmbedder("all-mpnet-base-v2"),
@@ -115,7 +115,7 @@ pipeline = RAGPipeline(
 )
 ```
 
-This isn't just cleanliness. It means the experiment driver doesn't need to know what retrieval method is in use — it calls `pipeline.query(text, top_k=5)` and gets back a ranked list of `RetrievalResult` objects regardless.
+This isn't just cleanliness. It means the experiment driver doesn't need to know what retrieval method is in use: it calls `pipeline.query(text, top_k=5)` and gets back a ranked list of `RetrievalResult` objects regardless.
 
 ### Local Models Instead of OpenAI Embeddings
 
@@ -123,7 +123,7 @@ The embedding layer uses [SentenceTransformers](https://sbert.net/) (`all-MiniLM
 
 **Cost.** A 12-cell grid over 50 queries with ~500 chunks per paper generates thousands of embed calls. At OpenAI API rates, this adds up fast on a project that may run 50 grid iterations while tuning.
 
-**Reproducibility.** Local models don't change between runs. OpenAI model updates can shift embeddings — your cached results from last week and your new results may not be directly comparable.
+**Reproducibility.** Local models don't change between runs. OpenAI model updates can shift embeddings: your cached results from last week and your new results may not be directly comparable.
 
 **Meaningful variation.** `all-MiniLM-L6-v2` (22M params, 384 dims) vs `all-mpnet-base-v2` (110M params, 768 dims) span a realistic performance/speed tradeoff. The dimension gap (384 vs 768) means the FAISS index for mpnet-base is exactly twice the memory footprint. That's a real engineering tradeoff worth measuring.
 
@@ -143,16 +143,16 @@ Retrieved: [chunk_7 (2404.18884v2), chunk_3 (2402.12350v3), ...]
 → Rank 1 hit → RR = 1.0
 ```
 
-This is more realistic — a user asking about a paper doesn't care which specific chunk you return, as long as it's from the right paper. It also makes the evaluation configuration-agnostic: the same qrels file works for fixed-size, recursive, and sliding-window chunking without regenerating QA pairs per config.
+This is more realistic: a user asking about a paper doesn't care which specific chunk you return, as long as it's from the right paper. It also makes the evaluation configuration-agnostic: the same qrels file works for fixed-size, recursive, and sliding-window chunking without regenerating QA pairs per config.
 
-The tradeoff: document-level evaluation can't tell you whether retrieval is finding the most relevant section within a paper. That's a meaningful gap — a paper with 50 chunks might have the correct chunk at rank 1 and 49 irrelevant chunks at ranks 2–50. Document-level evaluation scores this as perfect. Chunk-level would penalize it.
+The tradeoff: document-level evaluation can't tell you whether retrieval is finding the most relevant section within a paper. That's a meaningful gap: a paper with 50 chunks might have the correct chunk at rank 1 and 49 irrelevant chunks at ranks 2–50. Document-level evaluation scores this as perfect. Chunk-level would penalize it.
 
 ### Two-Level Caching: Don't Recompute What You Already Know
 
 Embedding 50 papers' worth of chunks takes minutes and should never happen twice. The pipeline caches at two levels:
 
-1. **Embedding cache** — keyed by `(model_label, chunk_label).pkl`. Same chunking strategy + same model = load from disk, not recomputed.
-2. **Result resume** — if `experiments/results/{experiment_id}.json` exists, that cell is skipped. Interrupted runs pick up where they left off. Pass `--force` to redo.
+1. **Embedding cache**: keyed by `(model_label, chunk_label).pkl`. Same chunking strategy + same model = load from disk, not recomputed.
+2. **Result resume**: if `experiments/results/{experiment_id}.json` exists, that cell is skipped. Interrupted runs pick up where they left off. Pass `--force` to redo.
 
 Without caching, every code change to the evaluator means re-embedding from scratch. With caching, evaluation iteration is seconds.
 
@@ -172,11 +172,11 @@ Each configuration ingests all papers, builds a shared FAISS index, evaluates ag
 
 ### The Three Chunking Strategies
 
-**Fixed-size** (`FixedSizeChunker`) — character-window split with word-boundary awareness. Never cuts mid-word. The most predictable chunk size distribution and the easiest to reason about. The starting point for most RAG systems.
+**Fixed-size** (`FixedSizeChunker`): character-window split with word-boundary awareness. Never cuts mid-word. The most predictable chunk size distribution and the easiest to reason about. The starting point for most RAG systems.
 
-**Recursive** (`RecursiveChunker`) — hierarchical separator hierarchy: paragraph breaks first (`\n\n`), then line breaks (`\n`), then sentence ends (`. `), then spaces. Splits at the coarsest available boundary before falling back to finer granularity. On well-structured academic PDFs with clear paragraph breaks, this preserves document structure better than fixed-size.
+**Recursive** (`RecursiveChunker`): hierarchical separator hierarchy: paragraph breaks first (`\n\n`), then line breaks (`\n`), then sentence ends (`. `), then spaces. Splits at the coarsest available boundary before falling back to finer granularity. On well-structured academic PDFs with clear paragraph breaks, this preserves document structure better than fixed-size.
 
-**Sliding window** (`SlidingWindowChunker`) — sentence-level window of 10 sentences advancing by 5. Every sentence appears in two consecutive chunks. This maximizes recall at the cost of index size — if the relevant sentence is near a boundary, it's guaranteed to appear fully in at least one chunk.
+**Sliding window** (`SlidingWindowChunker`): sentence-level window of 10 sentences advancing by 5. Every sentence appears in two consecutive chunks. This maximizes recall at the cost of index size: if the relevant sentence is near a boundary, it's guaranteed to appear fully in at least one chunk.
 
 ---
 
@@ -190,7 +190,7 @@ The first run was a 5-paper POC on the alphabetically-first papers from the down
 
 Every single cell hit MRR = 1.000. Perfect score across the board.
 
-**This is the expected result — and the correct one.**
+**This is the expected result: and the correct one.**
 
 ---
 
@@ -198,7 +198,7 @@ Every single cell hit MRR = 1.000. Perfect score across the board.
 
 On a corpus with 5 papers and 9 queries, retrieval is easy. Each query has exactly one relevant paper. The FAISS index holds chunks from 5 papers. For a query about algebraic tori and invariant ideals, there is one paper about algebraic tori. Every reasonable embedding model will place that paper's chunks closer to the query than the other four. You can't fail this.
 
-**The POC is not telling you which configuration is best. It's confirming the pipeline is wired correctly end-to-end.** That's exactly what a POC should do. The 12-cell grid at 50 papers and 50 queries is where configurations will actually diverge — when the index has enough noise that embedding model quality and chunking strategy start to matter.
+**The POC is not telling you which configuration is best. It's confirming the pipeline is wired correctly end-to-end.** That's exactly what a POC should do. The 12-cell grid at 50 papers and 50 queries is where configurations will actually diverge: when the index has enough noise that embedding model quality and chunking strategy start to matter.
 
 A POC that produces MRR = 0.0 tells you the pipeline is broken. A POC that produces MRR = 1.0 tells you it's not. That's the only question a 5-paper run can answer.
 
@@ -215,7 +215,7 @@ With retrieval quality saturated at 1.0, latency is the one dimension where conf
 
 **MiniLM is 3–5× faster than mpnet-base at identical quality on this corpus.** The difference is parameter count: 22M vs 110M, and embedding dimension: 384 vs 768. Smaller model, smaller vectors, faster FAISS search.
 
-At 5 papers, neither model needs 768 dimensions to discriminate between papers. MiniLM's 384 dimensions are sufficient to capture the semantic difference between "algebraic tori" and "reputation in repeated games." The extra dimensions in mpnet-base aren't providing additional signal — they're just adding overhead.
+At 5 papers, neither model needs 768 dimensions to discriminate between papers. MiniLM's 384 dimensions are sufficient to capture the semantic difference between "algebraic tori" and "reputation in repeated games." The extra dimensions in mpnet-base aren't providing additional signal: they're just adding overhead.
 
 **Practical implication:** run your iterative experiment grid with MiniLM. It's 4× faster per cell, so a 12-cell grid takes 7 minutes instead of 30. Switch to mpnet-base for the final comparison run to verify the quality gap is real at your actual corpus size.
 
@@ -223,11 +223,11 @@ At 5 papers, neither model needs 768 dimensions to discriminate between papers. 
 
 ### Finding 3: Hybrid Retrieval Adds Nothing at Small Scale
 
-Dense retrieval and hybrid retrieval (dense + BM25, α=0.6) both score MRR = 1.000 on this corpus. But dense is faster — MiniLM dense at 19ms vs MiniLM hybrid at 18–61ms (the hybrid range reflects BM25 initialization variance).
+Dense retrieval and hybrid retrieval (dense + BM25, α=0.6) both score MRR = 1.000 on this corpus. But dense is faster: MiniLM dense at 19ms vs MiniLM hybrid at 18–61ms (the hybrid range reflects BM25 initialization variance).
 
-This is the expected pattern. Hybrid retrieval helps when BM25 has signal to contribute — lexically specific queries, author names, arXiv IDs, method acronyms that appear verbatim in the relevant chunk. On 5 papers with 9 questions, the FAISS search is already returning the right paper at rank 1. There is no rank-1 ambiguity for BM25 to resolve.
+This is the expected pattern. Hybrid retrieval helps when BM25 has signal to contribute: lexically specific queries, author names, arXiv IDs, method acronyms that appear verbatim in the relevant chunk. On 5 papers with 9 questions, the FAISS search is already returning the right paper at rank 1. There is no rank-1 ambiguity for BM25 to resolve.
 
-The hybrid advantage will emerge at scale. When the index contains 50 papers covering overlapping topics — multiple papers about attention mechanisms, multiple papers about transformer training — dense retrieval starts to confuse semantically similar but non-relevant papers. BM25's exact-match behavior becomes a useful tie-breaker for queries that use specific technical vocabulary from one paper.
+The hybrid advantage will emerge at scale. When the index contains 50 papers covering overlapping topics: multiple papers about attention mechanisms, multiple papers about transformer training: dense retrieval starts to confuse semantically similar but non-relevant papers. BM25's exact-match behavior becomes a useful tie-breaker for queries that use specific technical vocabulary from one paper.
 
 **The rule:** treat hybrid retrieval as an optimization, not a default. Start with dense, add BM25 when you see dense retrieval confusing semantically similar papers.
 
@@ -235,7 +235,7 @@ The hybrid advantage will emerge at scale. When the index contains 50 papers cov
 
 ## The Smoke Test: 16 Seconds to Catch a Broken Pipeline
 
-Running the full 12-cell grid takes 25–30 minutes. A pre-run smoke test — 1 cell, 3 queries, 2 papers — catches wiring bugs in 16 seconds:
+Running the full 12-cell grid takes 25–30 minutes. A pre-run smoke test: 1 cell, 3 queries, 2 papers: catches wiring bugs in 16 seconds:
 
 ```yaml
 # config/experiments/smoke.yaml
@@ -251,19 +251,19 @@ retrieval_methods:
     top_k: 5
 ```
 
-The tricky part is picking the right 2 papers. If you pick the alphabetically-first 2 papers in the download directory, they may not have any qrels entries — leaving you with a smoke test that produces MRR = 0.0 not because retrieval is broken but because there are no scored queries. Always select smoke test papers from the subset that *has* matching qrels entries.
+The tricky part is picking the right 2 papers. If you pick the alphabetically-first 2 papers in the download directory, they may not have any qrels entries: leaving you with a smoke test that produces MRR = 0.0 not because retrieval is broken but because there are no scored queries. Always select smoke test papers from the subset that *has* matching qrels entries.
 
 ---
 
 ## What Belongs in Your Shared RAG Library
 
-Every RAG project rediscovers the same components. Here's the test: *would this be useful in a second RAG pipeline without modification?* If yes, it belongs in a shared library — not copied.
+Every RAG project rediscovers the same components. Here's the test: *would this be useful in a second RAG pipeline without modification?* If yes, it belongs in a shared library: not copied.
 
 | Component | What it does | Promotion signal |
 |---|---|---|
 | `RecursiveChunker` | Hierarchical separator splitting | Any structured document (PDFs, docs, reports) |
 | `SlidingWindowChunker` | Sentence-window with configurable step | Any retrieval context where boundary recall matters |
-| `parse_pdf()` | PyMuPDF text extraction | Every pipeline extracts PDFs — there's no reason to have N copies |
+| `parse_pdf()` | PyMuPDF text extraction | Every pipeline extracts PDFs: there's no reason to have N copies |
 | `BaseChunker`, `BaseEmbedder`, `BaseRetriever`, `BaseReranker`, `BaseLLM` | Abstract base classes | Any project where stages need to be swappable |
 
 What stays project-specific: pipeline orchestration, FAISS multi-doc indexing logic, qrels conversion, experiment resume state. These are wired to a specific project's structure and data format.
@@ -284,24 +284,24 @@ The pattern scales. Every new RAG project starts by installing the shared librar
 
 The 5-paper POC answered one question: *is the pipeline wired correctly?* Yes.
 
-The 50-paper grid answers the real question: *which configurations actually diverge when retrieval gets hard?* Before running it, three predictions — stated as falsifiable claims, not hopes.
+The 50-paper grid answers the real question: *which configurations actually diverge when retrieval gets hard?* Before running it, three predictions: stated as falsifiable claims, not hopes.
 
 **Prediction 1: Recursive chunking beats fixed-size on academic PDFs.**
-Research papers have clear paragraph structure. Recursive chunking respects those boundaries; fixed-size splits at character 512 regardless. On a government statistical document (rag-pipeline-systematic-evals), semantic chunking won for exactly this reason — fixed-size boundaries destroyed multi-sentence claims. Academic PDFs have the same problem with theorem statements and experimental results that span paragraphs. That lesson should transfer.
+Research papers have clear paragraph structure. Recursive chunking respects those boundaries; fixed-size splits at character 512 regardless. On a government statistical document (rag-pipeline-systematic-evals), semantic chunking won for exactly this reason: fixed-size boundaries destroyed multi-sentence claims. Academic PDFs have the same problem with theorem statements and experimental results that span paragraphs. That lesson should transfer.
 
 **Prediction 2: Hybrid retrieval starts pulling ahead of pure dense at 50 papers.**
-At 5 papers, dense retrieval can't fail — there's only one paper about algebraic tori. At 50 papers, the index contains multiple transformer papers, multiple papers on KV-cache, overlapping topics. A query about "attention sink tokens" will semantically resemble several transformer papers. BM25's exact-match on "attention sink" becomes a useful discriminator. If this prediction is wrong, the query distribution may be more paraphrase-heavy than keyword-specific.
+At 5 papers, dense retrieval can't fail: there's only one paper about algebraic tori. At 50 papers, the index contains multiple transformer papers, multiple papers on KV-cache, overlapping topics. A query about "attention sink tokens" will semantically resemble several transformer papers. BM25's exact-match on "attention sink" becomes a useful discriminator. If this prediction is wrong, the query distribution may be more paraphrase-heavy than keyword-specific.
 
 **Prediction 3: mpnet-base's 768 dimensions start earning their latency cost.**
 At small scale, 384 vs 768 dimensions produces identical quality. At 50 papers with subtle semantic distinctions between closely related subfields, the higher-dimensional space may capture distinctions that MiniLM collapses. The cost is 4× slower iteration. The question is whether the quality gain at full scale justifies paying that cost throughout the experiment loop.
 
-These are the specific claims the 50-paper grid will confirm or refute. Not "we expect improvements" — these are the conditions under which specific configurations should win. If they don't, that's the finding.
+These are the specific claims the 50-paper grid will confirm or refute. Not "we expect improvements": these are the conditions under which specific configurations should win. If they don't, that's the finding.
 
 ---
 
 ## Takeaways
 
-**1. Build for measurement from the start.** A RAG pipeline without evaluation infrastructure is a black box. The experiment grid, caching, resume logic, and per-config result files are the system — the retrieval pipeline is just the thing they measure.
+**1. Build for measurement from the start.** A RAG pipeline without evaluation infrastructure is a black box. The experiment grid, caching, resume logic, and per-config result files are the system: the retrieval pipeline is just the thing they measure.
 
 **2. POC results should answer one question: is it broken?** MRR = 1.0 on 5 papers is not a signal about which configuration is best. It's a green light to run the real grid. Don't misread a clean POC as a finding.
 
@@ -309,7 +309,7 @@ These are the specific claims the 50-paper grid will confirm or refute. Not "we 
 
 **4. Hybrid retrieval is a tuning problem, not a default.** Equal weights (α = 0.5) assumes BM25 and dense are equally useful for your query distribution. They're not. Start with dense. Add hybrid when you see dense retrieval failing on lexically-specific queries, and tune alpha explicitly.
 
-**5. Ground truth format is load-bearing.** Open RAG Benchmark's qrels format is not what standard BEIR loaders expect. Silent MRR = 0.0 is the failure mode — the pipeline runs fine, the evaluation is just wrong. Verify your qrels format before trusting any results.
+**5. Ground truth format is load-bearing.** Open RAG Benchmark's qrels format is not what standard BEIR loaders expect. Silent MRR = 0.0 is the failure mode: the pipeline runs fine, the evaluation is just wrong. Verify your qrels format before trusting any results.
 
 **6. Shared components compound.** Every chunker added to `rag_common` is available to every future RAG project. The cost of generalizing is one extra layer of abstraction. The benefit is no duplicated bugs.
 
@@ -329,7 +329,7 @@ cd rag_pipeline_experimentation
 # Download 5 papers for POC (downloads 50 in background)
 python scripts/download_dataset.py --limit 5
 
-# Smoke test — 16 seconds
+# Smoke test: 16 seconds
 python scripts/evaluate.py data/smoke_papers/ data/qrels_smoke.json \
   --config config/experiments/smoke.yaml
 
