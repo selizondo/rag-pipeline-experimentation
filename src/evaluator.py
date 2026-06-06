@@ -25,6 +25,7 @@ where each doc ID is the PDF filename stem (e.g. "paper" for "paper.pdf").
 
 from __future__ import annotations
 
+import hashlib
 import json
 import time
 from datetime import datetime, timezone
@@ -167,6 +168,7 @@ def evaluate(
     # Gated on judge_model so IR-only evaluation runs without an LLM key.
     generation_metrics: dict[str, float] = {}
     llm_model_used = ""
+    n_judge_failures = 0
     if judge_model:
         scored: list[JudgeScore] = []
         n_to_judge = min(judge_n, len(query_results))
@@ -184,6 +186,7 @@ def evaluate(
                 scored.append(score)
             except Exception as exc:
                 print(f"  [judge] skipped query {qr.query_id!r}: {exc}")
+                n_judge_failures += 1
 
         if scored:
             dims = ("relevance", "accuracy", "completeness", "citation_quality")
@@ -196,9 +199,12 @@ def evaluate(
             generation_metrics["n_judged"] = float(len(scored))
         llm_model_used = judge_model
 
+    config_dict = config.model_dump(mode="json")
+    config_hash = hashlib.md5(json.dumps(config_dict, sort_keys=True).encode()).hexdigest()[:8]
+    fallback_used = n_judge_failures > 0
     return ExperimentResult(
         experiment_id=config.experiment_id,
-        config=config.model_dump(mode="json"),
+        config=config_dict,
         metrics={k: round(v, 6) for k, v in agg.items()},
         generation_metrics=generation_metrics,
         llm_model=llm_model_used,
@@ -206,6 +212,9 @@ def evaluate(
         avg_latency_s=round(sum(latencies) / len(latencies), 4),
         n_queries=len(query_results),
         timestamp=datetime.now(timezone.utc).isoformat(),
+        config_hash=config_hash,
+        fallback_used=fallback_used,
+        fallback_reason=f"judge_skipped:{n_judge_failures}" if fallback_used else None,
     )
 
 

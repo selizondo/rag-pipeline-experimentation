@@ -81,3 +81,8 @@ class ExperimentResult(BaseModel):
     # Cost signal for operational awareness; None when LLM generation is not run
     # (retrieval-only experiments). Callers should populate from token-count × model price.
     cost_usd: float | None = None
+    config_hash: str = (
+        ""  # MD5[:8] of serialised ExperimentConfig — stable identifier for a config cell.
+    )
+    fallback_used: bool = False  # True when judge_model was requested but ≥1 judge call failed.
+    fallback_reason: str | None = None  # e.g. "judge_skipped:3" — number of failed judge calls.
