@@ -6,6 +6,15 @@ Teams pick RAG configuration from blog posts and intuition. This project puts th
 
 **Stack:** Python · FAISS · SentenceTransformers · rank-bm25 · OpenAI · rag-common
 
+## Related Projects
+
+1. [rag-pipeline-systematic-evals](https://github.com/selizondo/rag-pipeline-systematic-evals) — single-PDF grid search with synthetic QA
+2. [rag-common](https://github.com/selizondo/rag-common) — shared chunkers, retrievers, metrics
+
+*Companion post: [Building a RAG System That Can Actually Experiment](docs/blog_post.md) — real-world evaluation methodology*
+
+---
+
 ## Results
 
 18-cell grid (3 chunkers x 2 embedders x 3 retrievers), 100 arXiv papers, 281 queries from Open RAG Benchmark:
@@ -36,11 +45,6 @@ Retrieval metrics (MRR, Recall@K, NDCG@K) are computed against these labels with
 ### Judge scores reflect corpus coverage, not model quality
 
 Judge scores with 20 papers: 2.52/5. With 100 papers: 4.53/5. The improvement is not a model change: with 20 papers, many queries reference papers outside the index, and the LLM produces plausible-sounding but unsupported answers. The judge correctly penalizes those. With 100 papers, most queries have the answer available in context. This is the measurement that shows corpus coverage is the bottleneck before retrieval strategy.
-
-**Companion post:** [Building a RAG System That Can Actually Experiment](docs/blog_post.md)
-**Related projects:** [rag-pipeline-systematic-evals](https://github.com/selizondo/rag-pipeline-systematic-evals) (single-PDF grid search with synthetic QA; different evaluation methodology) · [rag-common](https://github.com/selizondo/rag-common) (shared chunkers, retrievers, metrics used by this pipeline)
-
----
 
 ## Go Deeper
 

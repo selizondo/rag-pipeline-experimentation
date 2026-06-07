@@ -1,5 +1,19 @@
 # Setup and Usage
 
+## Key Concepts
+
+**Real ground truth, not synthetic:** `qrels.json` uses BEIR/TREC format from Open RAG Benchmark (vectara/open_ragbench): 1,000 arXiv papers, 3,045 queries from humans reading papers, 400 relevant papers + 600 hard negatives (topically adjacent, non-relevant). Hard negatives are more realistic than random sampling.
+
+**18-cell grid on 100 papers:** 3 chunkers × 2 embedders × 3 retrievers, 281 queries. Best config: `fixed_512_ol64__minilm-l6__hybrid_a0.6` with MRR 0.960. Hybrid consistently outperforms dense-only: ML papers contain exact terminology (model names, dataset names, acronyms); BM25 anchors to exact terms, dense handles semantic paraphrase.
+
+**Subprocess isolation for Mac embeddings:** SentenceTransformers + FAISS crash when both load in same process on Intel Mac. Solution: spawn one subprocess per (chunker, embedder) pair, exit after writing index. `evaluate.py` pre-computes queries in isolated subprocesses before any FAISS loads.
+
+**Judge score reflects corpus coverage, not model quality:** With 20 papers: 2.52/5. With 100 papers: 4.53/5. No model change. With 20 papers, many queries reference papers outside index → LLM produces plausible unsupported answers → judge penalizes. With 100 papers, answers available in context. Measurement: corpus coverage is bottleneck before retrieval strategy.
+
+**Streamlit UI + CLI REPL:** Interactive exploration with sidebar controls (index selection, embedder, retrieval method, top-K). CLI REPL for offline browsing of pre-built indices. Both enable prototyping before committing to full grid.
+
+---
+
 ## Prerequisites
 
 - Python 3.12+
