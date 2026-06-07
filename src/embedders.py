@@ -20,6 +20,7 @@ from typing import Any
 
 import numpy as np
 from rag_common.models import Chunk
+from sentence_transformers import SentenceTransformer
 
 from src.base import BaseEmbedder
 
@@ -121,10 +122,7 @@ class SentenceTransformersEmbedder(BaseEmbedder):
 
     def _load(self) -> None:
         if self._model is None:
-            from sentence_transformers import (
-                SentenceTransformer,  # lazy: keeps ST out of eval process
-            )
-
+            # Class is imported at module level; instantiation (weight loading) is deferred to here.
             self._model = SentenceTransformer(self._model_name)
 
     def _cache_path(self, chunk_label: str) -> Path:
